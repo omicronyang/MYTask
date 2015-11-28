@@ -13,11 +13,9 @@ public partial class FormMain : Form
         private int TimerComStat;
         private int dHeight;
         private int dWidth;
-        private int LoginStat = 0;
+        private int LoginStat = 1;
         private int DBaseStat = -1; // 0 for offline, 1 for online
         private BackgroundWorker m_worker = new BackgroundWorker();
-        private LoginTextbox TextLogin_UID = new LoginTextbox();
-        private LoginTextbox TextLogin_Psw = new LoginTextbox();
         MyDB DataBase = new MyDB();
 
         public FormMain()
@@ -29,19 +27,11 @@ public partial class FormMain : Form
 
             dHeight = Height - PanelGuideS.Height;
             dWidth = Width - PanelProfile.Width - 48;
-
-            TextLogin_UID.Name = "TextLogin_UID";
-            TextLogin_UID.Location = new Point(400, 180);
-            TextLogin_UID.Size = new Size(220, 29);
-            PanelLogin.Controls.Add(TextLogin_UID);
+            
             TextLogin_UID.RenewState(3);
             TextLogin_UID.Enter += new EventHandler(LoginBoxGetFocus);
             TextLogin_UID.Leave += new EventHandler(LoginBoxLostFocus);
-
-            TextLogin_Psw.Name = "TextLogin_Psw";
-            TextLogin_Psw.Location = new Point(400, 215);
-            TextLogin_Psw.Size = new Size(220, 29);
-            PanelLogin.Controls.Add(TextLogin_Psw);
+           
             TextLogin_Psw.RenewState(3);
             TextLogin_Psw.Enter += new EventHandler(LoginBoxGetFocus);
             TextLogin_Psw.Leave += new EventHandler(LoginBoxLostFocus);

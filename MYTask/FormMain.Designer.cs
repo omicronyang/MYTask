@@ -58,7 +58,6 @@ partial class FormMain
             this.button2 = new System.Windows.Forms.Button();
             this.TaskPanelFlow = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.LabelUpdateTime = new System.Windows.Forms.Label();
             this.LabelEndTime = new System.Windows.Forms.Label();
@@ -85,6 +84,9 @@ partial class FormMain
             this.ProjNew = new System.Windows.Forms.TabPage();
             this.PanelContacts = new System.Windows.Forms.Panel();
             this.PanelMessages = new System.Windows.Forms.Panel();
+            this.TextLogin_Psw = new MYTask.LoginTextbox();
+            this.TextLogin_UID = new MYTask.LoginTextbox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
             this.PanelGuideS.SuspendLayout();
@@ -460,7 +462,7 @@ partial class FormMain
             this.TaskPanelFlow.Location = new System.Drawing.Point(3, 3);
             this.TaskPanelFlow.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.TaskPanelFlow.Name = "TaskPanelFlow";
-            this.TaskPanelFlow.Size = new System.Drawing.Size(621, 436);
+            this.TaskPanelFlow.Size = new System.Drawing.Size(621, 420);
             this.TaskPanelFlow.TabIndex = 3;
             // 
             // panel1
@@ -482,16 +484,6 @@ partial class FormMain
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(617, 85);
             this.panel1.TabIndex = 1;
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(459, 3);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(155, 20);
-            this.linkLabel1.TabIndex = 11;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "linkLabel1";
             // 
             // label2
             // 
@@ -638,11 +630,13 @@ partial class FormMain
             // PanelLogin
             // 
             this.PanelLogin.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PanelLogin.Controls.Add(this.TextLogin_Psw);
+            this.PanelLogin.Controls.Add(this.TextLogin_UID);
             this.PanelLogin.Controls.Add(this.CloudStatusLogin);
             this.PanelLogin.Controls.Add(this.BarConnecting);
             this.PanelLogin.Controls.Add(this.BtnFindPsw);
             this.PanelLogin.Controls.Add(this.BtnLogin);
-            this.PanelLogin.Location = new System.Drawing.Point(0, 0);
+            this.PanelLogin.Location = new System.Drawing.Point(0, 500);
             this.PanelLogin.Margin = new System.Windows.Forms.Padding(0);
             this.PanelLogin.Name = "PanelLogin";
             this.PanelLogin.Size = new System.Drawing.Size(700, 500);
@@ -764,6 +758,35 @@ partial class FormMain
             this.PanelMessages.Size = new System.Drawing.Size(652, 500);
             this.PanelMessages.TabIndex = 10;
             // 
+            // TextLogin_Psw
+            // 
+            this.TextLogin_Psw.Location = new System.Drawing.Point(400, 211);
+            this.TextLogin_Psw.Name = "TextLogin_Psw";
+            this.TextLogin_Psw.Size = new System.Drawing.Size(215, 29);
+            this.TextLogin_Psw.TabIndex = 10;
+            // 
+            // TextLogin_UID
+            // 
+            this.TextLogin_UID.Location = new System.Drawing.Point(400, 176);
+            this.TextLogin_UID.Name = "TextLogin_UID";
+            this.TextLogin_UID.Size = new System.Drawing.Size(215, 29);
+            this.TextLogin_UID.TabIndex = 9;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.RoyalBlue;
+            this.linkLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel1.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel1.Location = new System.Drawing.Point(456, 3);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(0);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(133, 24);
+            this.linkLabel1.TabIndex = 11;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "label2";
+            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Black;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -869,7 +892,9 @@ partial class FormMain
         private System.Windows.Forms.Label LabelUpdateTime;
         private System.Windows.Forms.Label LabelEndTime;
         private System.Windows.Forms.Panel TaskPanelFlow;
-        private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label2;
+        private LoginTextbox TextLogin_Psw;
+        private LoginTextbox TextLogin_UID;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
