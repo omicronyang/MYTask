@@ -63,9 +63,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Back {
+        internal static System.Drawing.Bitmap Back_32 {
             get {
-                object obj = ResourceManager.GetObject("Back", resourceCulture);
+                object obj = ResourceManager.GetObject("Back_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Cloud_Connecting {
+        internal static System.Drawing.Bitmap Cloud_Connecting_32 {
             get {
-                object obj = ResourceManager.GetObject("Cloud_Connecting", resourceCulture);
+                object obj = ResourceManager.GetObject("Cloud_Connecting_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Cloud_Offline {
+        internal static System.Drawing.Bitmap Cloud_Offline_32 {
             get {
-                object obj = ResourceManager.GetObject("Cloud_Offline", resourceCulture);
+                object obj = ResourceManager.GetObject("Cloud_Offline_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Cloud_Online {
+        internal static System.Drawing.Bitmap Cloud_Online_32 {
             get {
-                object obj = ResourceManager.GetObject("Cloud_Online", resourceCulture);
+                object obj = ResourceManager.GetObject("Cloud_Online_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Cloud_Sync {
+        internal static System.Drawing.Bitmap Cloud_Sync_32 {
             get {
-                object obj = ResourceManager.GetObject("Cloud_Sync", resourceCulture);
+                object obj = ResourceManager.GetObject("Cloud_Sync_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Contacts {
+        internal static System.Drawing.Bitmap Contacts_32 {
             get {
-                object obj = ResourceManager.GetObject("Contacts", resourceCulture);
+                object obj = ResourceManager.GetObject("Contacts_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap FindPsw {
+        internal static System.Drawing.Bitmap FindPsw_32 {
             get {
-                object obj = ResourceManager.GetObject("FindPsw", resourceCulture);
+                object obj = ResourceManager.GetObject("FindPsw_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap List {
+        internal static System.Drawing.Bitmap List_32 {
             get {
-                object obj = ResourceManager.GetObject("List", resourceCulture);
+                object obj = ResourceManager.GetObject("List_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Login {
+        internal static System.Drawing.Bitmap Login_32 {
             get {
-                object obj = ResourceManager.GetObject("Login", resourceCulture);
+                object obj = ResourceManager.GetObject("Login_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Message {
+        internal static System.Drawing.Bitmap Message_32 {
             get {
-                object obj = ResourceManager.GetObject("Message", resourceCulture);
+                object obj = ResourceManager.GetObject("Message_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Message_New {
+        internal static System.Drawing.Bitmap Message_New_32 {
             get {
-                object obj = ResourceManager.GetObject("Message_New", resourceCulture);
+                object obj = ResourceManager.GetObject("Message_New_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Profile {
+        internal static System.Drawing.Bitmap Profile_120 {
             get {
-                object obj = ResourceManager.GetObject("Profile", resourceCulture);
+                object obj = ResourceManager.GetObject("Profile_120", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Project {
+        internal static System.Drawing.Bitmap Project_32 {
             get {
-                object obj = ResourceManager.GetObject("Project", resourceCulture);
+                object obj = ResourceManager.GetObject("Project_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,19 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Task {
+        internal static System.Drawing.Bitmap ProjectIcon {
             get {
-                object obj = ResourceManager.GetObject("Task", resourceCulture);
+                object obj = ResourceManager.GetObject("ProjectIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Task_32 {
+            get {
+                object obj = ResourceManager.GetObject("Task_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

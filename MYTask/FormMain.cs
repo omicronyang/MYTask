@@ -101,9 +101,9 @@ public partial class FormMain : Form
             BarConnecting.Visible = false;
             if (DBaseStat == 1)
             {
-                CloudStatus.Image = Properties.Resources.Cloud_Online;
-                CloudStatusS.Image = Properties.Resources.Cloud_Online;
-                CloudStatusLogin.Image = Properties.Resources.Cloud_Online;
+                CloudStatus.Image = Properties.Resources.Cloud_Online_32;
+                CloudStatusS.Image = Properties.Resources.Cloud_Online_32;
+                CloudStatusLogin.Image = Properties.Resources.Cloud_Online_32;
                 LabelStatus.Text = "同步完成";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
                 SnycProgress.Visible = false;
@@ -111,9 +111,9 @@ public partial class FormMain : Form
             }
             else
             {
-                CloudStatus.Image = Properties.Resources.Cloud_Offline;
-                CloudStatusS.Image = Properties.Resources.Cloud_Offline;
-                CloudStatusLogin.Image = Properties.Resources.Cloud_Offline;
+                CloudStatus.Image = Properties.Resources.Cloud_Offline_32;
+                CloudStatusS.Image = Properties.Resources.Cloud_Offline_32;
+                CloudStatusLogin.Image = Properties.Resources.Cloud_Offline_32;
                 LabelStatus.Text = "离线模式";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
                 SnycProgress.Visible = false;

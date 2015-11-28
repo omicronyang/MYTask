@@ -126,7 +126,7 @@ partial class FormMain
             this.BtnCallback.FlatAppearance.MouseOverBackColor = System.Drawing.Color.MediumBlue;
             this.BtnCallback.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCallback.ForeColor = System.Drawing.Color.White;
-            this.BtnCallback.Image = global::MYTask.Properties.Resources.Back;
+            this.BtnCallback.Image = global::MYTask.Properties.Resources.Back_32;
             this.BtnCallback.Location = new System.Drawing.Point(0, 0);
             this.BtnCallback.Name = "BtnCallback";
             this.BtnCallback.Size = new System.Drawing.Size(48, 48);
@@ -180,7 +180,7 @@ partial class FormMain
             // CloudStatus
             // 
             this.CloudStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloudStatus.Image = global::MYTask.Properties.Resources.Cloud_Sync;
+            this.CloudStatus.Image = global::MYTask.Properties.Resources.Cloud_Sync_32;
             this.CloudStatus.Location = new System.Drawing.Point(126, 452);
             this.CloudStatus.Name = "CloudStatus";
             this.CloudStatus.Padding = new System.Windows.Forms.Padding(8);
@@ -280,7 +280,7 @@ partial class FormMain
             this.BtnMessageS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnMessageS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
             this.BtnMessageS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnMessageS.Image = global::MYTask.Properties.Resources.Message;
+            this.BtnMessageS.Image = global::MYTask.Properties.Resources.Message_32;
             this.BtnMessageS.Location = new System.Drawing.Point(0, 192);
             this.BtnMessageS.Margin = new System.Windows.Forms.Padding(0);
             this.BtnMessageS.Name = "BtnMessageS";
@@ -293,7 +293,7 @@ partial class FormMain
             // CloudStatusS
             // 
             this.CloudStatusS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloudStatusS.Image = global::MYTask.Properties.Resources.Cloud_Sync;
+            this.CloudStatusS.Image = global::MYTask.Properties.Resources.Cloud_Sync_32;
             this.CloudStatusS.Location = new System.Drawing.Point(0, 452);
             this.CloudStatusS.Name = "CloudStatusS";
             this.CloudStatusS.Padding = new System.Windows.Forms.Padding(8);
@@ -308,7 +308,7 @@ partial class FormMain
             this.BtnCall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Navy;
             this.BtnCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.MediumBlue;
             this.BtnCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCall.Image = global::MYTask.Properties.Resources.List;
+            this.BtnCall.Image = global::MYTask.Properties.Resources.List_32;
             this.BtnCall.Location = new System.Drawing.Point(0, 0);
             this.BtnCall.Margin = new System.Windows.Forms.Padding(0);
             this.BtnCall.Name = "BtnCall";
@@ -324,7 +324,7 @@ partial class FormMain
             this.BtnContactS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnContactS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
             this.BtnContactS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnContactS.Image = global::MYTask.Properties.Resources.Contacts;
+            this.BtnContactS.Image = global::MYTask.Properties.Resources.Contacts_32;
             this.BtnContactS.Location = new System.Drawing.Point(0, 144);
             this.BtnContactS.Margin = new System.Windows.Forms.Padding(0);
             this.BtnContactS.Name = "BtnContactS";
@@ -356,7 +356,7 @@ partial class FormMain
             this.BtnTaskS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnTaskS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
             this.BtnTaskS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnTaskS.Image = global::MYTask.Properties.Resources.Task;
+            this.BtnTaskS.Image = global::MYTask.Properties.Resources.Task_32;
             this.BtnTaskS.Location = new System.Drawing.Point(0, 48);
             this.BtnTaskS.Margin = new System.Windows.Forms.Padding(0);
             this.BtnTaskS.Name = "BtnTaskS";
@@ -392,7 +392,7 @@ partial class FormMain
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::MYTask.Properties.Resources.Profile;
+            this.pictureBox1.Image = global::MYTask.Properties.Resources.Profile_120;
             this.pictureBox1.Location = new System.Drawing.Point(18, 72);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(120, 120);
@@ -650,7 +650,7 @@ partial class FormMain
             // 
             // CloudStatusLogin
             // 
-            this.CloudStatusLogin.Image = global::MYTask.Properties.Resources.Cloud_Connecting;
+            this.CloudStatusLogin.Image = global::MYTask.Properties.Resources.Cloud_Connecting_32;
             this.CloudStatusLogin.Location = new System.Drawing.Point(665, 465);
             this.CloudStatusLogin.Name = "CloudStatusLogin";
             this.CloudStatusLogin.Size = new System.Drawing.Size(32, 32);
@@ -668,7 +668,7 @@ partial class FormMain
             // 
             // BtnFindPsw
             // 
-            this.BtnFindPsw.Image = global::MYTask.Properties.Resources.FindPsw;
+            this.BtnFindPsw.Image = global::MYTask.Properties.Resources.FindPsw_32;
             this.BtnFindPsw.Location = new System.Drawing.Point(451, 254);
             this.BtnFindPsw.Name = "BtnFindPsw";
             this.BtnFindPsw.Size = new System.Drawing.Size(48, 48);
@@ -679,7 +679,7 @@ partial class FormMain
             // 
             // BtnLogin
             // 
-            this.BtnLogin.Image = global::MYTask.Properties.Resources.Login;
+            this.BtnLogin.Image = global::MYTask.Properties.Resources.Login_32;
             this.BtnLogin.Location = new System.Drawing.Point(400, 254);
             this.BtnLogin.Margin = new System.Windows.Forms.Padding(2);
             this.BtnLogin.Name = "BtnLogin";

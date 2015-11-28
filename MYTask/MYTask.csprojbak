@@ -107,6 +107,9 @@
     <Compile Include="LoginTextbox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="LoginTextbox.Designer.cs">
+      <DependentUpon>LoginTextbox.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyDB.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -140,6 +143,33 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Image\Contacts_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Message_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Task_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\List_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Cloud_Offline_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Cloud_Online_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Cloud_updating_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Project.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Project_32.png" />
+  </ItemGroup>
+  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
@@ -157,7 +187,25 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-  	<None Include="Resources\ProjectIcon.png" />
+    <None Include="Image\Message_New_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\FindPsw_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\login_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Cloud_Sync_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Profile_120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Back_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Cloud_Connecting_32.png" />
     <None Include="Resources\Back_32.png" />
     <None Include="Resources\Cloud_Connecting_32.png" />
     <None Include="Resources\Cloud_Offline_32.png" />
