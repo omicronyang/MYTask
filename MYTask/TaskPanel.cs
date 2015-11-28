@@ -47,7 +47,9 @@ class TaskPanel: Panel
 
         LinkLabel LabelProjName = new LinkLabel();
         LabelProjName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
-        LabelProjName.LinkBehavior = LinkBehavior.HoverUnderline;
+            LabelProjName.LinkBehavior = LinkBehavior.HoverUnderline;
+
+
         LabelProjName.LinkColor = Color.Black;
         LabelProjName.VisitedLinkColor = Color.Black;
         LabelProjName.ActiveLinkColor = Color.RoyalBlue;

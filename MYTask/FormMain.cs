@@ -7,15 +7,17 @@ using System.ComponentModel;
 
 namespace MYTask
 {
-    public partial class FormMain : Form
+public partial class FormMain : Form
     {
 
         private int TimerComStat;
         private int dHeight;
         private int dWidth;
-        private int LoginStat = 1;
+        private int LoginStat = 0;
         private int DBaseStat = -1; // 0 for offline, 1 for online
         private BackgroundWorker m_worker = new BackgroundWorker();
+        private LoginTextbox TextLogin_UID = new LoginTextbox();
+        private LoginTextbox TextLogin_Psw = new LoginTextbox();
         MyDB DataBase = new MyDB();
 
         public FormMain()
@@ -24,12 +26,29 @@ namespace MYTask
             PanelGuide.Location = new Point(-175, 0);
             PanelGuideS.Location = new Point(0, 0);
             PanelLogin.Location = new Point(0, 0);
+
             dHeight = Height - PanelGuideS.Height;
             dWidth = Width - PanelProfile.Width - 48;
+
+            TextLogin_UID.Name = "TextLogin_UID";
+            TextLogin_UID.Location = new Point(400, 180);
+            TextLogin_UID.Size = new Size(220, 29);
+            PanelLogin.Controls.Add(TextLogin_UID);
             TextLogin_UID.RenewState(3);
+            TextLogin_UID.Enter += new EventHandler(LoginBoxGetFocus);
+            TextLogin_UID.Leave += new EventHandler(LoginBoxLostFocus);
+
+            TextLogin_Psw.Name = "TextLogin_Psw";
+            TextLogin_Psw.Location = new Point(400, 215);
+            TextLogin_Psw.Size = new Size(220, 29);
+            PanelLogin.Controls.Add(TextLogin_Psw);
             TextLogin_Psw.RenewState(3);
+            TextLogin_Psw.Enter += new EventHandler(LoginBoxGetFocus);
+            TextLogin_Psw.Leave += new EventHandler(LoginBoxLostFocus);
+
             m_worker.WorkerReportsProgress = true;
             m_worker.WorkerSupportsCancellation = true;
+
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -38,9 +57,6 @@ namespace MYTask
             MinimumSize = Size;
             TextLogin_UID.RenewState(3);
             TextLogin_Psw.RenewState(3);
-            /*Thread ConTh = new Thread(new ThreadStart(TestConnect));
-            ConTh.IsBackground = true;
-            ConTh.Start();*/
             m_worker.DoWork += new DoWorkEventHandler(TestConnect);
             m_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenewDBStat);
             m_worker.RunWorkerAsync();
@@ -77,7 +93,7 @@ namespace MYTask
             if (!DataBase.Connect()) DBaseStat = 0;
             else DBaseStat = 1;
         }
-        
+
 
         private void RenewDBStat(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -107,47 +123,47 @@ namespace MYTask
         //<Panel Functions>
 
         private void TimerCom_Tick(object sender, EventArgs e)
-        {            
+        {
             switch (TimerComStat) {
-                case 0: {
-                        //PanelGuide shows from left
-                        int x = PanelGuide.Location.X;
-                        PanelGuide.Location = new Point(x + 25, 0);
-                        if (PanelGuide.Location.X == 0) TimerCom.Stop();
-                        break;
-                    }
-                case 1: {
-                        //PanelGuide exit to left
-                        int x = PanelGuide.Location.X;
-                        PanelGuide.Location = new Point(x - 25, 0);
-                        if (PanelGuide.Location.X == -175) TimerCom.Stop();
-                        break;
-                    }
-                case 2:
-                    {
-                        //PanelLogin shows from bottom
-                        int y = PanelLogin.Location.Y;
-                        PanelLogin.Location = new Point(0, y - 25);
-                        if (PanelLogin.Location.Y <=0){
-                            TimerCom.Stop();
-                            PanelLogin.Location = new Point(0, 0);
-                        }
-                        break;
-                    }
-                case 3:
-                    {
-                        //PanelLogin exit to bottom
-                        int y = PanelLogin.Location.Y;
-                        PanelLogin.Location = new Point(0, y + 25);
-                        if (PanelLogin.Location.Y >= 500)
-                        {
-                            TimerCom.Stop();
-                            PanelLogin.Location = new Point(0, 500);
-                            PanelLogin.Visible = false;
-                            Form_Unlock();
-                        }
-                        break;
-                    }
+            case 0: {
+                //PanelGuide shows from left
+                int x = PanelGuide.Location.X;
+                PanelGuide.Location = new Point(x + 25, 0);
+                if (PanelGuide.Location.X == 0) TimerCom.Stop();
+                break;
+            }
+            case 1: {
+                //PanelGuide exit to left
+                int x = PanelGuide.Location.X;
+                PanelGuide.Location = new Point(x - 25, 0);
+                if (PanelGuide.Location.X == -175) TimerCom.Stop();
+                break;
+            }
+            case 2:
+            {
+                //PanelLogin shows from bottom
+                int y = PanelLogin.Location.Y;
+                PanelLogin.Location = new Point(0, y - 25);
+                if (PanelLogin.Location.Y <= 0) {
+                    TimerCom.Stop();
+                    PanelLogin.Location = new Point(0, 0);
+                }
+                break;
+            }
+            case 3:
+            {
+                //PanelLogin exit to bottom
+                int y = PanelLogin.Location.Y;
+                PanelLogin.Location = new Point(0, y + 25);
+                if (PanelLogin.Location.Y >= 500)
+                {
+                    TimerCom.Stop();
+                    PanelLogin.Location = new Point(0, 500);
+                    PanelLogin.Visible = false;
+                    Form_Unlock();
+                }
+                break;
+            }
             }
         }
 
@@ -230,11 +246,11 @@ namespace MYTask
         {
             switch (index)
             {
-                case 0:{InitPanelProfile();break;}
-                case 1:{InitTabsTask();break;}
-                case 2:{InitTabsProject();break;}
-                case 3:{InitPanelContacts();break;}
-                case 4:{InitPanelMessages();break;}
+            case 0: {InitPanelProfile(); break;}
+            case 1: {InitTabsTask(); break;}
+            case 2: {InitTabsProject(); break;}
+            case 3: {InitPanelContacts(); break;}
+            case 4: {InitPanelMessages(); break;}
             }
         }
 
@@ -251,7 +267,7 @@ namespace MYTask
             TimerCom.Start();
         }
 
-        //<LoginBox Operations>
+    //<LoginBox Operations>
 
         public void InitLoginBox(string uid)
         {
@@ -262,28 +278,25 @@ namespace MYTask
             TextLogin_Psw.UseSystemPasswordChar = false;
             TextLogin_Psw.Text = "密码";
         }
-  
+
         private void LoginBoxGetFocus(object sender, EventArgs e)
         {
             LoginTextbox tbx = (LoginTextbox)sender;
+            if (tbx.State == 1) return; 
             tbx.RenewState(1);
             tbx.Text = "";
-            if (tbx.Name == "TextLogin_Psw") tbx.UseSystemPasswordChar = true;
         }
 
-        private void LoginBoxLostFocus(object sender, EventArgs e)
-        {
+    private void LoginBoxLostFocus(object sender, EventArgs e)
+    {
             LoginTextbox tbx = (LoginTextbox)sender;
             if (tbx.Text != "") return;
             tbx.RenewState(0);
             if (tbx.Name == "TextLogin_UID") tbx.Text = "用户名";
-            else {
-                tbx.Text = "密码";
-                tbx.UseSystemPasswordChar = false;
-            }
-        }
-        
-        //</LoginBox Operations>
+            else tbx.Text = "密码";
+    }
+
+    //</LoginBox Operations>
 
         private void BtnTask_Click(object sender, EventArgs e)
         {
@@ -338,13 +351,13 @@ namespace MYTask
             string UserP = TextLogin_Psw.Text;
             PswString Psw = new PswString(UserP);
 
-            
-            
+
+
 
         //TODO: Add login codes.
 
         // if login successful::
-        Success:
+            Success:
             InitTabsTask();
             TimerComStat = 3;
             TimerCom.Start();
@@ -375,11 +388,11 @@ namespace MYTask
             Logout();
         }
 
-        
 
 
 
-        
+
+
 
         private void BtnFindPsw_Click(object sender, EventArgs e)
         {
@@ -389,9 +402,9 @@ namespace MYTask
         private void button2_Click(object sender, EventArgs e)
         {
             Task Ta = new Task();
-            TaskPanel p1 = new TaskPanel(3, TaskPanelFlow.Width-12,Ta);
+            TaskPanel p1 = new TaskPanel(3, TaskPanelFlow.Width - 12, Ta);
             TaskPanelFlow.Controls.Add(p1);
         }
-        
+
     }
 }

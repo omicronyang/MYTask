@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using System.Drawing;
 
 namespace MYTask
 {
-    public partial class LoginTextbox : TextBox
+    class LoginTextbox:System.Windows.Forms.TextBox
     {
-        public LoginTextbox()
-        {
-        }
-
         public int State = 0;// 0待输入;1已输入;2警告;3无效
 
         public void RenewState(int NewState)
@@ -27,14 +20,12 @@ namespace MYTask
                         BackColor = Color.White;
                         ForeColor = Color.Gray;
                         Enabled = true;
-                        if (Name == "TextLogin_Psw") UseSystemPasswordChar = false;
                         break;
                     }
                 case 1:
                     {
                         BackColor = Color.White;
                         ForeColor = Color.Black;
-                        if (Name == "TextLogin_Psw") UseSystemPasswordChar = true;
                         Enabled = true;
                         break;
                     }
@@ -42,19 +33,18 @@ namespace MYTask
                     {
                         BackColor = Color.LightCoral;
                         ForeColor = Color.Maroon;
-                        if (Name == "TextLogin_Psw") UseSystemPasswordChar = false;
                         Enabled = true;
                         break;
                     }
                 case 3:
                     {
-                        BackColor = Color.Gray;
+                        BackColor = Color.Silver;
                         ForeColor = Color.Silver;
-                        if (Name == "TextLogin_Psw") UseSystemPasswordChar = false;
                         Enabled = false;
                         break;
                     }
             }
         }
+
     }
 }
