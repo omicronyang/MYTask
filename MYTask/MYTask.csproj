@@ -155,6 +155,9 @@
     <Compile Include="TaskPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TaskPanelContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
-using System.Data.s
+using System.Data.SQLite;
 using System.Windows.Forms;
 
 namespace MYTask
@@ -14,7 +14,7 @@ namespace MYTask
         private MySqlConnection OnlineDBase;
         private SQLiteConnection LocalDBase;
         private string OnlineConnectCommand;
-        private string OfflineCOnnectCommand;
+        private string OfflineConnectCommand;
         public int Online; //0 for offline, 1 for online
 
         public MyDB()
@@ -24,9 +24,9 @@ namespace MYTask
             string upw = "sssuittest";
             string dbname = "qdm183517592_db";
             string localdbname = "offlinedata.sqlite";
-            string OnlineConnectCommand = String.Format("server = {0}; user id = {1}; password ={2}; database = {3}; pooling = false",
+            OnlineConnectCommand = String.Format("server = {0}; user id = {1}; password ={2}; database = {3}; pooling = false",
                 server, uid, upw, dbname);
-            string OfflineCOnnectCommand = String.Format("Data Source={0};Version=3;",
+            OfflineConnectCommand = String.Format("Data Source={0};Version=3;",
                 localdbname);
         }
 
@@ -46,15 +46,15 @@ namespace MYTask
                 Online = 0;
                 return false;
             }*/
-            /*
-            LocalDBase = new SQLiteConnection(OfflineCOnnectCommand);
+            
+            LocalDBase = new SQLiteConnection(OfflineConnectCommand);
             LocalDBase.Open();
-            string sql = "select * from tk_user order by uid desc";
+            string sql = "select * from tk_user where uid like '5'";
             SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
                 MessageBox.Show("Name: " + reader["uid"] + "\tScore: " + reader["tk_user_login"]);
-            */
+            
             return true;
         }
 

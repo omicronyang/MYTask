@@ -53,18 +53,6 @@ public partial class FormMain : Form
             m_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenewDBStat);
             m_worker.RunWorkerAsync();
 
-            string localdbname = "offlinedata.sqlite";
-            string OfflineCOnnectCommand = String.Format("Data Source={0};Version=3;",
-                    localdbname);
-            SQLiteConnection LocalDBase = new SQLiteConnection(OfflineCOnnectCommand);
-            LocalDBase.Open();
-            string sql = "select * from tk_user order by uid desc";
-            SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-                MessageBox.Show("Name: " + reader["uid"] + "\tScore: " + reader["tk_user_login"]);
-            MessageBox.Show("Scan end.");
-
             InitLoginBox("");
         }
 
@@ -207,8 +195,6 @@ public partial class FormMain : Form
             PanelMessages.Visible = false;
 
             me.Location = new Point(48, 0);
-            met.Controls.Add(TaskPanelFlow);
-            TaskPanelFlow.Height = 0;
             met.Controls.Add(vScrollBar1);
         }
 
@@ -410,13 +396,9 @@ public partial class FormMain : Form
         
         private void AddTaskPanel()
         {
-            TaskPanelFlow.Visible = true;
-            TaskPanelFlow.Height += 88;
-            Task Ta = new Task();
-            Ta.InitTestInf();
-            TaskPanel p1 = new TaskPanel(3, TaskPanelFlow.Width - 12, Ta);
-            TaskPanelFlow.Controls.Add(p1);
+            Task t1 = new Task();
+            t1.InitTestInf();
+            TaskPanelFlow.AddTask(t1);
         }
-
     }
 }
