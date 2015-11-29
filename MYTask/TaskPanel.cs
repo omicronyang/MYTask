@@ -46,7 +46,6 @@ class TaskPanel: Panel
             Label1.Text = "从属于";
 
             LabelProjName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
-            LabelProjName.LinkBehavior = LinkBehavior.HoverUnderline;
             LabelProjName.LinkColor = Color.Black;
             LabelProjName.VisitedLinkColor = Color.Black;
             LabelProjName.ActiveLinkColor = Color.RoyalBlue;

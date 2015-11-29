@@ -55,7 +55,6 @@ partial class FormMain
             this.TabsTask = new System.Windows.Forms.TabControl();
             this.TaskMy = new System.Windows.Forms.TabPage();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.button2 = new System.Windows.Forms.Button();
             this.TaskPanelFlow = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LabelFromUserName = new System.Windows.Forms.LinkLabel();
@@ -87,6 +86,7 @@ partial class FormMain
             this.PanelMessages = new System.Windows.Forms.Panel();
             this.TextLogin_Psw = new MYTask.LoginTextbox();
             this.TextLogin_UID = new MYTask.LoginTextbox();
+            this.button2 = new System.Windows.Forms.Button();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
             this.PanelGuideS.SuspendLayout();
@@ -95,7 +95,6 @@ partial class FormMain
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.TabsTask.SuspendLayout();
             this.TaskMy.SuspendLayout();
-            this.TaskPanelFlow.SuspendLayout();
             this.panel1.SuspendLayout();
             this.PanelLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).BeginInit();
@@ -252,6 +251,7 @@ partial class FormMain
             // PanelGuideS
             // 
             this.PanelGuideS.BackColor = System.Drawing.Color.LightGray;
+            this.PanelGuideS.Controls.Add(this.button2);
             this.PanelGuideS.Controls.Add(this.button1);
             this.PanelGuideS.Controls.Add(this.BtnMessageS);
             this.PanelGuideS.Controls.Add(this.CloudStatusS);
@@ -424,9 +424,6 @@ partial class FormMain
             // 
             // TaskMy
             // 
-            this.TaskMy.Controls.Add(this.vScrollBar1);
-            this.TaskMy.Controls.Add(this.button2);
-            this.TaskMy.Controls.Add(this.TaskPanelFlow);
             this.TaskMy.Location = new System.Drawing.Point(4, 30);
             this.TaskMy.Name = "TaskMy";
             this.TaskMy.Padding = new System.Windows.Forms.Padding(3);
@@ -443,47 +440,16 @@ partial class FormMain
             this.vScrollBar1.Size = new System.Drawing.Size(17, 460);
             this.vScrollBar1.TabIndex = 2;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(7, 266);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(159, 62);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // TaskPanelFlow
             // 
             this.TaskPanelFlow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskPanelFlow.Controls.Add(this.panel1);
             this.TaskPanelFlow.Location = new System.Drawing.Point(3, 3);
             this.TaskPanelFlow.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.TaskPanelFlow.Name = "TaskPanelFlow";
-            this.TaskPanelFlow.Size = new System.Drawing.Size(621, 340);
+            this.TaskPanelFlow.Size = new System.Drawing.Size(621, 332);
             this.TaskPanelFlow.TabIndex = 3;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Gainsboro;
-            this.panel1.Controls.Add(this.LabelFromUserName);
-            this.panel1.Controls.Add(this.linkLabel1);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.LabelUpdateTime);
-            this.panel1.Controls.Add(this.LabelEndTime);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.LabelStat);
-            this.panel1.Controls.Add(this.LabelUserName);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.LabelPI);
-            this.panel1.Controls.Add(this.LabelPT);
-            this.panel1.Controls.Add(this.LabelTaskName);
-            this.panel1.Location = new System.Drawing.Point(1, 140);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(617, 85);
-            this.panel1.TabIndex = 1;
             // 
             // LabelFromUserName
             // 
@@ -796,6 +762,16 @@ partial class FormMain
             this.TextLogin_UID.Size = new System.Drawing.Size(215, 29);
             this.TextLogin_UID.TabIndex = 9;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(5, 330);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(40, 77);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -827,7 +803,6 @@ partial class FormMain
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.TabsTask.ResumeLayout(false);
             this.TaskMy.ResumeLayout(false);
-            this.TaskPanelFlow.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.PanelLogin.ResumeLayout(false);
@@ -887,7 +862,6 @@ partial class FormMain
         private System.Windows.Forms.Timer TimerCom;
         private System.Windows.Forms.ProgressBar BarConnecting;
         private System.Windows.Forms.PictureBox CloudStatusLogin;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.Label LabelPI;
@@ -905,5 +879,6 @@ partial class FormMain
         private LoginTextbox TextLogin_UID;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel LabelFromUserName;
+        private System.Windows.Forms.Button button2;
     }
 }

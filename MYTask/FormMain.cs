@@ -183,6 +183,7 @@ public partial class FormMain : Form
         private void InitTabsTask()
         {
             TabControl me = TabsTask;
+            TabPage met = TaskMy;
 
             me.Visible = true;
             TabsProject.Visible = false;
@@ -191,6 +192,9 @@ public partial class FormMain : Form
             PanelMessages.Visible = false;
 
             me.Location = new Point(48, 0);
+            met.Controls.Add(TaskPanelFlow);
+            TaskPanelFlow.Height = 0;
+            met.Controls.Add(vScrollBar1);
         }
 
         private void InitTabsProject()
@@ -379,11 +383,6 @@ public partial class FormMain : Form
         }
 
 
-
-
-
-
-
         private void BtnFindPsw_Click(object sender, EventArgs e)
         {
 
@@ -391,6 +390,13 @@ public partial class FormMain : Form
 
         private void button2_Click(object sender, EventArgs e)
         {
+            AddTaskPanel();
+        }
+        
+        private void AddTaskPanel()
+        {
+            TaskPanelFlow.Visible = true;
+            TaskPanelFlow.Height += 88;
             Task Ta = new Task();
             Ta.InitTestInf();
             TaskPanel p1 = new TaskPanel(3, TaskPanelFlow.Width - 12, Ta);
