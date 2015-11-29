@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SQLite;
 
 namespace MYTask
 {
@@ -17,6 +18,7 @@ public partial class FormMain : Form
         private int DBaseStat = -1; // 0 for offline, 1 for online
         private BackgroundWorker m_worker = new BackgroundWorker();
         MyDB DataBase = new MyDB();
+        
 
         public FormMain()
         {
@@ -51,6 +53,18 @@ public partial class FormMain : Form
             m_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenewDBStat);
             m_worker.RunWorkerAsync();
 
+            string localdbname = "offlinedata.sqlite";
+            string OfflineCOnnectCommand = String.Format("Data Source={0};Version=3;",
+                    localdbname);
+            SQLiteConnection LocalDBase = new SQLiteConnection(OfflineCOnnectCommand);
+            LocalDBase.Open();
+            string sql = "select * from tk_user order by uid desc";
+            SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+                MessageBox.Show("Name: " + reader["uid"] + "\tScore: " + reader["tk_user_login"]);
+            MessageBox.Show("Scan end.");
+
             InitLoginBox("");
         }
 
@@ -80,6 +94,7 @@ public partial class FormMain : Form
             Action aDelegate = delegate { this.BarConnecting.MarqueeAnimationSpeed = 5; };
             this.BarConnecting.Invoke(aDelegate);
             //BarConnecting.MarqueeAnimationSpeed = 5;
+            
             if (!DataBase.Connect()) DBaseStat = 0;
             else DBaseStat = 1;
         }
