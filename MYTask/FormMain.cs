@@ -392,6 +392,7 @@ public partial class FormMain : Form
         private void button2_Click(object sender, EventArgs e)
         {
             Task Ta = new Task();
+            Ta.InitTestInf();
             TaskPanel p1 = new TaskPanel(3, TaskPanelFlow.Width - 12, Ta);
             TaskPanelFlow.Controls.Add(p1);
         }

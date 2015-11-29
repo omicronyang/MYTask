@@ -58,6 +58,8 @@ partial class FormMain
             this.button2 = new System.Windows.Forms.Button();
             this.TaskPanelFlow = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.LabelFromUserName = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.LabelUpdateTime = new System.Windows.Forms.Label();
             this.LabelEndTime = new System.Windows.Forms.Label();
@@ -65,7 +67,6 @@ partial class FormMain
             this.LabelStat = new System.Windows.Forms.Label();
             this.LabelUserName = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
-            this.BarStat = new System.Windows.Forms.ProgressBar();
             this.LabelPI = new System.Windows.Forms.Label();
             this.LabelPT = new System.Windows.Forms.Label();
             this.LabelTaskName = new System.Windows.Forms.LinkLabel();
@@ -86,7 +87,6 @@ partial class FormMain
             this.PanelMessages = new System.Windows.Forms.Panel();
             this.TextLogin_Psw = new MYTask.LoginTextbox();
             this.TextLogin_UID = new MYTask.LoginTextbox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
             this.PanelGuideS.SuspendLayout();
@@ -462,12 +462,13 @@ partial class FormMain
             this.TaskPanelFlow.Location = new System.Drawing.Point(3, 3);
             this.TaskPanelFlow.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.TaskPanelFlow.Name = "TaskPanelFlow";
-            this.TaskPanelFlow.Size = new System.Drawing.Size(621, 420);
+            this.TaskPanelFlow.Size = new System.Drawing.Size(621, 340);
             this.TaskPanelFlow.TabIndex = 3;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.LabelFromUserName);
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.LabelUpdateTime);
@@ -476,7 +477,6 @@ partial class FormMain
             this.panel1.Controls.Add(this.LabelStat);
             this.panel1.Controls.Add(this.LabelUserName);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.BarStat);
             this.panel1.Controls.Add(this.LabelPI);
             this.panel1.Controls.Add(this.LabelPT);
             this.panel1.Controls.Add(this.LabelTaskName);
@@ -485,9 +485,39 @@ partial class FormMain
             this.panel1.Size = new System.Drawing.Size(617, 85);
             this.panel1.TabIndex = 1;
             // 
+            // LabelFromUserName
+            // 
+            this.LabelFromUserName.ActiveLinkColor = System.Drawing.Color.RoyalBlue;
+            this.LabelFromUserName.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LabelFromUserName.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.LabelFromUserName.LinkColor = System.Drawing.Color.Black;
+            this.LabelFromUserName.Location = new System.Drawing.Point(183, 57);
+            this.LabelFromUserName.Margin = new System.Windows.Forms.Padding(0);
+            this.LabelFromUserName.Name = "LabelFromUserName";
+            this.LabelFromUserName.Size = new System.Drawing.Size(182, 24);
+            this.LabelFromUserName.TabIndex = 12;
+            this.LabelFromUserName.TabStop = true;
+            this.LabelFromUserName.Text = "学生会信息部 开发人员";
+            this.LabelFromUserName.VisitedLinkColor = System.Drawing.Color.Black;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.RoyalBlue;
+            this.linkLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel1.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel1.Location = new System.Drawing.Point(432, 3);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(0);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(182, 24);
+            this.linkLabel1.TabIndex = 11;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "label2";
+            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Black;
+            // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(395, 3);
+            this.label2.Location = new System.Drawing.Point(371, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 24);
             this.label2.TabIndex = 10;
@@ -496,7 +526,7 @@ partial class FormMain
             // LabelUpdateTime
             // 
             this.LabelUpdateTime.AutoSize = true;
-            this.LabelUpdateTime.Location = new System.Drawing.Point(322, 57);
+            this.LabelUpdateTime.Location = new System.Drawing.Point(371, 57);
             this.LabelUpdateTime.Name = "LabelUpdateTime";
             this.LabelUpdateTime.Size = new System.Drawing.Size(243, 21);
             this.LabelUpdateTime.TabIndex = 9;
@@ -505,7 +535,7 @@ partial class FormMain
             // LabelEndTime
             // 
             this.LabelEndTime.AutoSize = true;
-            this.LabelEndTime.Location = new System.Drawing.Point(3, 57);
+            this.LabelEndTime.Location = new System.Drawing.Point(371, 30);
             this.LabelEndTime.Name = "LabelEndTime";
             this.LabelEndTime.Size = new System.Drawing.Size(208, 21);
             this.LabelEndTime.TabIndex = 8;
@@ -514,18 +544,19 @@ partial class FormMain
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(322, 30);
+            this.label7.Location = new System.Drawing.Point(107, 57);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(42, 21);
+            this.label7.Size = new System.Drawing.Size(74, 21);
             this.label7.TabIndex = 7;
-            this.label7.Text = "进度";
+            this.label7.Text = "来自于：";
             // 
             // LabelStat
             // 
-            this.LabelStat.Location = new System.Drawing.Point(511, 30);
+            this.LabelStat.BackColor = System.Drawing.Color.BlueViolet;
+            this.LabelStat.Location = new System.Drawing.Point(3, 57);
             this.LabelStat.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.LabelStat.Name = "LabelStat";
-            this.LabelStat.Size = new System.Drawing.Size(103, 21);
+            this.LabelStat.Size = new System.Drawing.Size(100, 21);
             this.LabelStat.TabIndex = 6;
             this.LabelStat.Text = "50%";
             this.LabelStat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -536,10 +567,10 @@ partial class FormMain
             this.LabelUserName.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LabelUserName.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.LabelUserName.LinkColor = System.Drawing.Color.Black;
-            this.LabelUserName.Location = new System.Drawing.Point(80, 30);
+            this.LabelUserName.Location = new System.Drawing.Point(183, 30);
             this.LabelUserName.Margin = new System.Windows.Forms.Padding(0);
             this.LabelUserName.Name = "LabelUserName";
-            this.LabelUserName.Size = new System.Drawing.Size(230, 24);
+            this.LabelUserName.Size = new System.Drawing.Size(182, 24);
             this.LabelUserName.TabIndex = 5;
             this.LabelUserName.TabStop = true;
             this.LabelUserName.Text = "学生会信息部 开发人员";
@@ -548,41 +579,34 @@ partial class FormMain
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 30);
+            this.label5.Location = new System.Drawing.Point(107, 30);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(74, 21);
             this.label5.TabIndex = 4;
             this.label5.Text = "指派给：";
             // 
-            // BarStat
-            // 
-            this.BarStat.Location = new System.Drawing.Point(370, 33);
-            this.BarStat.MarqueeAnimationSpeed = 0;
-            this.BarStat.Name = "BarStat";
-            this.BarStat.Size = new System.Drawing.Size(135, 18);
-            this.BarStat.TabIndex = 3;
-            this.BarStat.Value = 50;
-            // 
             // LabelPI
             // 
-            this.LabelPI.BackColor = System.Drawing.Color.SandyBrown;
-            this.LabelPI.Location = new System.Drawing.Point(27, 3);
+            this.LabelPI.BackColor = System.Drawing.Color.OliveDrab;
+            this.LabelPI.Location = new System.Drawing.Point(53, 30);
             this.LabelPI.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.LabelPI.Name = "LabelPI";
-            this.LabelPI.Size = new System.Drawing.Size(24, 24);
+            this.LabelPI.Size = new System.Drawing.Size(50, 24);
             this.LabelPI.TabIndex = 2;
             this.LabelPI.Text = "高";
+            this.LabelPI.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LabelPT
             // 
-            this.LabelPT.BackColor = System.Drawing.Color.LightCoral;
-            this.LabelPT.Location = new System.Drawing.Point(3, 3);
+            this.LabelPT.BackColor = System.Drawing.Color.GreenYellow;
+            this.LabelPT.Location = new System.Drawing.Point(3, 30);
             this.LabelPT.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
             this.LabelPT.Name = "LabelPT";
-            this.LabelPT.Size = new System.Drawing.Size(24, 24);
+            this.LabelPT.Size = new System.Drawing.Size(50, 24);
             this.LabelPT.TabIndex = 1;
             this.LabelPT.Text = "中";
+            this.LabelPT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LabelTaskName
             // 
@@ -590,10 +614,10 @@ partial class FormMain
             this.LabelTaskName.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LabelTaskName.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.LabelTaskName.LinkColor = System.Drawing.Color.Black;
-            this.LabelTaskName.Location = new System.Drawing.Point(51, 3);
+            this.LabelTaskName.Location = new System.Drawing.Point(3, 3);
             this.LabelTaskName.Margin = new System.Windows.Forms.Padding(0);
             this.LabelTaskName.Name = "LabelTaskName";
-            this.LabelTaskName.Size = new System.Drawing.Size(341, 24);
+            this.LabelTaskName.Size = new System.Drawing.Size(365, 24);
             this.LabelTaskName.TabIndex = 0;
             this.LabelTaskName.TabStop = true;
             this.LabelTaskName.Text = "label2";
@@ -772,21 +796,6 @@ partial class FormMain
             this.TextLogin_UID.Size = new System.Drawing.Size(215, 29);
             this.TextLogin_UID.TabIndex = 9;
             // 
-            // linkLabel1
-            // 
-            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.RoyalBlue;
-            this.linkLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel1.Location = new System.Drawing.Point(456, 3);
-            this.linkLabel1.Margin = new System.Windows.Forms.Padding(0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(133, 24);
-            this.linkLabel1.TabIndex = 11;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "label2";
-            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Black;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -883,7 +892,6 @@ partial class FormMain
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.Label LabelPI;
         private System.Windows.Forms.Label LabelPT;
-        private System.Windows.Forms.ProgressBar BarStat;
         private System.Windows.Forms.LinkLabel LabelTaskName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label LabelStat;
@@ -896,5 +904,6 @@ partial class FormMain
         private LoginTextbox TextLogin_Psw;
         private LoginTextbox TextLogin_UID;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel LabelFromUserName;
     }
 }
