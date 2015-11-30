@@ -14,8 +14,9 @@ public partial class FormMain : Form
         private int TimerComStat;
         private int dHeight;
         private int dWidth;
-        private int LoginStat = 1;
-        private int DBaseStat = -1; // 0 for offline, 1 for online
+        private int LoginStat = 0;  // 0 正常登陆, 1 跳过验证
+        private int DBaseStat = -1; // 0 离线数据, 1 在线数据
+        private int UID;
         private BackgroundWorker m_worker = new BackgroundWorker();
         MyDB DataBase = new MyDB();
         
@@ -49,6 +50,15 @@ public partial class FormMain : Form
             MinimumSize = Size;
             TextLogin_UID.RenewState(3);
             TextLogin_Psw.RenewState(3);
+            CloudStatus.Image = Properties.Resources.Cloud_Connecting_32;
+            CloudStatusS.Image = Properties.Resources.Cloud_Connecting_32;
+            CloudStatusLogin.Image = Properties.Resources.Cloud_Connecting_32;
+            BarConnecting.MarqueeAnimationSpeed = 5;
+            SnycProgress.Style = ProgressBarStyle.Marquee;
+            SnycProgress.MarqueeAnimationSpeed = 10;
+            LabelStatus.Text = "正在连接";
+
+
             m_worker.DoWork += new DoWorkEventHandler(TestConnect);
             m_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenewDBStat);
             m_worker.RunWorkerAsync();
@@ -59,6 +69,12 @@ public partial class FormMain : Form
         private void FormMain_Unload(object sender, EventArgs e)
         {
             if (DBaseStat == 1) DataBase.Close();
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            //dHeight = Height - PanelGuideS.Height;
+            PanelGuide.Height = PanelGuideS.Height;
         }
 
         private void Form_Lock()
@@ -82,11 +98,10 @@ public partial class FormMain : Form
             Action aDelegate = delegate { this.BarConnecting.MarqueeAnimationSpeed = 5; };
             this.BarConnecting.Invoke(aDelegate);
             //BarConnecting.MarqueeAnimationSpeed = 5;
-            
-            if (!DataBase.Connect()) DBaseStat = 0;
-            else DBaseStat = 1;
-        }
 
+            if (DataBase.Connect()) DBaseStat = DataBase.Online;
+            else MessageBox.Show("Error");
+        }
 
         private void RenewDBStat(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -102,7 +117,7 @@ public partial class FormMain : Form
                 SnycProgress.Visible = false;
                 BtnFindPsw.Visible = true;
             }
-            else
+            else if (DBaseStat == 0)
             {
                 CloudStatus.Image = Properties.Resources.Cloud_Offline_32;
                 CloudStatusS.Image = Properties.Resources.Cloud_Offline_32;
@@ -110,6 +125,17 @@ public partial class FormMain : Form
                 LabelStatus.Text = "离线模式";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
                 SnycProgress.Visible = false;
+            }
+            else
+            {
+                CloudStatus.Image = Properties.Resources.Cloud_Sync_32;
+                CloudStatusS.Image = Properties.Resources.Cloud_Sync_32;
+                CloudStatusLogin.Image = Properties.Resources.Cloud_Sync_32;
+                LabelStatus.Text = "正在同步";
+                LabelStatus.Location = new Point(3, CloudStatus.Location.Y);
+                SnycProgress.Visible = true;
+                SnycProgress.Style = ProgressBarStyle.Marquee;
+                SnycProgress.MarqueeAnimationSpeed = 3;
             }
         }
 
@@ -249,12 +275,6 @@ public partial class FormMain : Form
             }
         }
 
-        private void FormMain_Resize(object sender, EventArgs e)
-        {
-            //dHeight = Height - PanelGuideS.Height;
-            PanelGuide.Height = PanelGuideS.Height;
-        }
-
         private void BtnCall_Click(object sender, EventArgs e)
         {
             if (PanelGuide.Location.X < 0) TimerComStat = 0;
@@ -282,14 +302,14 @@ public partial class FormMain : Form
             tbx.Text = "";
         }
 
-    private void LoginBoxLostFocus(object sender, EventArgs e)
-    {
+        private void LoginBoxLostFocus(object sender, EventArgs e)
+        {
             LoginTextbox tbx = (LoginTextbox)sender;
             if (tbx.Text != "") return;
             tbx.RenewState(0);
             if (tbx.Name == "TextLogin_UID") tbx.Text = "用户名";
             else tbx.Text = "密码";
-    }
+        }
 
     //</LoginBox Operations>
 
@@ -326,6 +346,7 @@ public partial class FormMain : Form
         public void Login()
         {
             if (LoginStat == 1) goto Success;
+
             //检测用户是否输入完整信息
             bool flag = true;
             if (TextLogin_UID.State != 1)
@@ -341,19 +362,38 @@ public partial class FormMain : Form
                 flag = false;
             }
             if (!flag) return;
-
+            
+            //获取字符串值进行比对
             string UserID = TextLogin_UID.Text;
             string UserP = TextLogin_Psw.Text;
             PswString Psw = new PswString(UserP);
+            string DBPsw = DataBase.GetUserPsw(UserID);
+            //MessageBox.Show(DBPsw + "\n" + Psw.MD64);
 
+            //数据库无用户名记录
+            if (DBPsw == "@@@@")
+            {
+                BtnLogin.Focus();
+                TextLogin_UID.RenewState(2);
+                TextLogin_UID.Text = "用户不存在";
+                TextLogin_Psw.RenewState(0);
+                TextLogin_Psw.Text = "密码";
+                return;
+            }
 
+            //密码不匹配
+            if (DBPsw != Psw.MD64)
+            {
+                BtnLogin.Focus();
+                TextLogin_Psw.RenewState(2);
+                TextLogin_Psw.Text = "密码错误";
+                return;
+            }
 
-
-        //TODO: Add login codes.
-
-        // if login successful::
-            Success:
+        Success:  //成功登陆
             InitTabsTask();
+            UID = DataBase.GetUserID(TextLogin_UID.Text);
+            MessageBox.Show("UID = " + UID);
             TimerComStat = 3;
             TimerCom.Start();
         }

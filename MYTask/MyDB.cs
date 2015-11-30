@@ -33,34 +33,81 @@ namespace MYTask
         public bool Connect()
         {
             if (OnlineDBase != null) OnlineDBase.Close();
-            /*try
+            try
             {
                 OnlineDBase = new MySqlConnection(OnlineConnectCommand);
                 OnlineDBase.Open();
                 Online = 1;
                 return true;
             }
-            catch (MySqlException ex)
+            catch
             {
-                //MessageBox.Show(ex.ErrorCode + "Error connecting to the server: " + ex.Message);
-                Online = 0;
-                return false;
-            }*/
-            
-            LocalDBase = new SQLiteConnection(OfflineConnectCommand);
-            LocalDBase.Open();
-            string sql = "select * from tk_user where uid like '5'";
-            SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-                MessageBox.Show("Name: " + reader["uid"] + "\tScore: " + reader["tk_user_login"]);
-            
-            return true;
+                try
+                {
+                    LocalDBase = new SQLiteConnection(OfflineConnectCommand);
+                    LocalDBase.Open();
+                    Online = 0;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public string GetUserPsw(string UserName)
+        {
+            string psw = "";
+            string sql = string.Format( "select tk_user_pass from tk_user where tk_user_login like '{0}'",
+                UserName);
+            if (Online == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    psw = reader["tk_user_pass"].ToString();
+                }
+                else return "@@@@";
+            }
+            else
+            {
+                MySqlCommand command = new MySqlCommand(sql,OnlineDBase);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    psw = reader.GetString(0);
+                }
+                else return "@@@@";
+            }
+            return psw;
+        }
+
+        public int GetUserID(string UserName)
+        {
+            int UID = 0;
+            string sql = string.Format("select uid from tk_user where tk_user_login like '{0}'",
+                UserName);
+            if (Online == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read()) UID = Convert.ToInt32(reader[0]);
+            }
+            else
+            {
+                MySqlCommand command = new MySqlCommand(sql, OnlineDBase);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read()) UID = reader.GetInt32(0);
+            }
+            return UID;
         }
 
         public void Close()
         {
             if (OnlineDBase != null) OnlineDBase.Close();
+            if (LocalDBase != null) LocalDBase.Close();
         }
     }
 }

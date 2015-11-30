@@ -177,15 +177,19 @@ class TaskPanel: Panel
             Label me = LabelStat;
             switch (stat)
             {
-                case 2: { me.Text = "未开始"; me.BackColor = Color.BlueViolet; break; }
-                case 4: { me.Text = "计划"; me.BackColor = Color.BlueViolet; break; }
-                case 5: { me.Text = "进行  0%"; me.BackColor = Color.GreenYellow; break; }
-                case 6: { me.Text = "进行 20%"; me.BackColor = Color.GreenYellow; break; }
-                case 7: { me.Text = "进行 40%"; me.BackColor = Color.GreenYellow; break; }
-                case 8: { me.Text = "进行 60%"; me.BackColor = Color.GreenYellow; break; }
-                case 9: { me.Text = "进行 80%"; me.BackColor = Color.GreenYellow; break; }
-                case 10: { me.Text = "完成100%"; me.BackColor = Color.Green; break; }
-                case 25: { me.Text = "完成验收"; me.BackColor = Color.RoyalBlue; break; }
+                case 2: { me.Text = "未开始"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
+                case 4: { me.Text = "计划"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
+                case 5: { me.Text = "进行  0%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 6: { me.Text = "进行 20%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 7: { me.Text = "进行 40%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 8: { me.Text = "进行 60%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 9: { me.Text = "进行 80%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 14: { me.Text = "完成100%"; me.BackColor = Color.FromArgb(0, 153, 0); break; }
+                case 22: { me.Text = "中断"; me.BackColor = Color.FromArgb(0, 0, 0); break; }
+                case 23: { me.Text = "推迟"; me.BackColor = Color.FromArgb(255, 204, 0); break; }
+                case 24: { me.Text = "请假"; me.BackColor = Color.FromArgb(255, 255, 0); break; }
+                case 25: { me.Text = "完成验收"; me.BackColor = Color.FromArgb(51, 102, 153); break; }
+                case 26: { me.Text = "驳回"; me.BackColor = Color.FromArgb(0, 0, 0); break; }
             }
         }
 
@@ -194,12 +198,17 @@ class TaskPanel: Panel
             Label me = LabelTaskName;
             switch (type)
             {
+                case 1: { me.Text = "[设计流程]"; break; }
                 case 2: { me.Text = "[人员分工]"; break; }
                 case 3: { me.Text = "[执行]"; break; }
+                case 7: { me.Text = "[申请]"; break; }
                 case 8: { me.Text = "[求援]"; break; }
                 case 9: { me.Text = "[撰写文档]"; break; }
                 case 10: { me.Text = "[沟通]"; break; }
                 case 12: { me.Text = "[会议]"; break; }
+                case 14: { me.Text = "[请假]"; break; }
+                case 15: { me.Text = "[加班]"; break; }
+                case 16: { me.Text = "[其他]"; break; }
                 case 19: { me.Text = "[提出设想]"; break; }
                 case 20: { me.Text = "[子项目]"; break; }
             }
