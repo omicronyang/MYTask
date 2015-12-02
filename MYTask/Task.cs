@@ -19,6 +19,8 @@ namespace MYTask
         public int TaskStat;
         public int TaskType;
         public DateTime TaskUpdateTime;
+        public double TaskPlanTime;
+        public double TaskUsedTime;
 
         private int TaskProjectID;
         private int TaskUID;
@@ -36,20 +38,24 @@ namespace MYTask
 
         public void InitTestInf()
         {
+            Random ran = new Random();
             TaskID = 1;
-            TaskName = "器材室借用";
-            TaskPriority = 3;
-            TaskImportance = 2;
+            TaskName = "体育节工作人员证件收集";
+            TaskPriority = ran.Next(1,5);
+            TaskImportance = ran.Next(1,5);
             TaskProjectID = 3;
-            TaskProject = "内场";
+            TaskProject = "体育部";
             TaskEndTime = new DateTime(2015, 10, 28);
             TaskUID = 3;
             TaskU = "学生会主席团 黄晓琪";
             TaskFUID = 5;
             TaskFU = "学生会主席团 曹雅俊";
             TaskStat = 25;
-            TaskType = 8;
+            TaskType = 10;
             TaskUpdateTime = new DateTime(2015, 11, 18, 14, 14, 03);
+
+            TaskPlanTime = 35.5;
+            TaskUsedTime = 12.3;
         }
     }
 }

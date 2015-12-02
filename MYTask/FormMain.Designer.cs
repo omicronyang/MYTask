@@ -49,12 +49,13 @@ partial class FormMain
             this.BtnContactS = new System.Windows.Forms.Button();
             this.BtnProjectS = new System.Windows.Forms.Button();
             this.BtnTaskS = new System.Windows.Forms.Button();
-            this.PanelProfile = new System.Windows.Forms.Panel();
+            this.PanelProfile = new MYTask.ProfilePanel();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.TimerCom = new System.Windows.Forms.Timer(this.components);
             this.TabsTask = new System.Windows.Forms.TabControl();
             this.TaskMy = new System.Windows.Forms.TabPage();
+            this.label3 = new MYTask.BorderLabel();
             this.TaskPanelFlow = new MYTask.TaskPanelContainer();
             this.TaskPub = new System.Windows.Forms.TabPage();
             this.TaskAll = new System.Windows.Forms.TabPage();
@@ -74,8 +75,8 @@ partial class FormMain
             this.LabelPT = new System.Windows.Forms.Label();
             this.LabelTaskName = new System.Windows.Forms.LinkLabel();
             this.PanelLogin = new System.Windows.Forms.Panel();
-            this.TextLogin_Psw = new LoginTextbox();
-            this.TextLogin_UID = new LoginTextbox();
+            this.TextLogin_Psw = new MYTask.LoginTextbox();
+            this.TextLogin_UID = new MYTask.LoginTextbox();
             this.CloudStatusLogin = new System.Windows.Forms.PictureBox();
             this.BarConnecting = new System.Windows.Forms.ProgressBar();
             this.BtnFindPsw = new System.Windows.Forms.Button();
@@ -112,7 +113,7 @@ partial class FormMain
             this.PanelGuide.Controls.Add(this.BtnMessage);
             this.PanelGuide.Controls.Add(this.BtnProject);
             this.PanelGuide.Controls.Add(this.BtnTask);
-            this.PanelGuide.Location = new System.Drawing.Point(0, 0);
+            this.PanelGuide.Location = new System.Drawing.Point(-175, 0);
             this.PanelGuide.Margin = new System.Windows.Forms.Padding(0);
             this.PanelGuide.Name = "PanelGuide";
             this.PanelGuide.Size = new System.Drawing.Size(175, 500);
@@ -435,6 +436,7 @@ partial class FormMain
             // 
             // TaskMy
             // 
+            this.TaskMy.Controls.Add(this.label3);
             this.TaskMy.Controls.Add(this.TaskPanelFlow);
             this.TaskMy.Location = new System.Drawing.Point(4, 30);
             this.TaskMy.Name = "TaskMy";
@@ -443,6 +445,17 @@ partial class FormMain
             this.TaskMy.TabIndex = 0;
             this.TaskMy.Text = "负责的任务";
             this.TaskMy.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BorderColor = System.Drawing.Color.Green;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label3.Location = new System.Drawing.Point(121, 157);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 23);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "学生";
             // 
             // TaskPanelFlow
             // 
@@ -657,7 +670,7 @@ partial class FormMain
             this.TextLogin_Psw.Name = "TextLogin_Psw";
             this.TextLogin_Psw.Size = new System.Drawing.Size(215, 29);
             this.TextLogin_Psw.TabIndex = 10;
-            this.TextLogin_Psw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(TextLogin_Psw_Keypress);
+            this.TextLogin_Psw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextLogin_Psw_Keypress);
             // 
             // TextLogin_UID
             // 
@@ -813,6 +826,7 @@ partial class FormMain
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.TabsTask.ResumeLayout(false);
             this.TaskMy.ResumeLayout(false);
+            this.TaskMy.PerformLayout();
             this.PanelLogin.ResumeLayout(false);
             this.PanelLogin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).EndInit();
@@ -858,8 +872,6 @@ partial class FormMain
         private System.Windows.Forms.TabPage ProjPub;
         private System.Windows.Forms.TabPage ProjAll;
         private System.Windows.Forms.TabPage ProjNew;
-
-        private System.Windows.Forms.Panel PanelProfile;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
 
@@ -888,5 +900,8 @@ partial class FormMain
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel LabelFromUserName;
         private System.Windows.Forms.Button button2;
+        private ProfilePanel PanelProfile;
+        //private System.Windows.Forms.Label label3;
+        private BorderLabel label3;
     }
 }

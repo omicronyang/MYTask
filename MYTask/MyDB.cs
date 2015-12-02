@@ -68,6 +68,7 @@ namespace MYTask
                 if (reader.Read())
                 {
                     psw = reader["tk_user_pass"].ToString();
+                    reader.Close();
                 }
                 else return "@@@@";
             }
@@ -78,6 +79,7 @@ namespace MYTask
                 if (reader.Read())
                 {
                     psw = reader.GetString(0);
+                    reader.Close();
                 }
                 else return "@@@@";
             }
@@ -94,14 +96,92 @@ namespace MYTask
                 SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
                 SQLiteDataReader reader = command.ExecuteReader();
                 if (reader.Read()) UID = Convert.ToInt32(reader[0]);
+                reader.Close();
             }
             else
             {
                 MySqlCommand command = new MySqlCommand(sql, OnlineDBase);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read()) UID = reader.GetInt32(0);
+                reader.Close();
             }
             return UID;
+        }
+
+        public MyUser GetUser(int Uid)
+        {
+            MyUser Result = new MyUser();
+            string sql = string.Format("select * from tk_user where uid like {0}",
+                Uid.ToString());
+            if (Online == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Result.UID = Uid;
+                    Result.Name = reader["tk_display_name"].ToString();
+                    Result.Rank = Convert.ToInt32(reader["tk_user_rank"]);
+                    Result.Message = Convert.ToInt32(reader["tk_user_message"]);
+                    Result.Telephone = reader["tk_user_contact"].ToString();
+                    Result.Email = reader["tk_user_email"].ToString();
+                }
+                reader.Close();
+            }
+            else
+            {
+                MySqlCommand command = new MySqlCommand(sql, OnlineDBase);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Result.UID = Uid;
+                    Result.Name = reader["tk_display_name"].ToString();
+                    Result.Rank = Convert.ToInt32(reader["tk_user_rank"]);
+                    Result.Message = Convert.ToInt32(reader["tk_user_message"]);
+                    Result.Telephone = reader["tk_user_contact"].ToString();
+                    Result.Email = reader["tk_user_email"].ToString();
+                }
+                reader.Close();
+            }
+            return Result;
+        }
+
+        public MyUser GetUser(string user_login)
+        {
+            MyUser Result = new MyUser();
+            string sql = string.Format("select * from tk_user where tk_user_login like '{0}'",
+                user_login);
+            if (Online == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Result.UID = Convert.ToInt32(reader["uid"]);
+                    Result.Name = reader["tk_display_name"].ToString();
+                    Result.Rank = Convert.ToInt32(reader["tk_user_rank"]);
+                    Result.Message = Convert.ToInt32(reader["tk_user_message"]);
+                    Result.Telephone = reader["tk_user_contact"].ToString();
+                    Result.Email = reader["tk_user_email"].ToString();
+                }
+                reader.Close();
+            }
+            else
+            {
+                MySqlCommand command = new MySqlCommand(sql, OnlineDBase);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Result.UID = Convert.ToInt32(reader["uid"]);
+                    Result.Name = reader["tk_display_name"].ToString();
+                    Result.Rank = Convert.ToInt32(reader["tk_user_rank"]);
+                    Result.Message = Convert.ToInt32(reader["tk_user_message"]);
+                    Result.Telephone = reader["tk_user_contact"].ToString();
+                    Result.Email = reader["tk_user_email"].ToString();
+                }
+                reader.Close();
+            }
+            return Result;
         }
 
         public void Close()

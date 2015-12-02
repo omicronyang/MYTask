@@ -22,11 +22,14 @@ class TaskPanel: Panel
         LinkLabel LabelFromUserName = new LinkLabel();
         Label LabelEndTime = new Label();
         Label LabelUpdateTime = new Label();
+        Label LabelUsedTime = new Label();
+        BorderLabel LabelPlanTime = new BorderLabel();
+       
 
 
         public TaskPanel(int y, int width, Task Taskinf)
 	    {
-		    Size = new Size(width, 85);
+		    Size = new Size(width, 108);
 		    Location = new Point(3, y);
 		    Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 		    BackColor = Color.Gainsboro;
@@ -37,32 +40,33 @@ class TaskPanel: Panel
 		    LabelTaskName.VisitedLinkColor = Color.Black;
 		    LabelTaskName.ActiveLinkColor = Color.RoyalBlue;
 		    LabelTaskName.Location = new Point(3, 3);
-		    LabelTaskName.Size = new Size(365, 24);
+		    LabelTaskName.Size = new Size(609, 21);
 		    LabelTaskName.TabStop = true;
 		    LabelTaskName.Text = "任务名称";
 
-            Label1.Location = new Point(371,3);
-            Label1.Size = new Size(58,24);
-            Label1.Text = "从属于";
+            Label1.Location = new Point(361,30);
+            Label1.Size = new Size(58,21);
+            Label1.Text = "项目:";
 
             LabelProjName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
+            LabelProjName.LinkBehavior = LinkBehavior.HoverUnderline;
             LabelProjName.LinkColor = Color.Black;
             LabelProjName.VisitedLinkColor = Color.Black;
             LabelProjName.ActiveLinkColor = Color.RoyalBlue;
-            LabelProjName.Location = new Point(432, 3);
-            LabelProjName.Size = new Size(182,20);
+            LabelProjName.Location = new Point(409, 30);
+            LabelProjName.Size = new Size(203,21);
             LabelProjName.TabStop = true;
             LabelProjName.Text = "项目名称";
             LabelProjName.Click += new EventHandler(LabelProjName_Clicked);
 
             LabelPP.Location = new Point(3, 30);
-            LabelPP.Size = new Size(50, 24);
+            LabelPP.Size = new Size(50, 21);
             LabelPP.BackColor = Color.Gold;
             LabelPP.TextAlign = ContentAlignment.MiddleCenter;
             LabelPP.Text = "中";
 
             LabelPI.Location = new Point(53, 30);
-            LabelPI.Size = new Size(50, 24);
+            LabelPI.Size = new Size(50, 21);
             LabelPI.BackColor = Color.SandyBrown;
             LabelPI.TextAlign = ContentAlignment.MiddleCenter;
             LabelPI.Text = "高";
@@ -87,9 +91,8 @@ class TaskPanel: Panel
 		    LabelUserName.VisitedLinkColor = Color.Black;
 		    LabelUserName.ActiveLinkColor = Color.RoyalBlue;
 		    LabelUserName.Location = new Point(183, 30);
-		    LabelUserName.Size = new Size(182, 24);
+		    LabelUserName.Size = new Size(175, 21);
 		    LabelUserName.TabStop = true;
-		    LabelUserName.Text = "学生会信息部 开发人员";
 
             LabelFromUserName.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             LabelFromUserName.LinkBehavior = LinkBehavior.HoverUnderline;
@@ -97,25 +100,37 @@ class TaskPanel: Panel
             LabelFromUserName.VisitedLinkColor = Color.Black;
             LabelFromUserName.ActiveLinkColor = Color.RoyalBlue;
             LabelFromUserName.Location = new Point(183, 57);
-            LabelFromUserName.Size = new Size(182, 24);
+            LabelFromUserName.Size = new Size(175, 21);
             LabelFromUserName.TabStop = true;
-            LabelFromUserName.Text = "学生会信息部 开发人员";
 
-		    LabelEndTime.Location = new Point(371, 30);
+		    LabelEndTime.Location = new Point(361, 57);
 		    LabelEndTime.Size = new Size(208, 21);
 		    LabelEndTime.AutoSize = true;
 		    LabelEndTime.Text = "预期完成日期：9999/99/99";
 
-		    LabelUpdateTime.Location = new Point(371, 57);
+		    LabelUpdateTime.Location = new Point(361, 84);
 		    LabelUpdateTime.Size = new Size(243, 21);
 		    LabelUpdateTime.AutoSize = true;
 		    LabelUpdateTime.Text = "最后更改：9999/99/99 99:99:99";
 
-		    Controls.Add(LabelPP);
+            LabelUsedTime.Location = new Point(3, 84);
+            LabelUsedTime.Size = new Size(200, 21);
+            LabelUsedTime.Text = "5.5";
+            LabelUsedTime.ForeColor = Color.White;
+            LabelUsedTime.BackColor = Color.Green;
+
+            LabelPlanTime.Location = new Point(203, 84);
+            LabelPlanTime.Size = new Size(155, 21);
+            LabelPlanTime.Text = "5.5";
+            LabelPlanTime.TextAlign = ContentAlignment.TopRight;
+            LabelPlanTime.BorderStyle = BorderStyle.FixedSingle;
+            LabelPlanTime.BorderColor = Color.Green;
+
+            Controls.Add(LabelPP);
 		    Controls.Add(LabelPI);
 		    Controls.Add(LabelTaskName);
-            Controls.Add(Label1);
             Controls.Add(LabelProjName);
+            Controls.Add(Label1);
             Controls.Add(LabelStat);
             Controls.Add(Label2);
             Controls.Add(Label3);
@@ -123,6 +138,8 @@ class TaskPanel: Panel
             Controls.Add(LabelFromUserName);
 		    Controls.Add(LabelEndTime);
 		    Controls.Add(LabelUpdateTime);
+            Controls.Add(LabelUsedTime);
+            Controls.Add(LabelPlanTime);
 
 
             UpdateTask(Taskinf);
@@ -144,6 +161,8 @@ class TaskPanel: Panel
 
             LabelEndTime_Update(MyTaskInf.TaskEndTime);
             LabelUpdateTime_Update(MyTaskInf.TaskUpdateTime);
+
+            LabelWorkTime_Update(MyTaskInf.TaskPlanTime, MyTaskInf.TaskUsedTime);
 	    }
 
         private void LabelPP_Update(int priority)
@@ -232,6 +251,16 @@ class TaskPanel: Panel
         {
             MessageBox.Show( LabelProjName.LinkBehavior.ToString());
           
+        }
+
+        private void LabelWorkTime_Update(double PlanTime,double UsedTime)
+        {
+            LabelUsedTime.Location = new Point(3, 84);
+            LabelUsedTime.Size = new Size(Convert.ToInt32(UsedTime / PlanTime * 355), 21);
+            LabelUsedTime.Text = UsedTime.ToString();
+            LabelPlanTime.Location = new Point(LabelUsedTime.Width + 3, 84);
+            LabelPlanTime.Size = new Size(355 - LabelUsedTime.Width, 21);
+            LabelPlanTime.Text = PlanTime.ToString();
         }
 
 }

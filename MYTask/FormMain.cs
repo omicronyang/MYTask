@@ -14,9 +14,9 @@ public partial class FormMain : Form
         private int TimerComStat;
         private int dHeight;
         private int dWidth;
-        private int LoginStat = 0;  // 0 正常登陆, 1 跳过验证
+        private int LoginStat = 1;  // 0 正常登陆, 1 跳过验证
         private int DBaseStat = -1; // 0 离线数据, 1 在线数据
-        private int UID;
+        private MyUser NowUser = new MyUser();
         private BackgroundWorker m_worker = new BackgroundWorker();
         MyDB DataBase = new MyDB();
         
@@ -30,7 +30,7 @@ public partial class FormMain : Form
 
             dHeight = Height - PanelGuideS.Height;
             dWidth = Width - PanelProfile.Width - 48;
-            
+            /* 跳过登陆面板
             TextLogin_UID.RenewState(3);
             TextLogin_UID.Enter += new EventHandler(LoginBoxGetFocus);
             TextLogin_UID.Leave += new EventHandler(LoginBoxLostFocus);
@@ -41,7 +41,7 @@ public partial class FormMain : Form
 
             m_worker.WorkerReportsProgress = true;
             m_worker.WorkerSupportsCancellation = true;
-
+            */
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -392,8 +392,11 @@ public partial class FormMain : Form
 
         Success:  //成功登陆
             InitTabsTask();
-            UID = DataBase.GetUserID(TextLogin_UID.Text);
-            MessageBox.Show("UID = " + UID);
+            TextLogin_UID.Text = "admin";
+            NowUser = DataBase.GetUser(TextLogin_UID.Text);
+            //MessageBox.Show(NowUser.Name);
+            BtnProfile.Text = NowUser.Name.Replace(' ', '\n');
+            //MessageBox.Show(NowUser.Name);
             TimerComStat = 3;
             TimerCom.Start();
         }
@@ -422,8 +425,7 @@ public partial class FormMain : Form
         {
             Logout();
         }
-
-
+        
         private void BtnFindPsw_Click(object sender, EventArgs e)
         {
 
