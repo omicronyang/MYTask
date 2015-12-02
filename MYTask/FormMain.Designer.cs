@@ -55,7 +55,6 @@ partial class FormMain
             this.TimerCom = new System.Windows.Forms.Timer(this.components);
             this.TabsTask = new System.Windows.Forms.TabControl();
             this.TaskMy = new System.Windows.Forms.TabPage();
-            this.label3 = new MYTask.BorderLabel();
             this.TaskPanelFlow = new MYTask.TaskPanelContainer();
             this.TaskPub = new System.Windows.Forms.TabPage();
             this.TaskAll = new System.Windows.Forms.TabPage();
@@ -436,7 +435,6 @@ partial class FormMain
             // 
             // TaskMy
             // 
-            this.TaskMy.Controls.Add(this.label3);
             this.TaskMy.Controls.Add(this.TaskPanelFlow);
             this.TaskMy.Location = new System.Drawing.Point(4, 30);
             this.TaskMy.Name = "TaskMy";
@@ -445,17 +443,6 @@ partial class FormMain
             this.TaskMy.TabIndex = 0;
             this.TaskMy.Text = "负责的任务";
             this.TaskMy.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BorderColor = System.Drawing.Color.Green;
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(121, 157);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 23);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "学生";
             // 
             // TaskPanelFlow
             // 
@@ -826,7 +813,6 @@ partial class FormMain
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.TabsTask.ResumeLayout(false);
             this.TaskMy.ResumeLayout(false);
-            this.TaskMy.PerformLayout();
             this.PanelLogin.ResumeLayout(false);
             this.PanelLogin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).EndInit();
@@ -901,7 +887,5 @@ partial class FormMain
         private System.Windows.Forms.LinkLabel LabelFromUserName;
         private System.Windows.Forms.Button button2;
         private ProfilePanel PanelProfile;
-        //private System.Windows.Forms.Label label3;
-        private BorderLabel label3;
     }
 }

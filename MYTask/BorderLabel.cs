@@ -28,7 +28,7 @@ namespace MYTask
         /// <summary> 
         /// 边框颜色 
         /// </summary> 
-        private Color _BorderColor = Color.FromArgb(0xA7, 0xA6, 0xAA);
+        private Color _BorderColor = Color.Black;
 
         /// <summary> 
         /// 热点边框颜色 
@@ -106,7 +106,7 @@ namespace MYTask
         public BorderLabel() : base()
         {
         }
-        /*
+        
         /// <summary> 
         /// 鼠标移动到该控件上时 
         /// </summary> 
@@ -118,8 +118,7 @@ namespace MYTask
             //如果启用HotTrack，则开始重绘 
             //如果不加判断这里不加判断，则当不启用HotTrack， 
             //鼠标在控件上移动时，控件边框会不断重绘， 
-            //导致控件边框闪烁。下同 
-            //谁有更好的办法？Please tell me , Thanks。 
+            //导致控件边框闪烁。
             if (this._HotTrack)
             {
                 //重绘 
@@ -171,7 +170,7 @@ namespace MYTask
             }
             base.OnLostFocus(e);
         }
-        */
+        
 
         /// <summary> 
         /// 获得操作系统消息 
