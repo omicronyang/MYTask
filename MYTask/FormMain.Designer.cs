@@ -1,36 +1,37 @@
-﻿namespace MYTask
+﻿using System.Windows.Forms;
+namespace MYTask
 {
-partial class FormMain
-{
-	/// <summary>
-	/// Required designer variable.
-	/// </summary>
-	private System.ComponentModel.IContainer components = null;
+    partial class FormMain
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-	/// <summary>
-	/// Clean up any resources being used.
-	/// </summary>
-	/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-	protected override void Dispose(bool disposing)
-	{
-		if (disposing && (components != null))
-		{
-			components.Dispose();
-		}
-		base.Dispose(disposing);
-	}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-	#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-	/// <summary>
-	/// Required method for Designer support - do not modify
-	/// the contents of this method with the code editor.
-	/// </summary>
-	private void InitializeComponent()
-	{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.PanelGuide = new System.Windows.Forms.Panel();
+            this.BtnLogout = new System.Windows.Forms.Button();
             this.BtnCallback = new System.Windows.Forms.Button();
             this.LabelStatus = new System.Windows.Forms.Label();
             this.BtnContact = new System.Windows.Forms.Button();
@@ -42,24 +43,21 @@ partial class FormMain
             this.BtnTask = new System.Windows.Forms.Button();
             this.PanelGuideS = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.BtnMessageS = new System.Windows.Forms.Button();
             this.CloudStatusS = new System.Windows.Forms.PictureBox();
             this.BtnCall = new System.Windows.Forms.Button();
             this.BtnContactS = new System.Windows.Forms.Button();
             this.BtnProjectS = new System.Windows.Forms.Button();
             this.BtnTaskS = new System.Windows.Forms.Button();
-            this.PanelProfile = new MYTask.ProfilePanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.TimerCom = new System.Windows.Forms.Timer(this.components);
+            this.TimerSidebar = new System.Windows.Forms.Timer(this.components);
             this.TabsTask = new System.Windows.Forms.TabControl();
             this.TaskMy = new System.Windows.Forms.TabPage();
-            this.TaskPanelFlow = new MYTask.TaskPanelContainer();
+            this.TaskListMy = new MYTask.TaskPanelContainer();
             this.TaskPub = new System.Windows.Forms.TabPage();
+            this.TaskListPub = new MYTask.TaskPanelContainer();
             this.TaskAll = new System.Windows.Forms.TabPage();
+            this.TaskListAll = new MYTask.TaskPanelContainer();
             this.TaskNew = new System.Windows.Forms.TabPage();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LabelFromUserName = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -87,22 +85,33 @@ partial class FormMain
             this.ProjNew = new System.Windows.Forms.TabPage();
             this.PanelContacts = new System.Windows.Forms.Panel();
             this.PanelMessages = new System.Windows.Forms.Panel();
+            this.TimerLogin = new System.Windows.Forms.Timer(this.components);
+            this.PanelProfile = new MYTask.ProfilePanel();
+            this.ProfileEmail = new MYTask.ActiveTextbox();
+            this.ProfileEmailLabel = new System.Windows.Forms.Label();
+            this.ProfileTel = new MYTask.ActiveTextbox();
+            this.ProfileTELLabel = new System.Windows.Forms.Label();
+            this.ProfileUserName = new MYTask.ActiveTextbox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
             this.PanelGuideS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusS)).BeginInit();
-            this.PanelProfile.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.TabsTask.SuspendLayout();
             this.TaskMy.SuspendLayout();
+            this.TaskPub.SuspendLayout();
+            this.TaskAll.SuspendLayout();
             this.PanelLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).BeginInit();
             this.TabsProject.SuspendLayout();
+            this.PanelProfile.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelGuide
             // 
             this.PanelGuide.BackColor = System.Drawing.Color.LightGray;
+            this.PanelGuide.Controls.Add(this.BtnLogout);
             this.PanelGuide.Controls.Add(this.BtnCallback);
             this.PanelGuide.Controls.Add(this.LabelStatus);
             this.PanelGuide.Controls.Add(this.BtnContact);
@@ -117,6 +126,22 @@ partial class FormMain
             this.PanelGuide.Name = "PanelGuide";
             this.PanelGuide.Size = new System.Drawing.Size(175, 500);
             this.PanelGuide.TabIndex = 0;
+            // 
+            // BtnLogout
+            // 
+            this.BtnLogout.FlatAppearance.BorderSize = 0;
+            this.BtnLogout.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.BtnLogout.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnLogout.Image = global::MYTask.Properties.Resources.Logout_32;
+            this.BtnLogout.Location = new System.Drawing.Point(0, 240);
+            this.BtnLogout.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnLogout.Name = "BtnLogout";
+            this.BtnLogout.Size = new System.Drawing.Size(48, 48);
+            this.BtnLogout.TabIndex = 11;
+            this.BtnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BtnLogout.UseVisualStyleBackColor = true;
+            this.BtnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
             // 
             // BtnCallback
             // 
@@ -253,7 +278,6 @@ partial class FormMain
             // 
             this.PanelGuideS.BackColor = System.Drawing.Color.LightGray;
             this.PanelGuideS.Controls.Add(this.button2);
-            this.PanelGuideS.Controls.Add(this.button1);
             this.PanelGuideS.Controls.Add(this.BtnMessageS);
             this.PanelGuideS.Controls.Add(this.CloudStatusS);
             this.PanelGuideS.Controls.Add(this.BtnCall);
@@ -273,19 +297,9 @@ partial class FormMain
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 77);
             this.button2.TabIndex = 8;
-            this.button2.Text = "button2";
+            this.button2.Text = "+T";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(13, 259);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(21, 65);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // BtnMessageS
             // 
@@ -353,7 +367,7 @@ partial class FormMain
             this.BtnProjectS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnProjectS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
             this.BtnProjectS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnProjectS.Image = ((System.Drawing.Image)(resources.GetObject("BtnProjectS.Image")));
+            this.BtnProjectS.Image = global::MYTask.Properties.Resources.Project_32;
             this.BtnProjectS.Location = new System.Drawing.Point(0, 96);
             this.BtnProjectS.Margin = new System.Windows.Forms.Padding(0);
             this.BtnProjectS.Name = "BtnProjectS";
@@ -379,43 +393,10 @@ partial class FormMain
             this.BtnTaskS.UseVisualStyleBackColor = true;
             this.BtnTaskS.Click += new System.EventHandler(this.BtnTask_Click);
             // 
-            // PanelProfile
+            // TimerSidebar
             // 
-            this.PanelProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelProfile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.PanelProfile.Controls.Add(this.label1);
-            this.PanelProfile.Controls.Add(this.pictureBox1);
-            this.PanelProfile.Location = new System.Drawing.Point(80, 32);
-            this.PanelProfile.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelProfile.Name = "PanelProfile";
-            this.PanelProfile.Size = new System.Drawing.Size(652, 500);
-            this.PanelProfile.TabIndex = 7;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(18, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 33);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "个人信息";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::MYTask.Properties.Resources.Profile_120;
-            this.pictureBox1.Location = new System.Drawing.Point(18, 72);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(120, 120);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // TimerCom
-            // 
-            this.TimerCom.Interval = 15;
-            this.TimerCom.Tick += new System.EventHandler(this.TimerCom_Tick);
+            this.TimerSidebar.Interval = 15;
+            this.TimerSidebar.Tick += new System.EventHandler(this.TimerSidebar_Tick);
             // 
             // TabsTask
             // 
@@ -435,7 +416,7 @@ partial class FormMain
             // 
             // TaskMy
             // 
-            this.TaskMy.Controls.Add(this.TaskPanelFlow);
+            this.TaskMy.Controls.Add(this.TaskListMy);
             this.TaskMy.Location = new System.Drawing.Point(4, 30);
             this.TaskMy.Name = "TaskMy";
             this.TaskMy.Padding = new System.Windows.Forms.Padding(3);
@@ -444,19 +425,20 @@ partial class FormMain
             this.TaskMy.Text = "负责的任务";
             this.TaskMy.UseVisualStyleBackColor = true;
             // 
-            // TaskPanelFlow
+            // TaskListMy
             // 
-            this.TaskPanelFlow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TaskListMy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskPanelFlow.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TaskPanelFlow.Location = new System.Drawing.Point(0, 0);
-            this.TaskPanelFlow.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.TaskPanelFlow.Name = "TaskPanelFlow";
-            this.TaskPanelFlow.Size = new System.Drawing.Size(621, 0);
-            this.TaskPanelFlow.TabIndex = 0;
+            this.TaskListMy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListMy.Location = new System.Drawing.Point(0, 0);
+            this.TaskListMy.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListMy.Name = "TaskListMy";
+            this.TaskListMy.Size = new System.Drawing.Size(621, 0);
+            this.TaskListMy.TabIndex = 0;
             // 
             // TaskPub
             // 
+            this.TaskPub.Controls.Add(this.TaskListPub);
             this.TaskPub.Location = new System.Drawing.Point(4, 30);
             this.TaskPub.Name = "TaskPub";
             this.TaskPub.Padding = new System.Windows.Forms.Padding(3);
@@ -465,14 +447,37 @@ partial class FormMain
             this.TaskPub.Text = "发布的任务";
             this.TaskPub.UseVisualStyleBackColor = true;
             // 
+            // TaskListPub
+            // 
+            this.TaskListPub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskListPub.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListPub.Location = new System.Drawing.Point(0, 0);
+            this.TaskListPub.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListPub.Name = "TaskListPub";
+            this.TaskListPub.Size = new System.Drawing.Size(621, 0);
+            this.TaskListPub.TabIndex = 0;
+            // 
             // TaskAll
             // 
+            this.TaskAll.Controls.Add(this.TaskListAll);
             this.TaskAll.Location = new System.Drawing.Point(4, 30);
             this.TaskAll.Name = "TaskAll";
             this.TaskAll.Size = new System.Drawing.Size(644, 466);
             this.TaskAll.TabIndex = 2;
             this.TaskAll.Text = "所有任务";
             this.TaskAll.UseVisualStyleBackColor = true;
+            // 
+            // TaskListAll
+            // 
+            this.TaskListAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListAll.Location = new System.Drawing.Point(0, 0);
+            this.TaskListAll.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListAll.Name = "TaskListAll";
+            this.TaskListAll.Size = new System.Drawing.Size(621, 0);
+            this.TaskListAll.TabIndex = 0;
             // 
             // TaskNew
             // 
@@ -482,14 +487,6 @@ partial class FormMain
             this.TaskNew.TabIndex = 3;
             this.TaskNew.Text = "新建任务";
             this.TaskNew.UseVisualStyleBackColor = true;
-            // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar1.Location = new System.Drawing.Point(624, 3);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 460);
-            this.vScrollBar1.TabIndex = 2;
             // 
             // panel1
             // 
@@ -782,6 +779,101 @@ partial class FormMain
             this.PanelMessages.Size = new System.Drawing.Size(652, 500);
             this.PanelMessages.TabIndex = 10;
             // 
+            // TimerLogin
+            // 
+            this.TimerLogin.Interval = 15;
+            this.TimerLogin.Tick += new System.EventHandler(this.TimerLogin_Tick);
+            // 
+            // PanelProfile
+            // 
+            this.PanelProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelProfile.BackColor = System.Drawing.Color.Gainsboro;
+            this.PanelProfile.Controls.Add(this.ProfileEmail);
+            this.PanelProfile.Controls.Add(this.ProfileEmailLabel);
+            this.PanelProfile.Controls.Add(this.ProfileTel);
+            this.PanelProfile.Controls.Add(this.ProfileTELLabel);
+            this.PanelProfile.Controls.Add(this.ProfileUserName);
+            this.PanelProfile.Controls.Add(this.pictureBox1);
+            this.PanelProfile.Location = new System.Drawing.Point(48, 500);
+            this.PanelProfile.Margin = new System.Windows.Forms.Padding(0);
+            this.PanelProfile.Name = "PanelProfile";
+            this.PanelProfile.Size = new System.Drawing.Size(652, 500);
+            this.PanelProfile.TabIndex = 7;
+            // 
+            // ProfileEmail
+            // 
+            this.ProfileEmail.BackColor = System.Drawing.Color.Gainsboro;
+            this.ProfileEmail.BorderColor = System.Drawing.Color.Gainsboro;
+            this.ProfileEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ProfileEmail.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProfileEmail.HotTrack = false;
+            this.ProfileEmail.Location = new System.Drawing.Point(222, 55);
+            this.ProfileEmail.Margin = new System.Windows.Forms.Padding(0);
+            this.ProfileEmail.Name = "ProfileEmail";
+            this.ProfileEmail.ReadOnly = true;
+            this.ProfileEmail.Size = new System.Drawing.Size(421, 36);
+            this.ProfileEmail.TabIndex = 3;
+            this.ProfileEmail.Text = "a@a.com";
+            // 
+            // ProfileEmailLabel
+            // 
+            this.ProfileEmailLabel.AutoSize = true;
+            this.ProfileEmailLabel.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProfileEmailLabel.Location = new System.Drawing.Point(149, 57);
+            this.ProfileEmailLabel.Name = "ProfileEmailLabel";
+            this.ProfileEmailLabel.Size = new System.Drawing.Size(75, 30);
+            this.ProfileEmailLabel.TabIndex = 7;
+            this.ProfileEmailLabel.Text = "Email:";
+            // 
+            // ProfileTel
+            // 
+            this.ProfileTel.BackColor = System.Drawing.Color.Gainsboro;
+            this.ProfileTel.BorderColor = System.Drawing.Color.Gainsboro;
+            this.ProfileTel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ProfileTel.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProfileTel.HotTrack = false;
+            this.ProfileTel.Location = new System.Drawing.Point(222, 93);
+            this.ProfileTel.Name = "ProfileTel";
+            this.ProfileTel.ReadOnly = true;
+            this.ProfileTel.Size = new System.Drawing.Size(143, 36);
+            this.ProfileTel.TabIndex = 4;
+            this.ProfileTel.Text = "00000000000";
+            // 
+            // ProfileTELLabel
+            // 
+            this.ProfileTELLabel.AutoSize = true;
+            this.ProfileTELLabel.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProfileTELLabel.Location = new System.Drawing.Point(170, 93);
+            this.ProfileTELLabel.Name = "ProfileTELLabel";
+            this.ProfileTELLabel.Size = new System.Drawing.Size(54, 30);
+            this.ProfileTELLabel.TabIndex = 8;
+            this.ProfileTELLabel.Text = "TEL:";
+            // 
+            // ProfileUserName
+            // 
+            this.ProfileUserName.BackColor = System.Drawing.Color.Gainsboro;
+            this.ProfileUserName.BorderColor = System.Drawing.Color.Gainsboro;
+            this.ProfileUserName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ProfileUserName.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProfileUserName.HotTrack = false;
+            this.ProfileUserName.Location = new System.Drawing.Point(154, 16);
+            this.ProfileUserName.Name = "ProfileUserName";
+            this.ProfileUserName.ReadOnly = true;
+            this.ProfileUserName.Size = new System.Drawing.Size(232, 36);
+            this.ProfileUserName.TabIndex = 1;
+            this.ProfileUserName.Text = "名称";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MYTask.Properties.Resources.Profile_120;
+            this.pictureBox1.Location = new System.Drawing.Point(16, 16);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(120, 120);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -791,9 +883,9 @@ partial class FormMain
             this.Controls.Add(this.PanelLogin);
             this.Controls.Add(this.PanelGuide);
             this.Controls.Add(this.PanelGuideS);
+            this.Controls.Add(this.PanelProfile);
             this.Controls.Add(this.TabsTask);
             this.Controls.Add(this.TabsProject);
-            this.Controls.Add(this.PanelProfile);
             this.Controls.Add(this.PanelContacts);
             this.Controls.Add(this.PanelMessages);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -809,83 +901,92 @@ partial class FormMain
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).EndInit();
             this.PanelGuideS.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusS)).EndInit();
-            this.PanelProfile.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.TabsTask.ResumeLayout(false);
             this.TaskMy.ResumeLayout(false);
+            this.TaskPub.ResumeLayout(false);
+            this.TaskAll.ResumeLayout(false);
             this.PanelLogin.ResumeLayout(false);
             this.PanelLogin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).EndInit();
             this.TabsProject.ResumeLayout(false);
+            this.PanelProfile.ResumeLayout(false);
+            this.PanelProfile.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
-	}
+        }
 
         #endregion
 
-        private System.Windows.Forms.Panel PanelLogin;
-        private System.Windows.Forms.Button BtnLogin;
-        private System.Windows.Forms.Button BtnFindPsw;
+        private Panel PanelLogin;
+        private Button BtnLogin;
+        private Button BtnFindPsw;
 
-        private System.Windows.Forms.Panel PanelGuide;
-        private System.Windows.Forms.LinkLabel BtnProfile;
-        private System.Windows.Forms.Button BtnCallback;
-        private System.Windows.Forms.Button BtnTask;
-        private System.Windows.Forms.Button BtnProject;
-        private System.Windows.Forms.Button BtnContact;
-        private System.Windows.Forms.Button BtnMessage;
-        private System.Windows.Forms.PictureBox CloudStatus;
-        private System.Windows.Forms.Label LabelStatus;
-        private System.Windows.Forms.ProgressBar SnycProgress;
+        private Panel PanelGuide;
+        private LinkLabel BtnProfile;
+        private Button BtnCallback;
+        private Button BtnTask;
+        private Button BtnProject;
+        private Button BtnContact;
+        private Button BtnMessage;
+        private PictureBox CloudStatus;
+        private Label LabelStatus;
+        private ProgressBar SnycProgress;
 
-        private System.Windows.Forms.Panel PanelGuideS;
-        private System.Windows.Forms.Button BtnCall;
-        private System.Windows.Forms.Button BtnTaskS;
-        private System.Windows.Forms.Button BtnProjectS;
-        private System.Windows.Forms.Button BtnContactS;
-        private System.Windows.Forms.Button BtnMessageS;
-        private System.Windows.Forms.PictureBox CloudStatusS;
-        private System.Windows.Forms.Button button1;
+        private Panel PanelGuideS;
+        private Button BtnCall;
+        private Button BtnTaskS;
+        private Button BtnProjectS;
+        private Button BtnContactS;
+        private Button BtnMessageS;
+        private PictureBox CloudStatusS;
 
-        private System.Windows.Forms.TabControl TabsTask;
-        private System.Windows.Forms.TabPage TaskMy;
-        private System.Windows.Forms.TabPage TaskPub;
-        private System.Windows.Forms.TabPage TaskAll;
-        private System.Windows.Forms.TabPage TaskNew;
+        private TabControl TabsTask;
+        private TabPage TaskMy;
+        private TabPage TaskPub;
+        private TabPage TaskAll;
+        private TabPage TaskNew;
 
-        private System.Windows.Forms.TabControl TabsProject;
-        private System.Windows.Forms.TabPage ProjMy;
-        private System.Windows.Forms.TabPage ProjPub;
-        private System.Windows.Forms.TabPage ProjAll;
-        private System.Windows.Forms.TabPage ProjNew;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
+        private TabControl TabsProject;
+        private TabPage ProjMy;
+        private TabPage ProjPub;
+        private TabPage ProjAll;
+        private TabPage ProjNew;
+        private PictureBox pictureBox1;
 
-        private System.Windows.Forms.Panel PanelContacts;
+        private Panel PanelContacts;
 
-        private System.Windows.Forms.Panel PanelMessages;
+        private Panel PanelMessages;
 
-        private System.Windows.Forms.Timer TimerCom;
-        private System.Windows.Forms.ProgressBar BarConnecting;
-        private System.Windows.Forms.PictureBox CloudStatusLogin;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
-        private System.Windows.Forms.Label LabelPI;
-        private System.Windows.Forms.Label LabelPT;
-        private System.Windows.Forms.LinkLabel LabelTaskName;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label LabelStat;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.LinkLabel LabelUserName;
-        private System.Windows.Forms.Label LabelUpdateTime;
-        private System.Windows.Forms.Label LabelEndTime;
-        private TaskPanelContainer TaskPanelFlow;
-        private System.Windows.Forms.Label label2;
+        private Timer TimerSidebar;
+        private ProgressBar BarConnecting;
+        private PictureBox CloudStatusLogin;
+        private Panel panel1;
+        private Label LabelPI;
+        private Label LabelPT;
+        private LinkLabel LabelTaskName;
+        private Label label5;
+        private Label LabelStat;
+        private Label label7;
+        private LinkLabel LabelUserName;
+        private Label LabelUpdateTime;
+        private Label LabelEndTime;
+        private TaskPanelContainer TaskListMy;
+        private Label label2;
         private LoginTextbox TextLogin_Psw;
         private LoginTextbox TextLogin_UID;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.LinkLabel LabelFromUserName;
-        private System.Windows.Forms.Button button2;
+        private LinkLabel linkLabel1;
+        private LinkLabel LabelFromUserName;
+        private Button button2;
         private ProfilePanel PanelProfile;
+        private TaskPanelContainer TaskListPub;
+        private TaskPanelContainer TaskListAll;
+        private ActiveTextbox ProfileUserName;
+        private ActiveTextbox ProfileEmail;
+        private ActiveTextbox ProfileTel;
+        private Button BtnLogout;
+        private Timer TimerLogin;
+        private Label ProfileEmailLabel;
+        private Label ProfileTELLabel;
     }
 }

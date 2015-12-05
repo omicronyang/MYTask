@@ -7,7 +7,7 @@ using System.Data.SQLite;
 
 namespace MYTask
 {
-    class MyUser
+    public class MyUser
     {
         public int UID;
         public string Name;

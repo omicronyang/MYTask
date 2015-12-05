@@ -118,29 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Back_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Back_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Cloud_Connecting_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cloud_Connecting_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cloud_Offline_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Cloud_Offline_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cloud_Online_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Cloud_Online_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cloud_Sync_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Cloud_Sync_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Contacts_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Contacts_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FindPsw_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FindPsw_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="List_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\List_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Login_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Login_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,19 +127,43 @@
   <data name="Message_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Message_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Message_New_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Message_New_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Profile_120" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Profile_120.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ProjectIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProjectIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Project_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Project_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProjectIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProjectIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Cloud_Offline_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cloud_Offline_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="List_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\List_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Message_New_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Message_New_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Contacts_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Contacts_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cloud_Sync_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cloud_Sync_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Profile_120" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Profile_120.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Back_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Back_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FindPsw_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FindPsw_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cloud_Online_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cloud_Online_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Task_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Task_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Logout_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Logout_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

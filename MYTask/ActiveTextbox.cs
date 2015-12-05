@@ -1,15 +1,18 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 
 namespace MYTask
 {
-    class BorderLabel : Label
+    class ActiveTextbox:TextBox
     {
+        public bool Active;
+
         /// <summary> 
         /// 获得当前进程，以便重绘控件 
         /// </summary> 
@@ -103,10 +106,15 @@ namespace MYTask
         /// <summary> 
         /// 
         /// </summary> 
-        public BorderLabel() : base()
+        public ActiveTextbox() : base()
         {
+            Active = false;
+            ReadOnly = true;
+            BorderStyle = BorderStyle.FixedSingle;
+            BorderColor = Color.Gainsboro;
+            BackColor = Color.Gainsboro;
         }
-        
+
         /// <summary> 
         /// 鼠标移动到该控件上时 
         /// </summary> 
@@ -156,7 +164,7 @@ namespace MYTask
             }
             base.OnGotFocus(e);
         }
-        
+
         /// <summary> 
         /// 当该控件失去焦点时 
         /// </summary> 
@@ -170,7 +178,7 @@ namespace MYTask
             }
             base.OnLostFocus(e);
         }
-        
+
 
         /// <summary> 
         /// 获得操作系统消息 
@@ -237,6 +245,29 @@ namespace MYTask
                 ReleaseDC(m.HWnd, hDC);
             }
         }
+
+
+        protected override void OnDoubleClick(EventArgs e)
+        {
+            base.OnDoubleClick(e);
+
+            if (Active)
+            {
+                Active = false;
+                ReadOnly = true;
+                BorderColor = Color.Gainsboro;
+                BackColor = Color.Gainsboro;
+            }
+            else
+            {
+                Active = true;
+                ReadOnly = false;
+                BorderColor = Color.Black;
+                BackColor = Color.White;
+            }
+            
+        }
+
 
     }
 }

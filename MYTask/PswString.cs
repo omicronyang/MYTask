@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Security.Cryptography;
-using System.Collections.Generic;
-using System.IO;
 
 namespace MYTask
 {

@@ -11,14 +11,17 @@ namespace MYTask
 public partial class FormMain : Form
     {
 
-        private int TimerComStat;
+        private VScrollBar[] ScrollTask = new VScrollBar[3];
+
+        private int TimerSideStat;
+        private int TimerLogStat;
         private int dHeight;
         private int dWidth;
         private int LoginStat = 1;  // 0 正常登陆, 1 跳过验证
         private int DBaseStat = -1; // 0 离线数据, 1 在线数据
         private MyUser NowUser = new MyUser();
         private BackgroundWorker m_worker = new BackgroundWorker();
-        MyDB DataBase = new MyDB();
+        public MyDB DataBase = new MyDB();
         
 
         public FormMain()
@@ -27,10 +30,16 @@ public partial class FormMain : Form
             PanelGuide.Location = new Point(-175, 0);
             PanelGuideS.Location = new Point(0, 0);
             PanelLogin.Location = new Point(0, 0);
+            PanelProfile.Location = new Point(48, 0);
+            TabsTask.Location = new Point(48, 0);
+            TabsProject.Location = new Point(48, 0);
+            PanelContacts.Location = new Point(48, 0);
+            PanelMessages.Location = new Point(48, 0);
 
             dHeight = Height - PanelGuideS.Height;
             dWidth = Width - PanelProfile.Width - 48;
-            /* 跳过登陆面板
+             
+            //跳过登陆面板
             TextLogin_UID.RenewState(3);
             TextLogin_UID.Enter += new EventHandler(LoginBoxGetFocus);
             TextLogin_UID.Leave += new EventHandler(LoginBoxLostFocus);
@@ -39,9 +48,28 @@ public partial class FormMain : Form
             TextLogin_Psw.Enter += new EventHandler(LoginBoxGetFocus);
             TextLogin_Psw.Leave += new EventHandler(LoginBoxLostFocus);
 
+            for (int i = 0; i < 3; ++i)
+            {
+                ScrollTask[i] = new VScrollBar();
+                ScrollTask[i].Location = new Point(625, 3);
+                ScrollTask[i].Size = new Size(14, 460);
+                ScrollTask[i].Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
+                ScrollTask[i].Maximum = 3;
+                ScrollTask[i].Scroll += new ScrollEventHandler(vScroll_Scroll);
+                //ScrollTask[i].Resize += new EventHandler(vScroll_Resize);
+                ScrollTask[i].Name = "ScrollTask" + i.ToString();
+
+                //ScrollTask[i].Visible = false;
+            }
+
+            TaskMy.Controls.Add(ScrollTask[0]);
+            TaskPub.Controls.Add(ScrollTask[1]);
+            TaskAll.Controls.Add(ScrollTask[2]);
+
+
             m_worker.WorkerReportsProgress = true;
             m_worker.WorkerSupportsCancellation = true;
-            */
+            
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -58,6 +86,9 @@ public partial class FormMain : Form
             SnycProgress.MarqueeAnimationSpeed = 10;
             LabelStatus.Text = "正在连接";
 
+            ScrollTask[0].Resize += new EventHandler(vScroll_Resize);
+            ScrollTask[1].Resize += new EventHandler(vScroll_Resize);
+            ScrollTask[2].Resize += new EventHandler(vScroll_Resize);
 
             m_worker.DoWork += new DoWorkEventHandler(TestConnect);
             m_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenewDBStat);
@@ -141,48 +172,59 @@ public partial class FormMain : Form
 
         //<Panel Functions>
 
-        private void TimerCom_Tick(object sender, EventArgs e)
+        private void TimerSidebar_Tick(object sender, EventArgs e)
         {
-            switch (TimerComStat) {
-            case 0: {
-                //PanelGuide shows from left
-                int x = PanelGuide.Location.X;
-                PanelGuide.Location = new Point(x + 25, 0);
-                if (PanelGuide.Location.X == 0) TimerCom.Stop();
-                break;
-            }
-            case 1: {
-                //PanelGuide exit to left
-                int x = PanelGuide.Location.X;
-                PanelGuide.Location = new Point(x - 25, 0);
-                if (PanelGuide.Location.X == -175) TimerCom.Stop();
-                break;
-            }
-            case 2:
+            switch (TimerSideStat)
             {
-                //PanelLogin shows from bottom
-                int y = PanelLogin.Location.Y;
-                PanelLogin.Location = new Point(0, y - 25);
-                if (PanelLogin.Location.Y <= 0) {
-                    TimerCom.Stop();
-                    PanelLogin.Location = new Point(0, 0);
-                }
-                break;
+                case 0:
+                    {
+                        //PanelGuide shows from left
+                        int x = PanelGuide.Location.X;
+                        PanelGuide.Location = new Point(x + 25, 0);
+                        if (PanelGuide.Location.X == 0) TimerSidebar.Stop();
+                        break;
+                    }
+                case 1:
+                    {
+                        //PanelGuide exit to left
+                        int x = PanelGuide.Location.X;
+                        PanelGuide.Location = new Point(x - 25, 0);
+                        if (PanelGuide.Location.X == -175) TimerSidebar.Stop();
+                        break;
+                    }
             }
-            case 3:
+        }
+
+        private void TimerLogin_Tick(object sender, EventArgs e)
+        {
+            switch (TimerLogStat)
             {
-                //PanelLogin exit to bottom
-                int y = PanelLogin.Location.Y;
-                PanelLogin.Location = new Point(0, y + 25);
-                if (PanelLogin.Location.Y >= 500)
-                {
-                    TimerCom.Stop();
-                    PanelLogin.Location = new Point(0, 500);
-                    PanelLogin.Visible = false;
-                    Form_Unlock();
-                }
-                break;
-            }
+                case 0:
+                    {
+                        //PanelLogin shows from bottom
+                        int y = PanelLogin.Location.Y;
+                        PanelLogin.Location = new Point(0, y - 25);
+                        if (PanelLogin.Location.Y <= 0)
+                        {
+                            TimerLogin.Stop();
+                            PanelLogin.Location = new Point(0, 0);
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        //PanelLogin exit to bottom
+                        int y = PanelLogin.Location.Y;
+                        PanelLogin.Location = new Point(0, y + 25);
+                        if (PanelLogin.Location.Y >= 500)
+                        {
+                            TimerLogin.Stop();
+                            PanelLogin.Location = new Point(0, 500);
+                            PanelLogin.Visible = false;
+                            Form_Unlock();
+                        }
+                        break;
+                    }
             }
         }
 
@@ -190,12 +232,26 @@ public partial class FormMain : Form
         {
             if (PanelGuide.Location.X == 0)
             {
-                TimerComStat = 1;
-                TimerCom.Start();
+                TimerSideStat = 1;
+                TimerSidebar.Start();
             }
         }
 
-        private void InitPanelProfile()
+        public void SetProfilePanel(int uid)
+        {
+            MyUser tu = new MyUser();
+            tu = DataBase.GetUser(uid);
+            GetProfileInfo(tu);
+        }
+
+        private void GetProfileInfo(MyUser user)
+        {
+            ProfileUserName.Text = user.Name;
+            ProfileEmail.Text = user.Email;
+            ProfileTel.Text = user.Telephone;
+        }
+
+        public void InitPanelProfile()
         {
             Panel me = PanelProfile;
 
@@ -204,8 +260,6 @@ public partial class FormMain : Form
             TabsProject.Visible = false;
             PanelContacts.Visible = false;
             PanelMessages.Visible = false;
-
-            me.Location = new Point(48, 0);
 
         }
 
@@ -219,9 +273,6 @@ public partial class FormMain : Form
             PanelProfile.Visible = false;
             PanelContacts.Visible = false;
             PanelMessages.Visible = false;
-
-            me.Location = new Point(48, 0);
-            met.Controls.Add(vScrollBar1);
         }
 
         private void InitTabsProject()
@@ -233,8 +284,6 @@ public partial class FormMain : Form
             PanelProfile.Visible = false;
             PanelContacts.Visible = false;
             PanelMessages.Visible = false;
-
-            me.Location = new Point(48, 0);
         }
 
         private void InitPanelContacts()
@@ -246,8 +295,6 @@ public partial class FormMain : Form
             TabsProject.Visible = false;
             PanelProfile.Visible = false;
             PanelMessages.Visible = false;
-
-            me.Location = new Point(48, 0);
         }
 
         private void InitPanelMessages()
@@ -259,8 +306,6 @@ public partial class FormMain : Form
             TabsProject.Visible = false;
             PanelContacts.Visible = false;
             PanelProfile.Visible = false;
-
-            me.Location = new Point(48, 0);
         }
 
         private void SelectPanel(int index)
@@ -277,9 +322,9 @@ public partial class FormMain : Form
 
         private void BtnCall_Click(object sender, EventArgs e)
         {
-            if (PanelGuide.Location.X < 0) TimerComStat = 0;
-            else TimerComStat = 1;
-            TimerCom.Start();
+            if (PanelGuide.Location.X < 0) TimerSideStat = 0;
+            else TimerSideStat = 1;
+            TimerSidebar.Start();
         }
 
     //<LoginBox Operations>
@@ -297,9 +342,9 @@ public partial class FormMain : Form
         private void LoginBoxGetFocus(object sender, EventArgs e)
         {
             LoginTextbox tbx = (LoginTextbox)sender;
-            if (tbx.State == 1) return; 
-            tbx.RenewState(1);
+            if (tbx.State == 1) return;
             tbx.Text = "";
+            tbx.RenewState(1);
         }
 
         private void LoginBoxLostFocus(object sender, EventArgs e)
@@ -322,6 +367,7 @@ public partial class FormMain : Form
         private void BtnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             FoldSideBar();
+            GetProfileInfo(NowUser);
             SelectPanel(0);
         }
 
@@ -392,13 +438,18 @@ public partial class FormMain : Form
 
         Success:  //成功登陆
             InitTabsTask();
-            TextLogin_UID.Text = "admin";
+            if (LoginStat == 1 && TextLogin_UID.State == 0) TextLogin_UID.Text = "zxt_lyd";
             NowUser = DataBase.GetUser(TextLogin_UID.Text);
             //MessageBox.Show(NowUser.Name);
             BtnProfile.Text = NowUser.Name.Replace(' ', '\n');
+            
+
+            AddTaskList(DataBase.GetTaskList(NowUser.UID, 0), 0);
+            AddTaskList(DataBase.GetTaskList(NowUser.UID, 1), 1);
+            AddTaskList(DataBase.GetTaskList(NowUser.UID, 2), 2);
             //MessageBox.Show(NowUser.Name);
-            TimerComStat = 3;
-            TimerCom.Start();
+            TimerLogStat = 1;
+            TimerLogin.Start();
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -416,16 +467,19 @@ public partial class FormMain : Form
             PanelLogin.Location = new Point(0, 500);
             PanelLogin.Visible = true;
             InitLoginBox("");
-            TimerComStat = 2;
-            TimerCom.Start();
+            TaskListMy.ClearTask();
+            TaskListPub.ClearTask();
+            TimerLogStat = 0;
+            TimerLogin.Start();
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnLogout_Click(object sender, EventArgs e)
         {
+            FoldSideBar();
             Logout();
         }
-        
+
         private void BtnFindPsw_Click(object sender, EventArgs e)
         {
 
@@ -438,9 +492,64 @@ public partial class FormMain : Form
         
         private void AddTaskPanel()
         {
-            Task t1 = new Task();
+            MyTask t1 = new MyTask();
             t1.InitTestInf();
-            TaskPanelFlow.AddTask(t1);
+            TaskListMy.AddTask(t1);
         }
+
+        private void AddTaskList(int[] TidList,int Mode)
+        {
+            TaskPanelContainer Target;
+
+            if (Mode == 0) Target = TaskListMy;
+            else if (Mode == 1) Target = TaskListPub;
+            else Target = TaskListAll;
+
+            MyTask Tt = new MyTask();
+            for (int i = 0; i < TidList.Length; ++i)
+            {
+                Tt = DataBase.GetTask(TidList[i]);
+                Target.AddTask(Tt);
+                ScrollTask[Mode].Maximum = Target.Height > TaskPub.Height ? Target.Height+10 - TaskPub.Height : 0;
+                if (Target.Height > TaskPub.Height) ScrollTask[Mode].Visible = true;
+            }
+        }
+
+        private void vScroll_Scroll(object sender, ScrollEventArgs e)
+        {
+            VScrollBar Bar = (VScrollBar)sender;
+            TaskPanelContainer Target;
+            if (Bar.Name == "ScrollTask0") Target = TaskListMy;
+            else if (Bar.Name == "ScrollTask1") Target = TaskListPub;
+            else Target = TaskListAll;
+
+            Target.Location = new Point(Target.Location.X, 0 - Bar.Value);
+        }
+
+        private void vScroll_Resize(object sender, EventArgs e)
+        {
+            VScrollBar Bar = (VScrollBar)sender;
+            TaskPanelContainer Target;
+            TabPage Container;
+            if (Bar.Name == "ScrollTask0")
+            {
+                Target = TaskListMy;
+                Container = TaskMy;
+            }
+            else if (Bar.Name == "ScrollTask1")
+            {
+                Target = TaskListPub;
+                Container = TaskPub; 
+            }
+            else
+            {
+                Target = TaskListAll;
+                Container = TaskAll;
+            }
+
+            Bar.Maximum = Target.Height > Container.Height ? Target.Height + 10 - Container.Height : 0;
+
+        }
+
     }
 }

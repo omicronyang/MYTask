@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
@@ -8,14 +8,16 @@ using System.Windows.Forms;
 
 namespace MYTask
 {
-    class MyDB
+    public class MyDB
     {
 
         private MySqlConnection OnlineDBase;
         private SQLiteConnection LocalDBase;
         private string OnlineConnectCommand;
         private string OfflineConnectCommand;
-        public int Online; //0 for offline, 1 for online
+        private int OfflineOnly = 1; //0 尝试在线连接; 1 关闭在线尝试
+        public int Online;           //0 表示离线;     1 表示在线
+
 
         public MyDB()
         {
@@ -32,7 +34,7 @@ namespace MYTask
 
         public bool Connect()
         {
-            if (OnlineDBase != null) OnlineDBase.Close();
+            if (OfflineOnly == 1) return ConnectOffline();
             try
             {
                 OnlineDBase = new MySqlConnection(OnlineConnectCommand);
@@ -42,17 +44,22 @@ namespace MYTask
             }
             catch
             {
-                try
-                {
-                    LocalDBase = new SQLiteConnection(OfflineConnectCommand);
-                    LocalDBase.Open();
-                    Online = 0;
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                return ConnectOffline();
+            }
+        }
+
+        private bool ConnectOffline()
+        {
+            try
+            {
+                LocalDBase = new SQLiteConnection(OfflineConnectCommand);
+                LocalDBase.Open();
+                Online = 0;
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -180,6 +187,99 @@ namespace MYTask
                     Result.Email = reader["tk_user_email"].ToString();
                 }
                 reader.Close();
+            }
+            return Result;
+        }
+
+        public MyTask GetTask(int Tid)
+        {
+            MyTask Result = new MyTask();
+            string sql = string.Format("select * from tk_task where TID like {0}",
+                Tid.ToString());
+            if (Online == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Result.TID = Tid;
+                    Result.TaskName = reader["csa_text"].ToString();
+                    Result.TaskPriority = Convert.ToInt32(reader["csa_priority"]);
+                    Result.TaskImportance = Convert.ToInt32(reader["csa_temp"]);
+                    Result.TaskEndTime = Convert.ToDateTime(reader["csa_plan_et"]);
+                    Result.TaskUpdateTime = Convert.ToDateTime(reader["csa_last_update"]);
+                    Result.TaskU = GetUser(Convert.ToInt32(reader["csa_to_user"]));
+                    Result.TaskFU = GetUser(Convert.ToInt32(reader["csa_from_user"]));
+                    Result.TaskType = Convert.ToInt32(reader["csa_type"]);
+                    Result.TaskStat = Convert.ToInt32(reader["csa_remark2"]);
+                    Result.TaskPlanTime = Convert.ToDouble(reader["csa_plan_hour"]);
+                    Result.TaskProject = "测试项目";
+                    Result.TaskUsedTime = 0.5;
+                }
+                reader.Close();
+            }
+            else
+            {
+                MySqlCommand command = new MySqlCommand(sql, OnlineDBase);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Result.TID = Tid;
+                    Result.TaskName = reader["csa_text"].ToString();
+                    Result.TaskPriority = Convert.ToInt32(reader["csa_priority"]);
+                    Result.TaskImportance = Convert.ToInt32(reader["csa_temp"]);
+                    Result.TaskEndTime = Convert.ToDateTime(reader["csa_plan_et"]);
+                    Result.TaskUpdateTime = Convert.ToDateTime(reader["csa_last_update"]);
+                    Result.TaskU = GetUser(Convert.ToInt32(reader["csa_to_user"]));
+                    Result.TaskFU = GetUser(Convert.ToInt32(reader["csa_from_user"]));
+                    Result.TaskType = Convert.ToInt32(reader["csa_type"]);
+                    Result.TaskStat = Convert.ToInt32(reader["csa_remark2"]);
+                    Result.TaskPlanTime = Convert.ToDouble(reader["csa_plan_hour"]);
+                    Result.TaskProject = "测试项目";
+                    Result.TaskUsedTime = 0.5;
+                }
+                reader.Close();
+            }
+            return Result;
+        }
+
+        public int[] GetTaskList(int Uid,int Mode)
+        {
+            ArrayList res = new ArrayList();
+            string sql;
+            if (Mode == 0)
+                sql = string.Format("select * from tk_task where csa_to_user like {0}", Uid.ToString());
+            else if (Mode == 1)
+                sql = string.Format("select * from tk_task where csa_from_user like {0}", Uid.ToString());
+            else
+                sql = "select * from tk_task";
+
+            if (Online == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    res.Add(Convert.ToInt32(reader["TID"]));
+                }
+                reader.Close();
+            }
+            else
+            {
+                MySqlCommand command = new MySqlCommand(sql, OnlineDBase);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    res.Add(Convert.ToInt32(reader["TID"]));
+                }
+                reader.Close();
+            }
+
+            res.TrimToSize();
+            int[] Result = new int[res.Count];
+            for (int i = 0; i < res.Count; ++i)
+            {
+                Result[i] = Convert.ToInt32(res[i]);
             }
             return Result;
         }

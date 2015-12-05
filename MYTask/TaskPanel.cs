@@ -9,7 +9,7 @@ namespace MYTask
 {
 class TaskPanel: Panel
     {
-	    Task MyTaskInf = new Task();
+	    MyTask MyTaskInf = new MyTask();
         Label LabelPP = new Label();
         Label LabelPI = new Label();
         LinkLabel LabelTaskName = new LinkLabel();
@@ -18,16 +18,15 @@ class TaskPanel: Panel
         Label LabelStat = new Label();
         Label Label2 = new Label();
         Label Label3 = new Label();
-        LinkLabel LabelUserName = new LinkLabel();
-        LinkLabel LabelFromUserName = new LinkLabel();
+        LinkUserLabel LabelUserName = new LinkUserLabel();
+        LinkUserLabel LabelFromUserName = new LinkUserLabel();
         Label LabelEndTime = new Label();
         Label LabelUpdateTime = new Label();
         Label LabelUsedTime = new Label();
         BorderLabel LabelPlanTime = new BorderLabel();
-       
 
 
-        public TaskPanel(int y, int width, Task Taskinf)
+        public TaskPanel(int y, int width, MyTask Taskinf)
 	    {
 		    Size = new Size(width, 108);
 		    Location = new Point(3, y);
@@ -86,19 +85,11 @@ class TaskPanel: Panel
             Label3.Text = "来自于：";
 
 		    LabelUserName.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
-		    LabelUserName.LinkBehavior = LinkBehavior.HoverUnderline;
-		    LabelUserName.LinkColor = Color.Black;
-		    LabelUserName.VisitedLinkColor = Color.Black;
-		    LabelUserName.ActiveLinkColor = Color.RoyalBlue;
 		    LabelUserName.Location = new Point(183, 30);
 		    LabelUserName.Size = new Size(175, 21);
 		    LabelUserName.TabStop = true;
 
             LabelFromUserName.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
-            LabelFromUserName.LinkBehavior = LinkBehavior.HoverUnderline;
-            LabelFromUserName.LinkColor = Color.Black;
-            LabelFromUserName.VisitedLinkColor = Color.Black;
-            LabelFromUserName.ActiveLinkColor = Color.RoyalBlue;
             LabelFromUserName.Location = new Point(183, 57);
             LabelFromUserName.Size = new Size(175, 21);
             LabelFromUserName.TabStop = true;
@@ -145,7 +136,7 @@ class TaskPanel: Panel
             UpdateTask(Taskinf);
         }
 
-	    public void UpdateTask(Task Source)
+	    public void UpdateTask(MyTask Source)
 	    {
 	    	MyTaskInf = Source;
 
@@ -156,8 +147,8 @@ class TaskPanel: Panel
 
             LabelTaskName.Text += MyTaskInf.TaskName;
             LabelProjName.Text = MyTaskInf.TaskProject;
-            LabelUserName.Text = MyTaskInf.TaskU;
-            LabelFromUserName.Text = MyTaskInf.TaskFU;
+            LabelUserName.Init(MyTaskInf.TaskU);
+            LabelFromUserName.Init(MyTaskInf.TaskFU); 
 
             LabelEndTime_Update(MyTaskInf.TaskEndTime);
             LabelUpdateTime_Update(MyTaskInf.TaskUpdateTime);
@@ -237,8 +228,16 @@ class TaskPanel: Panel
         {
             Label me = LabelEndTime;
             me.Text = "预期完成日期：" + time.ToString("yyyy/MM/dd");
-            if (time < DateTime.Now && MyTaskInf.TaskStat != 25) me.BackColor = Color.Red;
-            else me.BackColor = Color.Gainsboro;
+            if (time < DateTime.Now)
+            {
+                if (MyTaskInf.TaskStat == 2) me.BackColor = Color.LightSkyBlue;
+                else if (MyTaskInf.TaskStat == 25) me.BackColor = Color.Gainsboro;
+                else
+                {
+                    me.BackColor = Color.Red;
+                    me.ForeColor = Color.White;
+                }
+            }
         }
 
         private void LabelUpdateTime_Update(DateTime time)
@@ -247,21 +246,31 @@ class TaskPanel: Panel
             me.Text = "最后更改：" + time.ToString("yyyy/MM/dd HH:mm:ss") ;
         }
 
+        private void LabelWorkTime_Update(double PlanTime, double UsedTime)
+        {
+            if (PlanTime > 0)
+            {
+                LabelUsedTime.Location = new Point(3, 84);
+                LabelUsedTime.Size = new Size(Convert.ToInt32(UsedTime / PlanTime * 355), 21);
+                LabelUsedTime.Text = UsedTime.ToString();
+                LabelPlanTime.Location = new Point(LabelUsedTime.Width + 3, 84);
+                LabelPlanTime.Size = new Size(355 - LabelUsedTime.Width, 21);
+                LabelPlanTime.Text = PlanTime.ToString();
+            }
+            else
+            {
+                LabelUsedTime.Size = new Size(0, 21);
+                LabelPlanTime.Location = new Point(3, 84);
+                LabelPlanTime.Size = new Size(355, 21);
+                LabelPlanTime.Text = "";
+            }
+        }
+
         private void LabelProjName_Clicked(object sender, EventArgs e)
         {
-            MessageBox.Show( LabelProjName.LinkBehavior.ToString());
           
         }
 
-        private void LabelWorkTime_Update(double PlanTime,double UsedTime)
-        {
-            LabelUsedTime.Location = new Point(3, 84);
-            LabelUsedTime.Size = new Size(Convert.ToInt32(UsedTime / PlanTime * 355), 21);
-            LabelUsedTime.Text = UsedTime.ToString();
-            LabelPlanTime.Location = new Point(LabelUsedTime.Width + 3, 84);
-            LabelPlanTime.Size = new Size(355 - LabelUsedTime.Width, 21);
-            LabelPlanTime.Text = PlanTime.ToString();
-        }
 
 }
 }
