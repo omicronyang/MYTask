@@ -250,22 +250,32 @@ namespace MYTask
         protected override void OnDoubleClick(EventArgs e)
         {
             base.OnDoubleClick(e);
-
             if (Active)
             {
-                Active = false;
-                ReadOnly = true;
-                BorderColor = Color.Gainsboro;
-                BackColor = Color.Gainsboro;
+                SetNonactive();
             }
             else
             {
-                Active = true;
-                ReadOnly = false;
-                BorderColor = Color.Black;
-                BackColor = Color.White;
+                SetActive();
             }
-            
+        }
+
+        public void SetActive()
+        {
+            Active = true;
+            ReadOnly = false;
+            Enabled = true;
+            BorderColor = Color.Black;
+            BackColor = Color.White;
+        }
+
+        public void SetNonactive()
+        {
+            Active = false;
+            ReadOnly = true;
+            Enabled = false;
+            BorderColor = Color.Gainsboro;
+            BackColor = Color.Gainsboro;
         }
 
 

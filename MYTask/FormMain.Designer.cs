@@ -42,7 +42,7 @@ namespace MYTask
             this.BtnProject = new System.Windows.Forms.Button();
             this.BtnTask = new System.Windows.Forms.Button();
             this.PanelGuideS = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.BtnMessageS = new System.Windows.Forms.Button();
             this.CloudStatusS = new System.Windows.Forms.PictureBox();
             this.BtnCall = new System.Windows.Forms.Button();
@@ -84,14 +84,10 @@ namespace MYTask
             this.ProjAll = new System.Windows.Forms.TabPage();
             this.ProjNew = new System.Windows.Forms.TabPage();
             this.PanelContacts = new System.Windows.Forms.Panel();
+            this.ContactList = new MYTask.UserList();
             this.PanelMessages = new System.Windows.Forms.Panel();
             this.TimerLogin = new System.Windows.Forms.Timer(this.components);
             this.PanelProfile = new MYTask.ProfilePanel();
-            this.ProfileEmail = new MYTask.ActiveTextbox();
-            this.ProfileEmailLabel = new System.Windows.Forms.Label();
-            this.ProfileTel = new MYTask.ActiveTextbox();
-            this.ProfileTELLabel = new System.Windows.Forms.Label();
-            this.ProfileUserName = new MYTask.ActiveTextbox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
@@ -104,6 +100,7 @@ namespace MYTask
             this.PanelLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).BeginInit();
             this.TabsProject.SuspendLayout();
+            this.PanelContacts.SuspendLayout();
             this.PanelProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -277,7 +274,7 @@ namespace MYTask
             // PanelGuideS
             // 
             this.PanelGuideS.BackColor = System.Drawing.Color.LightGray;
-            this.PanelGuideS.Controls.Add(this.button2);
+            this.PanelGuideS.Controls.Add(this.button1);
             this.PanelGuideS.Controls.Add(this.BtnMessageS);
             this.PanelGuideS.Controls.Add(this.CloudStatusS);
             this.PanelGuideS.Controls.Add(this.BtnCall);
@@ -291,15 +288,15 @@ namespace MYTask
             this.PanelGuideS.Size = new System.Drawing.Size(48, 500);
             this.PanelGuideS.TabIndex = 4;
             // 
-            // button2
+            // button1
             // 
-            this.button2.Location = new System.Drawing.Point(5, 330);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(40, 77);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "+T";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button1.Location = new System.Drawing.Point(6, 308);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(36, 42);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // BtnMessageS
             // 
@@ -407,7 +404,7 @@ namespace MYTask
             this.TabsTask.Controls.Add(this.TaskPub);
             this.TabsTask.Controls.Add(this.TaskAll);
             this.TabsTask.Controls.Add(this.TaskNew);
-            this.TabsTask.Location = new System.Drawing.Point(48, 0);
+            this.TabsTask.Location = new System.Drawing.Point(48, 500);
             this.TabsTask.Name = "TabsTask";
             this.TabsTask.SelectedIndex = 0;
             this.TabsTask.Size = new System.Drawing.Size(652, 500);
@@ -712,7 +709,7 @@ namespace MYTask
             this.TabsProject.Controls.Add(this.ProjPub);
             this.TabsProject.Controls.Add(this.ProjAll);
             this.TabsProject.Controls.Add(this.ProjNew);
-            this.TabsProject.Location = new System.Drawing.Point(96, 48);
+            this.TabsProject.Location = new System.Drawing.Point(48, 500);
             this.TabsProject.Name = "TabsProject";
             this.TabsProject.SelectedIndex = 0;
             this.TabsProject.Size = new System.Drawing.Size(652, 500);
@@ -763,10 +760,22 @@ namespace MYTask
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelContacts.BackColor = System.Drawing.Color.Green;
-            this.PanelContacts.Location = new System.Drawing.Point(64, 16);
+            this.PanelContacts.Controls.Add(this.ContactList);
+            this.PanelContacts.Location = new System.Drawing.Point(48, 0);
             this.PanelContacts.Name = "PanelContacts";
             this.PanelContacts.Size = new System.Drawing.Size(652, 500);
             this.PanelContacts.TabIndex = 9;
+            // 
+            // ContactList
+            // 
+            this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContactList.Location = new System.Drawing.Point(0, 0);
+            this.ContactList.Name = "ContactList";
+            this.ContactList.Size = new System.Drawing.Size(652, 500);
+            this.ContactList.TabIndex = 0;
+            this.ContactList.UseCompatibleStateImageBehavior = false;
+            this.ContactList.View = System.Windows.Forms.View.Details;
+            this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
             // 
             // PanelMessages
             // 
@@ -790,80 +799,12 @@ namespace MYTask
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelProfile.BackColor = System.Drawing.Color.Gainsboro;
-            this.PanelProfile.Controls.Add(this.ProfileEmail);
-            this.PanelProfile.Controls.Add(this.ProfileEmailLabel);
-            this.PanelProfile.Controls.Add(this.ProfileTel);
-            this.PanelProfile.Controls.Add(this.ProfileTELLabel);
-            this.PanelProfile.Controls.Add(this.ProfileUserName);
             this.PanelProfile.Controls.Add(this.pictureBox1);
             this.PanelProfile.Location = new System.Drawing.Point(48, 500);
             this.PanelProfile.Margin = new System.Windows.Forms.Padding(0);
             this.PanelProfile.Name = "PanelProfile";
             this.PanelProfile.Size = new System.Drawing.Size(652, 500);
             this.PanelProfile.TabIndex = 7;
-            // 
-            // ProfileEmail
-            // 
-            this.ProfileEmail.BackColor = System.Drawing.Color.Gainsboro;
-            this.ProfileEmail.BorderColor = System.Drawing.Color.Gainsboro;
-            this.ProfileEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ProfileEmail.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProfileEmail.HotTrack = false;
-            this.ProfileEmail.Location = new System.Drawing.Point(222, 55);
-            this.ProfileEmail.Margin = new System.Windows.Forms.Padding(0);
-            this.ProfileEmail.Name = "ProfileEmail";
-            this.ProfileEmail.ReadOnly = true;
-            this.ProfileEmail.Size = new System.Drawing.Size(421, 36);
-            this.ProfileEmail.TabIndex = 3;
-            this.ProfileEmail.Text = "a@a.com";
-            // 
-            // ProfileEmailLabel
-            // 
-            this.ProfileEmailLabel.AutoSize = true;
-            this.ProfileEmailLabel.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProfileEmailLabel.Location = new System.Drawing.Point(149, 57);
-            this.ProfileEmailLabel.Name = "ProfileEmailLabel";
-            this.ProfileEmailLabel.Size = new System.Drawing.Size(75, 30);
-            this.ProfileEmailLabel.TabIndex = 7;
-            this.ProfileEmailLabel.Text = "Email:";
-            // 
-            // ProfileTel
-            // 
-            this.ProfileTel.BackColor = System.Drawing.Color.Gainsboro;
-            this.ProfileTel.BorderColor = System.Drawing.Color.Gainsboro;
-            this.ProfileTel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ProfileTel.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProfileTel.HotTrack = false;
-            this.ProfileTel.Location = new System.Drawing.Point(222, 93);
-            this.ProfileTel.Name = "ProfileTel";
-            this.ProfileTel.ReadOnly = true;
-            this.ProfileTel.Size = new System.Drawing.Size(143, 36);
-            this.ProfileTel.TabIndex = 4;
-            this.ProfileTel.Text = "00000000000";
-            // 
-            // ProfileTELLabel
-            // 
-            this.ProfileTELLabel.AutoSize = true;
-            this.ProfileTELLabel.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProfileTELLabel.Location = new System.Drawing.Point(170, 93);
-            this.ProfileTELLabel.Name = "ProfileTELLabel";
-            this.ProfileTELLabel.Size = new System.Drawing.Size(54, 30);
-            this.ProfileTELLabel.TabIndex = 8;
-            this.ProfileTELLabel.Text = "TEL:";
-            // 
-            // ProfileUserName
-            // 
-            this.ProfileUserName.BackColor = System.Drawing.Color.Gainsboro;
-            this.ProfileUserName.BorderColor = System.Drawing.Color.Gainsboro;
-            this.ProfileUserName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ProfileUserName.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProfileUserName.HotTrack = false;
-            this.ProfileUserName.Location = new System.Drawing.Point(154, 16);
-            this.ProfileUserName.Name = "ProfileUserName";
-            this.ProfileUserName.ReadOnly = true;
-            this.ProfileUserName.Size = new System.Drawing.Size(232, 36);
-            this.ProfileUserName.TabIndex = 1;
-            this.ProfileUserName.Text = "名称";
             // 
             // pictureBox1
             // 
@@ -909,6 +850,7 @@ namespace MYTask
             this.PanelLogin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).EndInit();
             this.TabsProject.ResumeLayout(false);
+            this.PanelContacts.ResumeLayout(false);
             this.PanelProfile.ResumeLayout(false);
             this.PanelProfile.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -977,16 +919,12 @@ namespace MYTask
         private LoginTextbox TextLogin_UID;
         private LinkLabel linkLabel1;
         private LinkLabel LabelFromUserName;
-        private Button button2;
         private ProfilePanel PanelProfile;
         private TaskPanelContainer TaskListPub;
         private TaskPanelContainer TaskListAll;
-        private ActiveTextbox ProfileUserName;
-        private ActiveTextbox ProfileEmail;
-        private ActiveTextbox ProfileTel;
         private Button BtnLogout;
         private Timer TimerLogin;
-        private Label ProfileEmailLabel;
-        private Label ProfileTELLabel;
+        private UserList ContactList;
+        private Button button1;
     }
 }

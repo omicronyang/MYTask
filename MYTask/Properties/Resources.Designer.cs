@@ -123,6 +123,26 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Cross_32 {
+            get {
+                object obj = ResourceManager.GetObject("Cross_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Edit_32 {
+            get {
+                object obj = ResourceManager.GetObject("Edit_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap FindPsw_32 {
             get {
                 object obj = ResourceManager.GetObject("FindPsw_32", resourceCulture);
@@ -216,6 +236,16 @@ namespace MYTask.Properties {
         internal static System.Drawing.Bitmap Task_32 {
             get {
                 object obj = ResourceManager.GetObject("Task_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Tick_32 {
+            get {
+                object obj = ResourceManager.GetObject("Tick_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

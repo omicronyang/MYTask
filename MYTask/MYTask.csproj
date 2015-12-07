@@ -157,12 +157,16 @@
     <Compile Include="LinkUserLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="LoginTextbox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MyDB.cs" />
     <Compile Include="MyUser.cs" />
     <Compile Include="ProfilePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserList.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -234,6 +238,9 @@
     <None Include="Resources\Project_32.png" />
     <None Include="Resources\Task_32.png" />
     <None Include="Resources\Logout_32.png" />
+    <None Include="Resources\Cross_32.png" />
+    <None Include="Resources\Edit_32.png" />
+    <None Include="Resources\Tick_32.png" />
     <Content Include="__TemplateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

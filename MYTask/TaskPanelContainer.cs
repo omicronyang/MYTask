@@ -19,6 +19,7 @@ namespace MYTask
             Location = new Point(0, 0);
             Size = new Size(621, 0);
             MaximumSize = new Size(WW, 0);
+            BackColor = Color.RoyalBlue;
             Visible = true;
         }
 

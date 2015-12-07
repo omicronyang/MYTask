@@ -15,5 +15,6 @@ namespace MYTask
         public string Telephone;
         public string Email;
         public int Message;
+        public string Remark;
     }
 }

@@ -132,6 +132,7 @@ namespace MYTask
                     Result.Message = Convert.ToInt32(reader["tk_user_message"]);
                     Result.Telephone = reader["tk_user_contact"].ToString();
                     Result.Email = reader["tk_user_email"].ToString();
+                    Result.Remark = reader["tk_user_remark"].ToString();
                 }
                 reader.Close();
             }
@@ -147,6 +148,7 @@ namespace MYTask
                     Result.Message = Convert.ToInt32(reader["tk_user_message"]);
                     Result.Telephone = reader["tk_user_contact"].ToString();
                     Result.Email = reader["tk_user_email"].ToString();
+                    Result.Remark = reader["tk_user_remark"].ToString();
                 }
                 reader.Close();
             }
@@ -170,6 +172,7 @@ namespace MYTask
                     Result.Message = Convert.ToInt32(reader["tk_user_message"]);
                     Result.Telephone = reader["tk_user_contact"].ToString();
                     Result.Email = reader["tk_user_email"].ToString();
+                    Result.Remark = reader["tk_user_remark"].ToString();
                 }
                 reader.Close();
             }
@@ -185,6 +188,7 @@ namespace MYTask
                     Result.Message = Convert.ToInt32(reader["tk_user_message"]);
                     Result.Telephone = reader["tk_user_contact"].ToString();
                     Result.Email = reader["tk_user_email"].ToString();
+                    Result.Remark = reader["tk_user_remark"].ToString();
                 }
                 reader.Close();
             }
@@ -248,11 +252,11 @@ namespace MYTask
             ArrayList res = new ArrayList();
             string sql;
             if (Mode == 0)
-                sql = string.Format("select * from tk_task where csa_to_user like {0}", Uid.ToString());
+                sql = string.Format("select TID from tk_task where csa_to_user like {0}", Uid.ToString());
             else if (Mode == 1)
-                sql = string.Format("select * from tk_task where csa_from_user like {0}", Uid.ToString());
+                sql = string.Format("select TID from tk_task where csa_from_user like {0}", Uid.ToString());
             else
-                sql = "select * from tk_task";
+                sql = "select TID from tk_task";
 
             if (Online == 0)
             {
@@ -281,6 +285,55 @@ namespace MYTask
             {
                 Result[i] = Convert.ToInt32(res[i]);
             }
+            return Result;
+        }
+
+        public MyUser[] GetUserList()
+        {
+            ArrayList res = new ArrayList();
+            string sql = "select * from tk_user";
+            if (Online == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, LocalDBase);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    MyUser TmpUser = new MyUser();
+                    TmpUser.UID = Convert.ToInt32(reader["uid"]);
+                    TmpUser.Name = reader["tk_display_name"].ToString();
+                    TmpUser.Rank = Convert.ToInt32(reader["tk_user_rank"]);
+                    TmpUser.Message = Convert.ToInt32(reader["tk_user_message"]);
+                    TmpUser.Telephone = reader["tk_user_contact"].ToString();
+                    TmpUser.Email = reader["tk_user_email"].ToString();
+                    TmpUser.Remark = reader["tk_user_remark"].ToString();
+                    res.Add(TmpUser);
+                }
+                reader.Close();
+            }
+            else
+            {
+                MySqlCommand command = new MySqlCommand(sql, OnlineDBase);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    MyUser TmpUser = new MyUser();
+                    TmpUser.UID = Convert.ToInt32(reader["uid"]);
+                    TmpUser.Name = reader["tk_display_name"].ToString();
+                    TmpUser.Rank = Convert.ToInt32(reader["tk_user_rank"]);
+                    TmpUser.Message = Convert.ToInt32(reader["tk_user_message"]);
+                    TmpUser.Telephone = reader["tk_user_contact"].ToString();
+                    TmpUser.Email = reader["tk_user_email"].ToString();
+                    TmpUser.Remark = reader["tk_user_remark"].ToString();
+                    res.Add(TmpUser);
+                }
+                reader.Close();
+            }
+
+            res.TrimToSize();
+            MyUser[] Result = new MyUser[res.Count];
+            for (int i = 0; i < res.Count; i++) Result[i] = (MyUser)res[i];
             return Result;
         }
 
