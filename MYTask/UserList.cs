@@ -17,11 +17,12 @@ namespace MYTask
             Dock = DockStyle.Fill;
             LabelEdit = false;
             Margin = new Padding(3);
+            FullRowSelect = true;
 
-            Columns.Add("Name", 175, HorizontalAlignment.Left);
-            Columns.Add("Type", 76, HorizontalAlignment.Left);
-            Columns.Add("Tel", 111, HorizontalAlignment.Left);
-            Columns.Add("Email", 269, HorizontalAlignment.Left);
+            Columns.Add("用户名", 175, HorizontalAlignment.Left);
+            Columns.Add("权限", 76, HorizontalAlignment.Left);
+            Columns.Add("电话", 111, HorizontalAlignment.Left);
+            Columns.Add("邮箱", 269, HorizontalAlignment.Left);
         }
 
         private string GetRank(int Rank)
@@ -49,6 +50,7 @@ namespace MYTask
                 I.SubItems.Add(GetRank(UList[i].Rank));
                 I.SubItems.Add(UList[i].Telephone);
                 I.SubItems.Add(UList[i].Email);
+                I.SubItems.Add(UList[i].UID.ToString());
                 Items.Add(I);
             }
             EndUpdate();

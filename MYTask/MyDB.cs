@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
@@ -247,16 +248,16 @@ namespace MYTask
             return Result;
         }
 
-        public int[] GetTaskList(int Uid,int Mode)
+        public MyTask[] GetTaskList(int Uid,int Mode)
         {
-            ArrayList res = new ArrayList();
+            List<MyTask> Result = new List<MyTask>();
             string sql;
             if (Mode == 0)
-                sql = string.Format("select TID from tk_task where csa_to_user like {0}", Uid.ToString());
+                sql = string.Format("select * from tk_task where csa_to_user like {0}", Uid.ToString());
             else if (Mode == 1)
-                sql = string.Format("select TID from tk_task where csa_from_user like {0}", Uid.ToString());
+                sql = string.Format("select * from tk_task where csa_from_user like {0}", Uid.ToString());
             else
-                sql = "select TID from tk_task";
+                sql = "select * from tk_task";
 
             if (Online == 0)
             {
@@ -264,7 +265,21 @@ namespace MYTask
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    res.Add(Convert.ToInt32(reader["TID"]));
+                    MyTask Tmp = new MyTask();
+                    Tmp.TID = Convert.ToInt32(reader["TID"]);
+                    Tmp.TaskName = reader["csa_text"].ToString();
+                    Tmp.TaskPriority = Convert.ToInt32(reader["csa_priority"]);
+                    Tmp.TaskImportance = Convert.ToInt32(reader["csa_temp"]);
+                    Tmp.TaskEndTime = Convert.ToDateTime(reader["csa_plan_et"]);
+                    Tmp.TaskUpdateTime = Convert.ToDateTime(reader["csa_last_update"]);
+                    Tmp.TaskU = GetUser(Convert.ToInt32(reader["csa_to_user"]));
+                    Tmp.TaskFU = GetUser(Convert.ToInt32(reader["csa_from_user"]));
+                    Tmp.TaskType = Convert.ToInt32(reader["csa_type"]);
+                    Tmp.TaskStat = Convert.ToInt32(reader["csa_remark2"]);
+                    Tmp.TaskPlanTime = Convert.ToDouble(reader["csa_plan_hour"]);
+                    Tmp.TaskProject = "测试项目";
+                    Tmp.TaskUsedTime = 0.5;
+                    Result.Add(Tmp);
                 }
                 reader.Close();
             }
@@ -274,23 +289,30 @@ namespace MYTask
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    res.Add(Convert.ToInt32(reader["TID"]));
+                    MyTask Tmp = new MyTask();
+                    Tmp.TID = Convert.ToInt32(reader["TID"]);
+                    Tmp.TaskName = reader["csa_text"].ToString();
+                    Tmp.TaskPriority = Convert.ToInt32(reader["csa_priority"]);
+                    Tmp.TaskImportance = Convert.ToInt32(reader["csa_temp"]);
+                    Tmp.TaskEndTime = Convert.ToDateTime(reader["csa_plan_et"]);
+                    Tmp.TaskUpdateTime = Convert.ToDateTime(reader["csa_last_update"]);
+                    Tmp.TaskU = GetUser(Convert.ToInt32(reader["csa_to_user"]));
+                    Tmp.TaskFU = GetUser(Convert.ToInt32(reader["csa_from_user"]));
+                    Tmp.TaskType = Convert.ToInt32(reader["csa_type"]);
+                    Tmp.TaskStat = Convert.ToInt32(reader["csa_remark2"]);
+                    Tmp.TaskPlanTime = Convert.ToDouble(reader["csa_plan_hour"]);
+                    Tmp.TaskProject = "测试项目";
+                    Tmp.TaskUsedTime = 0.5;
+                    Result.Add(Tmp);
                 }
                 reader.Close();
             }
-
-            res.TrimToSize();
-            int[] Result = new int[res.Count];
-            for (int i = 0; i < res.Count; ++i)
-            {
-                Result[i] = Convert.ToInt32(res[i]);
-            }
-            return Result;
+            return Result.ToArray();
         }
 
         public MyUser[] GetUserList()
         {
-            ArrayList res = new ArrayList();
+            List<MyUser> Result = new List<MyUser>();
             string sql = "select * from tk_user";
             if (Online == 0)
             {
@@ -307,7 +329,7 @@ namespace MYTask
                     TmpUser.Telephone = reader["tk_user_contact"].ToString();
                     TmpUser.Email = reader["tk_user_email"].ToString();
                     TmpUser.Remark = reader["tk_user_remark"].ToString();
-                    res.Add(TmpUser);
+                    Result.Add(TmpUser);
                 }
                 reader.Close();
             }
@@ -326,15 +348,11 @@ namespace MYTask
                     TmpUser.Telephone = reader["tk_user_contact"].ToString();
                     TmpUser.Email = reader["tk_user_email"].ToString();
                     TmpUser.Remark = reader["tk_user_remark"].ToString();
-                    res.Add(TmpUser);
+                    Result.Add(TmpUser);
                 }
                 reader.Close();
             }
-
-            res.TrimToSize();
-            MyUser[] Result = new MyUser[res.Count];
-            for (int i = 0; i < res.Count; i++) Result[i] = (MyUser)res[i];
-            return Result;
+            return Result.ToArray();
         }
 
         public void Close()

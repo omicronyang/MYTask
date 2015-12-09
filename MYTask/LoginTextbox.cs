@@ -48,8 +48,8 @@ namespace MYTask
                     }
                 case 3:
                     {
-                        BackColor = Color.Gray;
-                        ForeColor = Color.Silver;
+                        BackColor = Color.Green;
+                        ForeColor = Color.White;
                         if (Name == "TextLogin_Psw") UseSystemPasswordChar = false;
                         Enabled = false;
                         break;

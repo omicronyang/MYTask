@@ -72,6 +72,7 @@ namespace MYTask
             this.LabelPT = new System.Windows.Forms.Label();
             this.LabelTaskName = new System.Windows.Forms.LinkLabel();
             this.PanelLogin = new System.Windows.Forms.Panel();
+            this.LabelBlock = new System.Windows.Forms.Label();
             this.TextLogin_Psw = new MYTask.LoginTextbox();
             this.TextLogin_UID = new MYTask.LoginTextbox();
             this.CloudStatusLogin = new System.Windows.Forms.PictureBox();
@@ -633,17 +634,29 @@ namespace MYTask
             // PanelLogin
             // 
             this.PanelLogin.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PanelLogin.Controls.Add(this.LabelBlock);
             this.PanelLogin.Controls.Add(this.TextLogin_Psw);
             this.PanelLogin.Controls.Add(this.TextLogin_UID);
             this.PanelLogin.Controls.Add(this.CloudStatusLogin);
             this.PanelLogin.Controls.Add(this.BarConnecting);
             this.PanelLogin.Controls.Add(this.BtnFindPsw);
             this.PanelLogin.Controls.Add(this.BtnLogin);
-            this.PanelLogin.Location = new System.Drawing.Point(0, 500);
+            this.PanelLogin.Location = new System.Drawing.Point(0, 0);
             this.PanelLogin.Margin = new System.Windows.Forms.Padding(0);
             this.PanelLogin.Name = "PanelLogin";
             this.PanelLogin.Size = new System.Drawing.Size(700, 500);
             this.PanelLogin.TabIndex = 6;
+            // 
+            // LabelBlock
+            // 
+            this.LabelBlock.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LabelBlock.ForeColor = System.Drawing.Color.White;
+            this.LabelBlock.Location = new System.Drawing.Point(350, 124);
+            this.LabelBlock.Name = "LabelBlock";
+            this.LabelBlock.Size = new System.Drawing.Size(308, 225);
+            this.LabelBlock.TabIndex = 11;
+            this.LabelBlock.Text = "正在加载任务列表，请稍候…";
+            this.LabelBlock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TextLogin_Psw
             // 
@@ -776,6 +789,7 @@ namespace MYTask
             this.ContactList.UseCompatibleStateImageBehavior = false;
             this.ContactList.View = System.Windows.Forms.View.Details;
             this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
+            this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
             // 
             // PanelMessages
             // 
@@ -926,5 +940,6 @@ namespace MYTask
         private Timer TimerLogin;
         private UserList ContactList;
         private Button button1;
+        private Label LabelBlock;
     }
 }

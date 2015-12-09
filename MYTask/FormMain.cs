@@ -24,6 +24,9 @@ namespace MYTask
         private ListViewColumnSorter lvwColumnSorter;
         public MyDB DataBase = new MyDB();
 
+        private delegate void BGAddTaskList(MyTask[] Tlist, int Mode);
+        private delegate void BGAddUserList(MyUser[] Ulist);
+        private delegate void BGWorkComplete(object sender, DoWorkEventArgs e);
 
         public FormMain()
         {
@@ -183,8 +186,17 @@ namespace MYTask
 
         private void InitList(object sender, DoWorkEventArgs e)
         {
-            PAddTaskList(DataBase.GetTaskList(0, 2), 2);
-            PAddUserList(DataBase.GetUserList());
+            if (ContactList.InvokeRequired)
+            {
+                BGWorkComplete BGWC = new BGWorkComplete(InitList);
+                Invoke(BGWC, sender, e);
+                return;
+            }
+
+
+            AddTaskList(DataBase.GetTaskList(0, 2), 2);
+            AddUserList(DataBase.GetUserList());
+            LabelBlock.Visible = false;
         }
 
 
@@ -259,7 +271,7 @@ namespace MYTask
         {
             MyUser tu = new MyUser();
             tu = DataBase.GetUser(uid);
-            PanelProfile.SetProfileInfo(tu, (tu == NowUser) ? 1 : 0);
+            PanelProfile.SetProfileInfo(tu, (tu == NowUser || NowUser.Rank == 5) ? 1 : 0);
         }
 
         public void InitPanelProfile()
@@ -502,49 +514,39 @@ namespace MYTask
             TaskListMy.AddTask(t1);
         }
 
-        private void AddTaskList(int[] TidList, int Mode)
+        private void AddTaskList(MyTask[] Tasklist, int Mode)
         {
+            if (TaskListMy.InvokeRequired)
+            {
+                BGAddTaskList BGATL = new BGAddTaskList(AddTaskList);
+                Invoke(BGATL, Tasklist, Mode);
+                return;
+            }
+
             TaskPanelContainer Target;
 
             if (Mode == 0) Target = TaskListMy;
             else if (Mode == 1) Target = TaskListPub;
             else Target = TaskListAll;
-
-            MyTask Tt = new MyTask();
-            for (int i = 0; i < TidList.Length; ++i)
+            
+            for (int i = 0; i < Tasklist.Length; ++i)
             {
-                Tt = DataBase.GetTask(TidList[i]);
-                Target.AddTask(Tt);
+                Target.AddTask(Tasklist[i]);
                 ScrollTask[Mode].Maximum = Target.Height > TaskPub.Height ? Target.Height + 10 - TaskPub.Height : 0;
                 if (Target.Height > TaskPub.Height) ScrollTask[Mode].Visible = true;
             }
         }
 
-        private void PAddTaskList(int[] TidList, int Mode)
+        private void AddUserList(MyUser[] Ulist)
         {
-            TaskPanelContainer Target;
-
-            if (Mode == 0) Target = TaskListMy;
-            else if (Mode == 1) Target = TaskListPub;
-            else Target = TaskListAll;
-
-            MyTask Tt = new MyTask();
-            Action AddTarget = delegate { Target.AddTask(Tt); };
-            Action SetScroll = delegate { ScrollTask[Mode].Maximum = Target.Height > TaskPub.Height ? Target.Height + 10 - TaskPub.Height : 0; };
-            for (int i = 0; i < TidList.Length; ++i)
+            if (ContactList.InvokeRequired)
             {
-                Tt = DataBase.GetTask(TidList[i]);
-
-                Target.Invoke(AddTarget);
-                ScrollTask[Mode].Invoke(SetScroll);
-
+                //BGAddUser X= new BGAddUser(AddUserList);
+                BGAddUserList BGAUL = new BGAddUserList(AddUserList);
+                Invoke(BGAUL,Ulist,1);
+                return;
             }
-        }
-
-        private void PAddUserList(MyUser[] UidList)
-        {
-            Action AddUser = delegate { ContactList.AddUserList(UidList); };
-            ContactList.Invoke(AddUser);
+            ContactList.AddUserList(Ulist);
         }
 
         private void vScroll_Scroll(object sender, ScrollEventArgs e)
@@ -621,6 +623,14 @@ namespace MYTask
             }
             // 用新的排序方法对ListView排序
             ContactList.Sort();
+        }
+
+        private void ContactList_DoubleClick(object sender, EventArgs e)
+        {
+            ListViewItem target = ContactList.SelectedItems[0];
+            //MessageBox.Show(target.SubItems[4].Text);
+            SetProfilePanel(Convert.ToInt32(target.SubItems[4].Text));
+            InitPanelProfile();
         }
     }
 }

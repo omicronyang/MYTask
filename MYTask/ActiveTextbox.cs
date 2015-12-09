@@ -246,20 +246,6 @@ namespace MYTask
             }
         }
 
-
-        protected override void OnDoubleClick(EventArgs e)
-        {
-            base.OnDoubleClick(e);
-            if (Active)
-            {
-                SetNonactive();
-            }
-            else
-            {
-                SetActive();
-            }
-        }
-
         public void SetActive()
         {
             Active = true;
