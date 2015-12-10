@@ -16,5 +16,18 @@ namespace MYTask
         public string Email;
         public int Message;
         public string Remark;
+
+        public void InitSystem()
+        {
+            UID = 1;
+            Name = "系统用户";
+            Rank = 5;
+            Telephone = "";
+            Email = "";
+            Message = 0;
+            Remark = "";
+        }
+
     }
+
 }

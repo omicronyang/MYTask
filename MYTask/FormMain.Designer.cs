@@ -42,7 +42,6 @@ namespace MYTask
             this.BtnProject = new System.Windows.Forms.Button();
             this.BtnTask = new System.Windows.Forms.Button();
             this.PanelGuideS = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.BtnMessageS = new System.Windows.Forms.Button();
             this.CloudStatusS = new System.Windows.Forms.PictureBox();
             this.BtnCall = new System.Windows.Forms.Button();
@@ -57,7 +56,6 @@ namespace MYTask
             this.TaskListPub = new MYTask.TaskPanelContainer();
             this.TaskAll = new System.Windows.Forms.TabPage();
             this.TaskListAll = new MYTask.TaskPanelContainer();
-            this.TaskNew = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LabelFromUserName = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -83,12 +81,11 @@ namespace MYTask
             this.ProjMy = new System.Windows.Forms.TabPage();
             this.ProjPub = new System.Windows.Forms.TabPage();
             this.ProjAll = new System.Windows.Forms.TabPage();
-            this.ProjNew = new System.Windows.Forms.TabPage();
             this.PanelContacts = new System.Windows.Forms.Panel();
             this.ContactList = new MYTask.UserList();
             this.PanelMessages = new System.Windows.Forms.Panel();
             this.TimerLogin = new System.Windows.Forms.Timer(this.components);
-            this.PanelProfile = new MYTask.ProfilePanel();
+            this.PanelProfile = new MYTask.UserProfilePanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
@@ -275,7 +272,6 @@ namespace MYTask
             // PanelGuideS
             // 
             this.PanelGuideS.BackColor = System.Drawing.Color.LightGray;
-            this.PanelGuideS.Controls.Add(this.button1);
             this.PanelGuideS.Controls.Add(this.BtnMessageS);
             this.PanelGuideS.Controls.Add(this.CloudStatusS);
             this.PanelGuideS.Controls.Add(this.BtnCall);
@@ -288,16 +284,6 @@ namespace MYTask
             this.PanelGuideS.Name = "PanelGuideS";
             this.PanelGuideS.Size = new System.Drawing.Size(48, 500);
             this.PanelGuideS.TabIndex = 4;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 308);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(36, 42);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // BtnMessageS
             // 
@@ -404,7 +390,6 @@ namespace MYTask
             this.TabsTask.Controls.Add(this.TaskMy);
             this.TabsTask.Controls.Add(this.TaskPub);
             this.TabsTask.Controls.Add(this.TaskAll);
-            this.TabsTask.Controls.Add(this.TaskNew);
             this.TabsTask.Location = new System.Drawing.Point(48, 500);
             this.TabsTask.Name = "TabsTask";
             this.TabsTask.SelectedIndex = 0;
@@ -476,15 +461,6 @@ namespace MYTask
             this.TaskListAll.Name = "TaskListAll";
             this.TaskListAll.Size = new System.Drawing.Size(621, 0);
             this.TaskListAll.TabIndex = 0;
-            // 
-            // TaskNew
-            // 
-            this.TaskNew.Location = new System.Drawing.Point(4, 30);
-            this.TaskNew.Name = "TaskNew";
-            this.TaskNew.Size = new System.Drawing.Size(644, 466);
-            this.TaskNew.TabIndex = 3;
-            this.TaskNew.Text = "新建任务";
-            this.TaskNew.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -641,7 +617,7 @@ namespace MYTask
             this.PanelLogin.Controls.Add(this.BarConnecting);
             this.PanelLogin.Controls.Add(this.BtnFindPsw);
             this.PanelLogin.Controls.Add(this.BtnLogin);
-            this.PanelLogin.Location = new System.Drawing.Point(0, 0);
+            this.PanelLogin.Location = new System.Drawing.Point(0, 500);
             this.PanelLogin.Margin = new System.Windows.Forms.Padding(0);
             this.PanelLogin.Name = "PanelLogin";
             this.PanelLogin.Size = new System.Drawing.Size(700, 500);
@@ -721,8 +697,7 @@ namespace MYTask
             this.TabsProject.Controls.Add(this.ProjMy);
             this.TabsProject.Controls.Add(this.ProjPub);
             this.TabsProject.Controls.Add(this.ProjAll);
-            this.TabsProject.Controls.Add(this.ProjNew);
-            this.TabsProject.Location = new System.Drawing.Point(48, 500);
+            this.TabsProject.Location = new System.Drawing.Point(48, 0);
             this.TabsProject.Name = "TabsProject";
             this.TabsProject.SelectedIndex = 0;
             this.TabsProject.Size = new System.Drawing.Size(652, 500);
@@ -758,15 +733,6 @@ namespace MYTask
             this.ProjAll.Text = "所有项目";
             this.ProjAll.UseVisualStyleBackColor = true;
             // 
-            // ProjNew
-            // 
-            this.ProjNew.Location = new System.Drawing.Point(4, 30);
-            this.ProjNew.Name = "ProjNew";
-            this.ProjNew.Size = new System.Drawing.Size(644, 466);
-            this.ProjNew.TabIndex = 3;
-            this.ProjNew.Text = "新建项目";
-            this.ProjNew.UseVisualStyleBackColor = true;
-            // 
             // PanelContacts
             // 
             this.PanelContacts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -782,6 +748,7 @@ namespace MYTask
             // ContactList
             // 
             this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContactList.FullRowSelect = true;
             this.ContactList.Location = new System.Drawing.Point(0, 0);
             this.ContactList.Name = "ContactList";
             this.ContactList.Size = new System.Drawing.Size(652, 500);
@@ -901,13 +868,11 @@ namespace MYTask
         private TabPage TaskMy;
         private TabPage TaskPub;
         private TabPage TaskAll;
-        private TabPage TaskNew;
 
         private TabControl TabsProject;
         private TabPage ProjMy;
         private TabPage ProjPub;
         private TabPage ProjAll;
-        private TabPage ProjNew;
         private PictureBox pictureBox1;
 
         private Panel PanelContacts;
@@ -933,13 +898,12 @@ namespace MYTask
         private LoginTextbox TextLogin_UID;
         private LinkLabel linkLabel1;
         private LinkLabel LabelFromUserName;
-        private ProfilePanel PanelProfile;
+        private UserProfilePanel PanelProfile;
         private TaskPanelContainer TaskListPub;
         private TaskPanelContainer TaskListAll;
         private Button BtnLogout;
         private Timer TimerLogin;
         private UserList ContactList;
-        private Button button1;
         private Label LabelBlock;
     }
 }
