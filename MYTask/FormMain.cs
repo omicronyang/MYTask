@@ -40,7 +40,8 @@ namespace MYTask
         //窗体移动
         public const int SC_MOVE = 0xF010;
         public const int HTCAPTION = 0x0002;
-
+        //窗体最小化
+        public const int SC_MINIMIZE = 0xF020;
         public FormMain()
         {
             InitializeComponent();
@@ -650,7 +651,8 @@ namespace MYTask
 
         private void BtnMin_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
         }
     }
 }
