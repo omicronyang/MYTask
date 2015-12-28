@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,8 +29,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -243,6 +243,12 @@
     <None Include="Resources\Cross_32.png" />
     <None Include="Resources\Edit_32.png" />
     <None Include="Resources\Tick_32.png" />
+    <None Include="Resources\close_16.png" />
+    <None Include="Resources\close_32.png" />
+    <None Include="Resources\min_16.png" />
+    <None Include="Resources\min_32.png" />
+    <None Include="Resources\close_24.png" />
+    <None Include="Resources\min_24.png" />
     <Content Include="__TemplateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

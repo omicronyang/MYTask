@@ -73,6 +73,16 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap close_24 {
+            get {
+                object obj = ResourceManager.GetObject("close_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Cloud_Connecting_32 {
             get {
                 object obj = ResourceManager.GetObject("Cloud_Connecting_32", resourceCulture);
@@ -196,6 +206,16 @@ namespace MYTask.Properties {
         internal static System.Drawing.Bitmap Message_New_32 {
             get {
                 object obj = ResourceManager.GetObject("Message_New_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap min_24 {
+            get {
+                object obj = ResourceManager.GetObject("min_24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

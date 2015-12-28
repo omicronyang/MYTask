@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MYTask
 {
-    class MyProj
+    public class MyProj
     {
         public int PID;
         public string ProjName;

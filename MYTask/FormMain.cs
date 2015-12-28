@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SQLite;
+using System.Runtime.InteropServices;
 
 namespace MYTask
 {
@@ -28,18 +29,30 @@ namespace MYTask
         private delegate void BGAddUserList(MyUser[] Ulist);
         private delegate void BGWorkComplete(object sender, DoWorkEventArgs e);
 
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
+
+        //常数
+        public const int WM_SYSCOMMAND = 0x0112;
+        //窗体移动
+        public const int SC_MOVE = 0xF010;
+        public const int HTCAPTION = 0x0002;
+
         public FormMain()
         {
             InitializeComponent();
-            PanelGuide.Location = new Point(-175, 0);
-            PanelGuideS.Location = new Point(0, 0);
-            PanelLogin.Location = new Point(0, 0);
-            PanelProfile.Location = new Point(48, 0);
-            TabsTask.Location = new Point(48, 0);
-            TabsProject.Location = new Point(48, 0);
-            PanelContacts.Location = new Point(48, 0);
+            PanelGuide.Location = new Point(-175, 32);
+            PanelGuideS.Location = new Point(0, 32);
+            PanelLogin.Location = new Point(0, 32);
+            PanelProfile.Location = new Point(48, 32);
+            TabsTask.Location = new Point(48, 32);
+            TabsProject.Location = new Point(48, 32);
+            PanelContacts.Location = new Point(48, 32);
             PanelContacts.BackColor = Color.Gainsboro;
-            PanelMessages.Location = new Point(48, 0);
+            PanelMessages.Location = new Point(48, 32);
 
             dHeight = Height - PanelGuideS.Height;
             dWidth = Width - PanelProfile.Width - 48;
@@ -83,8 +96,8 @@ namespace MYTask
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            Form_Lock();
-            MinimumSize = Size;
+            //Form_Lock();
+            //MinimumSize = Size;
             TextLogin_UID.RenewState(3);
             TextLogin_Psw.RenewState(3);
             CloudStatus.Image = Properties.Resources.Cloud_Connecting_32;
@@ -211,7 +224,7 @@ namespace MYTask
                     {
                         //PanelGuide shows from left
                         int x = PanelGuide.Location.X;
-                        PanelGuide.Location = new Point(x + 25, 0);
+                        PanelGuide.Location = new Point(x + 25, 32);
                         if (PanelGuide.Location.X == 0) TimerSidebar.Stop();
                         break;
                     }
@@ -219,7 +232,7 @@ namespace MYTask
                     {
                         //PanelGuide exit to left
                         int x = PanelGuide.Location.X;
-                        PanelGuide.Location = new Point(x - 25, 0);
+                        PanelGuide.Location = new Point(x - 25, 32);
                         if (PanelGuide.Location.X == -175) TimerSidebar.Stop();
                         break;
                     }
@@ -235,10 +248,10 @@ namespace MYTask
                         //PanelLogin shows from bottom
                         int y = PanelLogin.Location.Y;
                         PanelLogin.Location = new Point(0, y - 25);
-                        if (PanelLogin.Location.Y <= 0)
+                        if (PanelLogin.Location.Y <= 32)
                         {
                             TimerLogin.Stop();
-                            PanelLogin.Location = new Point(0, 0);
+                            PanelLogin.Location = new Point(0, 32);
                         }
                         break;
                     }
@@ -247,12 +260,12 @@ namespace MYTask
                         //PanelLogin exit to bottom
                         int y = PanelLogin.Location.Y;
                         PanelLogin.Location = new Point(0, y + 25);
-                        if (PanelLogin.Location.Y >= 500)
+                        if (PanelLogin.Location.Y >= 532)
                         {
                             TimerLogin.Stop();
-                            PanelLogin.Location = new Point(0, 500);
+                            PanelLogin.Location = new Point(0, 532);
                             PanelLogin.Visible = false;
-                            Form_Unlock();
+                            //Form_Unlock();
                         }
                         break;
                     }
@@ -486,8 +499,8 @@ namespace MYTask
 
         public void Logout()
         {
-            Form_Lock();
-            PanelLogin.Location = new Point(0, 500);
+            //Form_Lock();
+            PanelLogin.Location = new Point(0, 532);
             PanelLogin.Visible = true;
             InitLoginBox("");
             TaskListMy.ClearTask();
@@ -511,7 +524,7 @@ namespace MYTask
         private void AddTaskPanel()
         {
             MyTask t1 = new MyTask();
-            t1.InitTestInf();
+            t1.InitTestInf(this);
             TaskListMy.AddTask(t1);
         }
 
@@ -592,16 +605,6 @@ namespace MYTask
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string mes = string.Format("W1={0};W2={1};W3={2};W4={3}",
-                ContactList.Columns[0].Width.ToString(),
-                ContactList.Columns[1].Width.ToString(),
-                ContactList.Columns[2].Width.ToString(),
-                ContactList.Columns[3].Width.ToString());
-            MessageBox.Show(mes);
-        }
-
         private void ContactList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == lvwColumnSorter.SortColumn)
@@ -632,6 +635,22 @@ namespace MYTask
             //MessageBox.Show(target.SubItems[4].Text);
             SetProfilePanel(Convert.ToInt32(target.SubItems[4].Text));
             InitPanelProfile();
+        }
+
+        private void UI_Caption_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);
+        }
+
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void BtnMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
