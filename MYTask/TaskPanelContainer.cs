@@ -33,7 +33,8 @@ namespace MYTask
             TaskNum++;
             MaximumSize = new Size(WW, Height + 111);
             Height += 111;
-            TaskPanel Tp = new TaskPanel(Height - 111, Width - 6, Newtask);
+            TaskPanel Tp = new TaskPanel(Height - 111, Width - 6);
+            Tp.UpdateTask(Newtask);
             Controls.Add(Tp);
             Controls.SetChildIndex(Tp, 0);
         }

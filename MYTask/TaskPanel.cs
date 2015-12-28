@@ -26,25 +26,35 @@ class TaskPanel: Panel
         BorderLabel LabelPlanTime = new BorderLabel();
 
 
-        public TaskPanel(int y, int width, MyTask Taskinf)
+        public TaskPanel()
+        {
+            InitCompenent();
+        }
+        public TaskPanel(int y, int width)
 	    {
 		    Size = new Size(width, 108);
 		    Location = new Point(3, y);
-		    Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-		    BackColor = Color.Gainsboro;
+            InitCompenent();
+        }
 
-		    LabelTaskName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
-		    LabelTaskName.LinkBehavior = LinkBehavior.HoverUnderline;
-		    LabelTaskName.LinkColor = Color.Black;
-		    LabelTaskName.VisitedLinkColor = Color.Black;
-		    LabelTaskName.ActiveLinkColor = Color.RoyalBlue;
-		    LabelTaskName.Location = new Point(3, 3);
-		    LabelTaskName.Size = new Size(609, 21);
-		    LabelTaskName.TabStop = true;
-		    LabelTaskName.Text = "任务名称";
 
-            Label1.Location = new Point(361,30);
-            Label1.Size = new Size(58,21);
+        private void InitCompenent()
+        {
+            Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            BackColor = Color.Gainsboro;
+
+            LabelTaskName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
+            LabelTaskName.LinkBehavior = LinkBehavior.HoverUnderline;
+            LabelTaskName.LinkColor = Color.Black;
+            LabelTaskName.VisitedLinkColor = Color.Black;
+            LabelTaskName.ActiveLinkColor = Color.RoyalBlue;
+            LabelTaskName.Location = new Point(3, 3);
+            LabelTaskName.Size = new Size(609, 21);
+            LabelTaskName.TabStop = true;
+            LabelTaskName.Text = "任务名称";
+
+            Label1.Location = new Point(361, 30);
+            Label1.Size = new Size(58, 21);
             Label1.Text = "项目:";
 
             LabelProjName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
@@ -53,7 +63,7 @@ class TaskPanel: Panel
             LabelProjName.VisitedLinkColor = Color.Black;
             LabelProjName.ActiveLinkColor = Color.RoyalBlue;
             LabelProjName.Location = new Point(409, 30);
-            LabelProjName.Size = new Size(203,21);
+            LabelProjName.Size = new Size(203, 21);
             LabelProjName.TabStop = true;
             LabelProjName.Text = "项目名称";
             LabelProjName.Click += new EventHandler(LabelProjName_Clicked);
@@ -70,39 +80,39 @@ class TaskPanel: Panel
             LabelPI.TextAlign = ContentAlignment.MiddleCenter;
             LabelPI.Text = "高";
 
-            LabelStat.Location = new Point(3,57);
+            LabelStat.Location = new Point(3, 57);
             LabelStat.Size = new Size(100, 21);
             LabelStat.TextAlign = ContentAlignment.MiddleCenter;
             LabelStat.Text = "完成100%";
             LabelStat.BackColor = Color.GreenYellow;
 
             Label2.Location = new Point(107, 30);
-		    Label2.Size = new Size(74, 21);
-		    Label2.Text = "指派给：";
+            Label2.Size = new Size(74, 21);
+            Label2.Text = "指派给：";
 
-            Label3.Location = new Point(107,57);
+            Label3.Location = new Point(107, 57);
             Label3.Size = new Size(74, 21);
             Label3.Text = "来自于：";
 
-		    LabelUserName.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
-		    LabelUserName.Location = new Point(183, 30);
-		    LabelUserName.Size = new Size(175, 21);
-		    LabelUserName.TabStop = true;
+            LabelUserName.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
+            LabelUserName.Location = new Point(183, 30);
+            LabelUserName.Size = new Size(175, 21);
+            LabelUserName.TabStop = true;
 
             LabelFromUserName.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             LabelFromUserName.Location = new Point(183, 57);
             LabelFromUserName.Size = new Size(175, 21);
             LabelFromUserName.TabStop = true;
 
-		    LabelEndTime.Location = new Point(361, 57);
-		    LabelEndTime.Size = new Size(208, 21);
-		    LabelEndTime.AutoSize = true;
-		    LabelEndTime.Text = "预期完成日期：9999/99/99";
+            LabelEndTime.Location = new Point(361, 57);
+            LabelEndTime.Size = new Size(208, 21);
+            LabelEndTime.AutoSize = true;
+            LabelEndTime.Text = "预期完成日期：9999/99/99";
 
-		    LabelUpdateTime.Location = new Point(361, 84);
-		    LabelUpdateTime.Size = new Size(243, 21);
-		    LabelUpdateTime.AutoSize = true;
-		    LabelUpdateTime.Text = "最后更改：9999/99/99 99:99:99";
+            LabelUpdateTime.Location = new Point(361, 84);
+            LabelUpdateTime.Size = new Size(243, 21);
+            LabelUpdateTime.AutoSize = true;
+            LabelUpdateTime.Text = "最后更改：9999/99/99 99:99:99";
 
             LabelUsedTime.Location = new Point(3, 84);
             LabelUsedTime.Size = new Size(200, 21);
@@ -118,25 +128,22 @@ class TaskPanel: Panel
             LabelPlanTime.BorderColor = Color.Green;
 
             Controls.Add(LabelPP);
-		    Controls.Add(LabelPI);
-		    Controls.Add(LabelTaskName);
+            Controls.Add(LabelPI);
+            Controls.Add(LabelTaskName);
             Controls.Add(LabelProjName);
             Controls.Add(Label1);
             Controls.Add(LabelStat);
             Controls.Add(Label2);
             Controls.Add(Label3);
-		    Controls.Add(LabelUserName);
+            Controls.Add(LabelUserName);
             Controls.Add(LabelFromUserName);
-		    Controls.Add(LabelEndTime);
-		    Controls.Add(LabelUpdateTime);
+            Controls.Add(LabelEndTime);
+            Controls.Add(LabelUpdateTime);
             Controls.Add(LabelUsedTime);
             Controls.Add(LabelPlanTime);
-
-
-            UpdateTask(Taskinf);
         }
 
-	    public void UpdateTask(MyTask Source)
+        public void UpdateTask(MyTask Source)
 	    {
 	    	MyTaskInf = Source;
 
