@@ -294,13 +294,13 @@ namespace MYTask
             // 
             // BtnPageDown
             // 
-            this.BtnPageDown.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnPageDown.BackColor = System.Drawing.Color.LightGray;
             this.BtnPageDown.FlatAppearance.BorderSize = 0;
             this.BtnPageDown.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnPageDown.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
             this.BtnPageDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPageDown.Image = global::MYTask.Properties.Resources.Pagedown_32;
-            this.BtnPageDown.Location = new System.Drawing.Point(0, 347);
+            this.BtnPageDown.Location = new System.Drawing.Point(0, 382);
             this.BtnPageDown.Margin = new System.Windows.Forms.Padding(0);
             this.BtnPageDown.Name = "BtnPageDown";
             this.BtnPageDown.Size = new System.Drawing.Size(48, 48);
@@ -311,13 +311,13 @@ namespace MYTask
             // 
             // BtnPageUp
             // 
-            this.BtnPageUp.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnPageUp.BackColor = System.Drawing.Color.LightGray;
             this.BtnPageUp.FlatAppearance.BorderSize = 0;
             this.BtnPageUp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnPageUp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
             this.BtnPageUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPageUp.Image = global::MYTask.Properties.Resources.Pageup_32;
-            this.BtnPageUp.Location = new System.Drawing.Point(0, 299);
+            this.BtnPageUp.Location = new System.Drawing.Point(0, 334);
             this.BtnPageUp.Margin = new System.Windows.Forms.Padding(0);
             this.BtnPageUp.Name = "BtnPageUp";
             this.BtnPageUp.Size = new System.Drawing.Size(48, 48);
@@ -347,6 +347,7 @@ namespace MYTask
             this.CloudStatusS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CloudStatusS.Image = global::MYTask.Properties.Resources.Cloud_Sync_32;
             this.CloudStatusS.Location = new System.Drawing.Point(0, 430);
+            this.CloudStatusS.Margin = new System.Windows.Forms.Padding(0);
             this.CloudStatusS.Name = "CloudStatusS";
             this.CloudStatusS.Padding = new System.Windows.Forms.Padding(8);
             this.CloudStatusS.Size = new System.Drawing.Size(48, 48);
@@ -437,6 +438,7 @@ namespace MYTask
             this.TabsTask.Size = new System.Drawing.Size(652, 510);
             this.TabsTask.TabIndex = 5;
             this.TabsTask.Visible = false;
+            this.TabsTask.SelectedIndexChanged += new System.EventHandler(this.TabsTask_SelectedIndexChanged);
             // 
             // TaskMy
             // 

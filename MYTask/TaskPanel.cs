@@ -237,8 +237,16 @@ class TaskPanel: Panel
             me.Text = "预期完成日期：" + time.ToString("yyyy/MM/dd");
             if (time < DateTime.Now)
             {
-                if (MyTaskInf.TaskStat == 2) me.BackColor = Color.LightSkyBlue;
-                else if (MyTaskInf.TaskStat == 25) me.BackColor = Color.Gainsboro;
+                if (MyTaskInf.TaskStat == 2)
+                {
+                    me.BackColor = Color.LightSkyBlue;
+                    me.ForeColor = Color.Black;
+                }
+                else if (MyTaskInf.TaskStat == 25)
+                {
+                    me.BackColor = Color.Gainsboro;
+                    me.ForeColor = Color.Black;
+                }
                 else
                 {
                     me.BackColor = Color.Red;

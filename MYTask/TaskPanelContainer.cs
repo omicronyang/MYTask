@@ -61,8 +61,13 @@ namespace MYTask
                 Height = 447;
                 if (oldnum < 4)
                     for (int i = oldnum; i < 4; i++)
+                    {
                         Tp[i].UpdateTask(TaskList[i]);
+                        Controls.Add(Tp[i]);
+                        Controls.SetChildIndex(Tp[i], 0);
+                    }
             }
+            if (NowIndex < 0) NowIndex = 0;
         }
 
         public void ClearTask()
@@ -76,18 +81,19 @@ namespace MYTask
             Height = 0;
             TaskNum = 0;
             TaskList.Clear();
+            NowIndex = -1;
         }
 
-        public void TaskPageDown()
+        public void PageDown()
         {
             if (NowIndex + 4 > TaskNum - 1) return;
             NowIndex += 4;
             RenewTaskPage();
         }
 
-        public void TaskPageUp()
+        public void PageUp()
         {
-            if (NowIndex - 4 < 0) return;
+            if (NowIndex < 4) return;
             NowIndex -= 4;
             RenewTaskPage();
         }
@@ -106,6 +112,12 @@ namespace MYTask
                     Tp[i - NowIndex].UpdateTask(TaskList[i]);
                 Height = 3 + (TaskNum - NowIndex) * 111;
             }
+        }
+
+        public void RenewTaskPage(int Index)
+        {
+            NowIndex = Index;
+            RenewTaskPage();
         }
 
     }

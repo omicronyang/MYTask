@@ -22,6 +22,7 @@ namespace MYTask
         private ListViewColumnSorter lvwColumnSorter;
         public MyDB DataBase = new MyDB();
         private object NowFocus;
+        private TabControl FocusTC;
 
         private delegate void BGAddTaskList(MyTask[] Tlist, int Mode);
         private delegate void BGAddUserList(MyUser[] Ulist);
@@ -255,6 +256,9 @@ namespace MYTask
         {
             Panel me = PanelProfile;
 
+            BtnPageUp.Visible = false;
+            BtnPageDown.Visible = false;
+
             me.Visible = true;
             TabsTask.Visible = false;
             TabsProject.Visible = false;
@@ -268,6 +272,14 @@ namespace MYTask
             TabControl me = TabsTask;
             TabPage met = TaskMy;
 
+            FocusTC = TabsTask;
+            switch (TabsTask.SelectedIndex)
+            {
+                case 0: { UpdatePageControl(TaskListMy); break; }
+                case 1: { UpdatePageControl(TaskListPub); break; }
+                case 2: { UpdatePageControl(TaskListAll); break; }
+            }
+            
             me.Visible = true;
             TabsProject.Visible = false;
             PanelProfile.Visible = false;
@@ -278,6 +290,10 @@ namespace MYTask
         private void ShowTabsProject()
         {
             TabControl me = TabsProject;
+
+            FocusTC = TabsProject;
+            BtnPageUp.Visible = true;
+            BtnPageDown.Visible = true;
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -290,6 +306,9 @@ namespace MYTask
         {
             Panel me = PanelContacts;
 
+            BtnPageUp.Visible = false;
+            BtnPageDown.Visible = false;
+
             me.Visible = true;
             TabsTask.Visible = false;
             TabsProject.Visible = false;
@@ -300,6 +319,9 @@ namespace MYTask
         private void ShowPanelMessages()
         {
             Panel me = PanelMessages;
+
+            BtnPageUp.Visible = false;
+            BtnPageDown.Visible = false;
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -446,10 +468,12 @@ namespace MYTask
 
             AddTaskList(DataBase.GetTaskList(NowUser.UID, 0), 0);
             AddTaskList(DataBase.GetTaskList(NowUser.UID, 1), 1);
+            TaskListAll.RenewTaskPage(0);
+            UpdatePageControl(TaskListMy);
+            TabsTask.SelectedIndex = 0;
             //MessageBox.Show(NowUser.Name);
             TimerLogStat = 1;
             TimerLogin.Start();
-            NowFocus = TaskMy;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -567,13 +591,47 @@ namespace MYTask
 
         private void BtnPageUp_Click(object sender, EventArgs e)
         {
-            TaskListAll.TaskPageUp();
+            if (NowFocus.GetType().ToString() == "MYTask.TaskPanelContainer")
+            {
+                TaskPanelContainer Target = (TaskPanelContainer)NowFocus;
+                Target.PageUp();
+                if (Target.NowIndex <= 0)
+                    BtnPageUp.Visible = false;
+                if (!BtnPageDown.Visible)
+                    BtnPageDown.Visible = true;
+            }
         }
 
         private void BtnPageDown_Click(object sender, EventArgs e)
         {
-            TaskListAll.TaskPageDown();
+            if (NowFocus.GetType().ToString() == "MYTask.TaskPanelContainer")
+            {
+                TaskPanelContainer Target = (TaskPanelContainer)NowFocus;
+                Target.PageDown();
+                if (Target.NowIndex + 4 > Target.TaskNum - 1)
+                    BtnPageDown.Visible = false;
+                if (!BtnPageUp.Visible)
+                    BtnPageUp.Visible = true;
+            }
         }
-       
+        
+        private void TabsTask_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (FocusTC != TabsTask) return;
+            switch (TabsTask.SelectedIndex)
+            {
+                case 0: { UpdatePageControl(TaskListMy); break; }
+                case 1: { UpdatePageControl(TaskListPub); break; }
+                case 2: { UpdatePageControl(TaskListAll); break; }
+            }
+        }
+
+        private void UpdatePageControl(TaskPanelContainer Target)
+        {
+            NowFocus = Target;
+            BtnPageUp.Visible = (Target.NowIndex <= 0) ? false : true;
+            BtnPageDown.Visible = (Target.NowIndex + 4 > Target.TaskNum - 1) ? false : true;
+        }
+
     }
 }
