@@ -235,24 +235,20 @@ class TaskPanel: Panel
         {
             Label me = LabelEndTime;
             me.Text = "预期完成日期：" + time.ToString("yyyy/MM/dd");
-            if (time < DateTime.Now)
+            if (time < DateTime.Now && MyTaskInf.TaskStat == 2)
             {
-                /*if (MyTaskInf.TaskStat == 2)
-                {
-                    me.BackColor = Color.LightSkyBlue;
-                    me.ForeColor = Color.Black;
-                }
-                else*/ 
-                if (MyTaskInf.TaskStat == 25)
-                {
-                    me.BackColor = Color.Gainsboro;
-                    me.ForeColor = Color.Black;
-                }
-                else
-                {
-                    me.BackColor = Color.Red;
-                    me.ForeColor = Color.White;
-                }
+                me.BackColor = Color.LightSkyBlue;
+                me.ForeColor = Color.Black;
+            }
+            else if (time < DateTime.Now && MyTaskInf.TaskStat != 25)
+            {
+                me.BackColor = Color.Red;
+                me.ForeColor = Color.White;
+            }
+            else
+            {
+                me.BackColor = Color.Gainsboro;
+                me.ForeColor = Color.Black;
             }
         }
 
