@@ -258,6 +258,7 @@ namespace MYTask
 
             BtnPageUp.Visible = false;
             BtnPageDown.Visible = false;
+            LabelPage.Visible = false;
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -308,6 +309,7 @@ namespace MYTask
 
             BtnPageUp.Visible = false;
             BtnPageDown.Visible = false;
+            LabelPage.Visible = false;
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -322,6 +324,7 @@ namespace MYTask
 
             BtnPageUp.Visible = false;
             BtnPageDown.Visible = false;
+            LabelPage.Visible = false;
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -599,6 +602,9 @@ namespace MYTask
                     BtnPageUp.Visible = false;
                 if (!BtnPageDown.Visible)
                     BtnPageDown.Visible = true;
+                LabelPage.Text = string.Format("{0}/{1}",
+                (Target.NowIndex / 4 + 1).ToString(),
+                (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
         }
 
@@ -612,6 +618,9 @@ namespace MYTask
                     BtnPageDown.Visible = false;
                 if (!BtnPageUp.Visible)
                     BtnPageUp.Visible = true;
+                LabelPage.Text = string.Format("{0}/{1}",
+                (Target.NowIndex / 4 + 1).ToString(),
+                (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
         }
         
@@ -631,6 +640,10 @@ namespace MYTask
             NowFocus = Target;
             BtnPageUp.Visible = (Target.NowIndex <= 0) ? false : true;
             BtnPageDown.Visible = (Target.NowIndex + 4 > Target.TaskNum - 1) ? false : true;
+            LabelPage.Text = string.Format("{0}/{1}",
+                (Target.NowIndex / 4 + 1).ToString(),
+                (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
+            LabelPage.Visible = true;
         }
 
     }

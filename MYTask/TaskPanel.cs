@@ -237,12 +237,13 @@ class TaskPanel: Panel
             me.Text = "预期完成日期：" + time.ToString("yyyy/MM/dd");
             if (time < DateTime.Now)
             {
-                if (MyTaskInf.TaskStat == 2)
+                /*if (MyTaskInf.TaskStat == 2)
                 {
                     me.BackColor = Color.LightSkyBlue;
                     me.ForeColor = Color.Black;
                 }
-                else if (MyTaskInf.TaskStat == 25)
+                else*/ 
+                if (MyTaskInf.TaskStat == 25)
                 {
                     me.BackColor = Color.Gainsboro;
                     me.ForeColor = Color.Black;
@@ -266,17 +267,27 @@ class TaskPanel: Panel
             if (PlanTime > 0)
             {
                 LabelUsedTime.Location = new Point(3, 84);
-                LabelUsedTime.Size = new Size(Convert.ToInt32(UsedTime / PlanTime * 355), 21);
                 LabelUsedTime.Text = UsedTime.ToString();
-                LabelPlanTime.Location = new Point(LabelUsedTime.Width + 3, 84);
-                LabelPlanTime.Size = new Size(355 - LabelUsedTime.Width, 21);
-                LabelPlanTime.Text = PlanTime.ToString();
+                if (UsedTime > PlanTime)
+                {
+                    LabelUsedTime.BackColor = Color.Goldenrod;
+                    LabelUsedTime.Width = 355;
+                    LabelPlanTime.Width = 0;
+                }
+                else
+                {
+                    LabelUsedTime.BackColor = Color.Green;
+                    LabelUsedTime.Width = Convert.ToInt32(UsedTime / PlanTime * 355);
+                    LabelPlanTime.Location = new Point(LabelUsedTime.Width + 3, 84);
+                    LabelPlanTime.Width = 355 - LabelUsedTime.Width;
+                    LabelPlanTime.Text = PlanTime.ToString();
+                }
             }
             else
             {
-                LabelUsedTime.Size = new Size(0, 21);
+                LabelUsedTime.Width = 0;
                 LabelPlanTime.Location = new Point(3, 84);
-                LabelPlanTime.Size = new Size(355, 21);
+                LabelPlanTime.Width = 355;
                 LabelPlanTime.Text = "";
             }
         }
