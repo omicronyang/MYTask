@@ -243,12 +243,10 @@
     <None Include="Resources\Cross_32.png" />
     <None Include="Resources\Edit_32.png" />
     <None Include="Resources\Tick_32.png" />
-    <None Include="Resources\close_16.png" />
-    <None Include="Resources\close_32.png" />
-    <None Include="Resources\min_16.png" />
-    <None Include="Resources\min_32.png" />
     <None Include="Resources\close_24.png" />
     <None Include="Resources\min_24.png" />
+    <None Include="Resources\Pagedown_32.png" />
+    <None Include="Resources\Pageup_32.png" />
     <Content Include="__TemplateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

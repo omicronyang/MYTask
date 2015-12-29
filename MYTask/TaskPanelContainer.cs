@@ -10,43 +10,102 @@ namespace MYTask
     class TaskPanelContainer:Panel
     {
         public int TaskNum = 0;
-        private int WW = SystemInformation.WorkingArea.Width;
+        public int NowIndex = -1;
+        public TaskPanel[] Tp = new TaskPanel[4];
+        public List<MyTask> TaskList = new List<MyTask>();
 
         public TaskPanelContainer()
         {
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             BackColor = Color.RoyalBlue;
             Location = new Point(0, 0);
-            Size = new Size(621, 0);
-            MaximumSize = new Size(WW, 0);
             BackColor = Color.RoyalBlue;
             Visible = true;
+            for (int i = 0; i < 4; i++)
+            {
+                Tp[i] = new TaskPanel(3 + 111 * i, Width - 6);
+                Controls.Add(Tp[i]);
+                Controls.SetChildIndex(Tp[i], 0);
+            }
         }
 
         public void AddTask(MyTask Newtask)
         {
-            if (TaskNum == 0)
+            TaskList.Add(Newtask);
+            if (TaskNum < 4)
             {
-                MaximumSize = new Size(WW, 3);
-                Height = 3;
+                TaskNum++;
+                Tp[TaskNum - 1].UpdateTask(Newtask);
+                Controls.Add(Tp[TaskNum - 1]);
+                Controls.SetChildIndex(Tp[TaskNum - 1], 0);
             }
-            TaskNum++;
-            MaximumSize = new Size(WW, Height + 111);
-            Height += 111;
-            TaskPanel Tp = new TaskPanel(Height - 111, Width - 6);
-            Tp.UpdateTask(Newtask);
-            Controls.Add(Tp);
-            Controls.SetChildIndex(Tp, 0);
+            else TaskNum++;
+        }
+
+        public void AddTask(MyTask[] NewTaskList)
+        {
+            int oldnum = TaskNum;
+            TaskNum += NewTaskList.Length;
+            TaskList.AddRange(NewTaskList);
+            if (TaskNum <= 4)
+            {
+                Height = 3 + TaskNum * 111;
+                for (int i = 0; i < TaskNum; i++)
+                {
+                    Tp[i].UpdateTask(TaskList[i]);
+                    Controls.Add(Tp[i]);
+                    Controls.SetChildIndex(Tp[i], 0);
+                }              
+            }
+            else
+            {
+                Height = 447;
+                if (oldnum < 4)
+                    for (int i = oldnum; i < 4; i++)
+                        Tp[i].UpdateTask(TaskList[i]);
+            }
         }
 
         public void ClearTask()
         {
-            while (TaskNum > 0)
+            int num = Math.Min(TaskNum, 4);
+            while (num > 0)
             {
-                Controls.RemoveAt(TaskNum - 1);
-                TaskNum--;
+                Controls.RemoveAt(num - 1);
+                num--;
             }
             Height = 0;
+            TaskNum = 0;
+            TaskList.Clear();
+        }
+
+        public void TaskPageDown()
+        {
+            if (NowIndex + 4 > TaskNum - 1) return;
+            NowIndex += 4;
+            RenewTaskPage();
+        }
+
+        public void TaskPageUp()
+        {
+            if (NowIndex - 4 < 0) return;
+            NowIndex -= 4;
+            RenewTaskPage();
+        }
+
+        private void RenewTaskPage()
+        {
+            if (TaskNum-NowIndex >= 4)
+            {
+                for (int i = NowIndex; i < NowIndex + 4; i++)
+                    Tp[i - NowIndex].UpdateTask(TaskList[i]);
+                Height = 447;
+            } 
+            else
+            {
+                for (int i = NowIndex; i < TaskNum; i++)
+                    Tp[i - NowIndex].UpdateTask(TaskList[i]);
+                Height = 3 + (TaskNum - NowIndex) * 111;
+            }
         }
 
     }

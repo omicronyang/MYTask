@@ -9,8 +9,6 @@ namespace MYTask
 {
     class UserList : ListView
     {
-        public int UserNum;
-
         public UserList()
         {
             View = View.Details;
@@ -18,6 +16,8 @@ namespace MYTask
             LabelEdit = false;
             Margin = new Padding(3);
             FullRowSelect = true;
+            
+            
 
             Columns.Add("用户名", 175, HorizontalAlignment.Left);
             Columns.Add("权限", 76, HorizontalAlignment.Left);

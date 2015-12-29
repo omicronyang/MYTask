@@ -10,7 +10,7 @@ namespace MYTask
     class LinkUserLabel:LinkLabel
     {
         public MyUser user = new MyUser();
-        private FormMain formmain = (FormMain)Form.ActiveForm;
+        //private FormMain formmain = (FormMain)Form.ActiveForm;
 
         public LinkUserLabel()
         {
@@ -30,8 +30,9 @@ namespace MYTask
 
         protected override void OnClick(EventArgs e)
         {
+            FormMain formmain = (FormMain)Form.ActiveForm;
             formmain.SetProfilePanel(user.UID);
-            formmain.InitPanelProfile();
+            formmain.ShowPanelProfile();
             base.OnClick(e);
             //MessageBox.Show(a.ToString());
         }

@@ -11,9 +11,6 @@ namespace MYTask
 {
     public partial class FormMain : Form
     {
-
-        private VScrollBar[] ScrollTask = new VScrollBar[3];
-
         private int TimerSideStat;
         private int TimerLogStat;
         private int dHeight;
@@ -24,6 +21,7 @@ namespace MYTask
         private BackgroundWorker m_worker = new BackgroundWorker();
         private ListViewColumnSorter lvwColumnSorter;
         public MyDB DataBase = new MyDB();
+        private object NowFocus;
 
         private delegate void BGAddTaskList(MyTask[] Tlist, int Mode);
         private delegate void BGAddUserList(MyUser[] Ulist);
@@ -67,26 +65,6 @@ namespace MYTask
             TextLogin_Psw.Enter += new EventHandler(LoginBoxGetFocus);
             TextLogin_Psw.Leave += new EventHandler(LoginBoxLostFocus);
 
-            for (int i = 0; i < 3; ++i)
-            {
-                ScrollTask[i] = new VScrollBar();
-                ScrollTask[i].Location = new Point(625, 3);
-                ScrollTask[i].Size = new Size(14, 460);
-                ScrollTask[i].Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
-                ScrollTask[i].Maximum = 3;
-                ScrollTask[i].Scroll += new ScrollEventHandler(vScroll_Scroll);
-                //ScrollTask[i].Resize += new EventHandler(vScroll_Resize);
-                ScrollTask[i].Name = "ScrollTask" + i.ToString();
-            }
-
-            TaskMy.Controls.Add(ScrollTask[0]);
-            TaskPub.Controls.Add(ScrollTask[1]);
-            TaskAll.Controls.Add(ScrollTask[2]);
-
-            ScrollTask[0].Resize += new EventHandler(vScroll_Resize);
-            ScrollTask[1].Resize += new EventHandler(vScroll_Resize);
-            ScrollTask[2].Resize += new EventHandler(vScroll_Resize);
-
             lvwColumnSorter = new ListViewColumnSorter();
             ContactList.ListViewItemSorter = lvwColumnSorter;
 
@@ -126,22 +104,6 @@ namespace MYTask
         {
             //dHeight = Height - PanelGuideS.Height;
             PanelGuide.Height = PanelGuideS.Height;
-        }
-
-        private void Form_Lock()
-        {
-
-            WindowState = FormWindowState.Normal;
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            Size = new Size(700 + dWidth, 500 + dHeight);
-            MaximizeBox = false;
-        }
-
-        private void Form_Unlock()
-        {
-            FormBorderStyle = FormBorderStyle.Sizable;
-            Size = new Size(700 + dWidth, 500 + dHeight);
-            MaximizeBox = true;
         }
 
         private void TestConnect(object sender, DoWorkEventArgs e)
@@ -261,10 +223,10 @@ namespace MYTask
                         //PanelLogin exit to bottom
                         int y = PanelLogin.Location.Y;
                         PanelLogin.Location = new Point(0, y + 25);
-                        if (PanelLogin.Location.Y >= 532)
+                        if (PanelLogin.Location.Y >= this.Height)
                         {
                             TimerLogin.Stop();
-                            PanelLogin.Location = new Point(0, 532);
+                            PanelLogin.Location = new Point(0, this.Height);
                             PanelLogin.Visible = false;
                             //Form_Unlock();
                         }
@@ -289,7 +251,7 @@ namespace MYTask
             PanelProfile.SetProfileInfo(tu, (tu == NowUser || NowUser.Rank == 5) ? 1 : 0);
         }
 
-        public void InitPanelProfile()
+        public void ShowPanelProfile()
         {
             Panel me = PanelProfile;
 
@@ -301,7 +263,7 @@ namespace MYTask
 
         }
 
-        private void InitTabsTask()
+        private void ShowTabsTask()
         {
             TabControl me = TabsTask;
             TabPage met = TaskMy;
@@ -313,7 +275,7 @@ namespace MYTask
             PanelMessages.Visible = false;
         }
 
-        private void InitTabsProject()
+        private void ShowTabsProject()
         {
             TabControl me = TabsProject;
 
@@ -324,7 +286,7 @@ namespace MYTask
             PanelMessages.Visible = false;
         }
 
-        private void InitPanelContacts()
+        private void ShowPanelContacts()
         {
             Panel me = PanelContacts;
 
@@ -335,7 +297,7 @@ namespace MYTask
             PanelMessages.Visible = false;
         }
 
-        private void InitPanelMessages()
+        private void ShowPanelMessages()
         {
             Panel me = PanelMessages;
 
@@ -350,11 +312,11 @@ namespace MYTask
         {
             switch (index)
             {
-                case 0: { InitPanelProfile(); break; }
-                case 1: { InitTabsTask(); break; }
-                case 2: { InitTabsProject(); break; }
-                case 3: { InitPanelContacts(); break; }
-                case 4: { InitPanelMessages(); break; }
+                case 0: { ShowPanelProfile(); break; }
+                case 1: { ShowTabsTask(); break; }
+                case 2: { ShowTabsProject(); break; }
+                case 3: { ShowPanelContacts(); break; }
+                case 4: { ShowPanelMessages(); break; }
             }
         }
 
@@ -475,7 +437,7 @@ namespace MYTask
             }
 
         Success:  //成功登陆
-            InitTabsTask();
+            ShowTabsTask();
             if (LoginStat == 1 && TextLogin_UID.State == 0) TextLogin_UID.Text = "zxt_lyd";
             NowUser = DataBase.GetUser(TextLogin_UID.Text);
             //MessageBox.Show(NowUser.Name);
@@ -487,6 +449,7 @@ namespace MYTask
             //MessageBox.Show(NowUser.Name);
             TimerLogStat = 1;
             TimerLogin.Start();
+            NowFocus = TaskMy;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -501,7 +464,7 @@ namespace MYTask
         public void Logout()
         {
             //Form_Lock();
-            PanelLogin.Location = new Point(0, 532);
+            PanelLogin.Location = new Point(0, this.Height);
             PanelLogin.Visible = true;
             InitLoginBox("");
             TaskListMy.ClearTask();
@@ -522,13 +485,6 @@ namespace MYTask
 
         }
 
-        private void AddTaskPanel()
-        {
-            MyTask t1 = new MyTask();
-            t1.InitTestInf(this);
-            TaskListMy.AddTask(t1);
-        }
-
         private void AddTaskList(MyTask[] Tasklist, int Mode)
         {
             if (TaskListMy.InvokeRequired)
@@ -543,13 +499,8 @@ namespace MYTask
             if (Mode == 0) Target = TaskListMy;
             else if (Mode == 1) Target = TaskListPub;
             else Target = TaskListAll;
-            
-            for (int i = 0; i < Tasklist.Length; ++i)
-            {
-                Target.AddTask(Tasklist[i]);
-                ScrollTask[Mode].Maximum = Target.Height > TaskPub.Height ? Target.Height + 10 - TaskPub.Height : 0;
-                if (Target.Height > TaskPub.Height) ScrollTask[Mode].Visible = true;
-            }
+
+            Target.AddTask(Tasklist);
         }
 
         private void AddUserList(MyUser[] Ulist)
@@ -564,47 +515,6 @@ namespace MYTask
             ContactList.AddUserList(Ulist);
         }
 
-        private void vScroll_Scroll(object sender, ScrollEventArgs e)
-        {
-            VScrollBar Bar = (VScrollBar)sender;
-
-            if (Bar.Name == "ScrollTask0" | Bar.Name == "ScrollTask1" | Bar.Name == "ScrollTask2")
-            {
-                TaskPanelContainer Target = new TaskPanelContainer();
-                if (Bar.Name == "ScrollTask0") Target = TaskListMy;
-                else if (Bar.Name == "ScrollTask1") Target = TaskListPub;
-                else Target = TaskListAll;
-                Target.Location = new Point(Target.Location.X, 0 - Bar.Value);
-            }
-        }
-
-        private void vScroll_Resize(object sender, EventArgs e)
-        {
-            VScrollBar Bar = (VScrollBar)sender;
-
-            if (Bar.Name == "ScrollTask0" | Bar.Name == "ScrollTask1" | Bar.Name == "ScrollTask2")
-            {
-                TaskPanelContainer Target;
-                TabPage Container;
-                if (Bar.Name == "ScrollTask0")
-                {
-                    Target = TaskListMy;
-                    Container = TaskMy;
-                }
-                else if (Bar.Name == "ScrollTask1")
-                {
-                    Target = TaskListPub;
-                    Container = TaskPub;
-                }
-                else
-                {
-                    Target = TaskListAll;
-                    Container = TaskAll;
-                }
-
-                Bar.Maximum = Target.Height > Container.Height ? Target.Height + 10 - Container.Height : 0;
-            }
-        }
 
         private void ContactList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
@@ -635,7 +545,7 @@ namespace MYTask
             ListViewItem target = ContactList.SelectedItems[0];
             //MessageBox.Show(target.SubItems[4].Text);
             SetProfilePanel(Convert.ToInt32(target.SubItems[4].Text));
-            InitPanelProfile();
+            ShowPanelProfile();
         }
 
         private void UI_Caption_MouseDown(object sender, MouseEventArgs e)
@@ -654,5 +564,16 @@ namespace MYTask
             ReleaseCapture();
             SendMessage(this.Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
         }
+
+        private void BtnPageUp_Click(object sender, EventArgs e)
+        {
+            TaskListAll.TaskPageUp();
+        }
+
+        private void BtnPageDown_Click(object sender, EventArgs e)
+        {
+            TaskListAll.TaskPageDown();
+        }
+       
     }
 }
