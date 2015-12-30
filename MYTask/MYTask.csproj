@@ -145,12 +145,16 @@
     <Compile Include="BorderLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CCWin\SkinForm.Designer.cs">
+      <DependentUpon>SkinForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="CCWin\ImageDrawRect.cs" />
     <Compile Include="LinkTaskLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -164,6 +168,9 @@
     <Compile Include="MyDB.cs" />
     <Compile Include="MyProj.cs" />
     <Compile Include="MyUser.cs" />
+    <Compile Include="CCWin\SkinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TaskProfilePanel.cs" />
     <Compile Include="UserList.cs">
       <SubType>Component</SubType>
@@ -186,6 +193,7 @@
     <Compile Include="UserProfilePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CCWin\Win32.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -247,6 +255,7 @@
     <None Include="Resources\min_24.png" />
     <None Include="Resources\Pagedown_32.png" />
     <None Include="Resources\Pageup_32.png" />
+    <None Include="Resources\main_light_bkg_top123.png" />
     <Content Include="__TemplateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

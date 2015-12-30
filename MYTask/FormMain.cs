@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SQLite;
 using System.Runtime.InteropServices;
+using CCWin;
 
 namespace MYTask
 {
     public partial class FormMain : Form
     {
+        private SkinForm skin;
+
         private int TimerSideStat;
         private int TimerLogStat;
         private int dHeight;
@@ -34,6 +37,12 @@ namespace MYTask
         [DllImport("user32.dll")]
         public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
 
+        [DllImport("user32.dll")]
+        public static extern int SetClassLong(IntPtr hwnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        public static extern int GetClassLong(IntPtr hwnd, int nIndex);
+
         //常数
         public const int WM_SYSCOMMAND = 0x0112;
         //窗体移动
@@ -41,9 +50,11 @@ namespace MYTask
         public const int HTCAPTION = 0x0002;
         //窗体最小化
         public const int SC_MINIMIZE = 0xF020;
+
         public FormMain()
         {
             InitializeComponent();
+
             PanelGuide.Location = new Point(-175, 32);
             PanelGuideS.Location = new Point(0, 32);
             PanelLogin.Location = new Point(0, 32);
@@ -53,6 +64,8 @@ namespace MYTask
             PanelContacts.Location = new Point(48, 32);
             PanelContacts.BackColor = Color.Gainsboro;
             PanelMessages.Location = new Point(48, 32);
+
+            SetStyles();
 
             dHeight = Height - PanelGuideS.Height;
             dWidth = Width - PanelProfile.Width - 48;
@@ -74,10 +87,36 @@ namespace MYTask
 
         }
 
+        #region 优化窗体显示
+        private void SetStyles()
+        {
+            SetStyle(
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.DoubleBuffer, true);
+            //强制分配样式重新应用到控件上
+            UpdateStyles();
+            base.AutoScaleMode = AutoScaleMode.None;
+        }
+
+        //窗体关闭时
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            //先关闭阴影窗体
+            if (skin != null)
+            {
+                skin.Close();
+            }
+            //在Form_FormClosing中添加代码实现窗体的淡出
+            Win32.AnimateWindow(this.Handle, 120, Win32.AW_BLEND | Win32.AW_HIDE);
+        }
+        #endregion
+
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //Form_Lock();
-            //MinimumSize = Size;
             TextLogin_UID.RenewState(3);
             TextLogin_Psw.RenewState(3);
             CloudStatus.Image = Properties.Resources.Cloud_Connecting_32;
@@ -111,7 +150,6 @@ namespace MYTask
         {
             Action aDelegate = delegate { this.BarConnecting.MarqueeAnimationSpeed = 5; };
             this.BarConnecting.Invoke(aDelegate);
-            //BarConnecting.MarqueeAnimationSpeed = 5;
 
             if (DataBase.Connect())
             {
@@ -583,6 +621,7 @@ namespace MYTask
 
         private void BtnClose_Click(object sender, EventArgs e)
         {
+            this.Close();
             Environment.Exit(0);
         }
 
