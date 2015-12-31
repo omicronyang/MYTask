@@ -283,6 +283,16 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Setting_32 {
+            get {
+                object obj = ResourceManager.GetObject("Setting_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Task_32 {
             get {
                 object obj = ResourceManager.GetObject("Task_32", resourceCulture);

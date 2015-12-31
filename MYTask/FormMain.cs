@@ -6,14 +6,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SQLite;
 using System.Runtime.InteropServices;
-using CCWin;
 
 namespace MYTask
 {
     public partial class FormMain : Form
     {
-        private SkinForm skin;
-
         private int TimerSideStat;
         private int TimerLogStat;
         private int dHeight;
@@ -42,6 +39,9 @@ namespace MYTask
 
         [DllImport("user32.dll")]
         public static extern int GetClassLong(IntPtr hwnd, int nIndex);
+        
+        [DllImportAttribute("user32.dll")]
+        public static extern bool AnimateWindow(IntPtr hWnd, int dwTime, int dwFlags);
 
         //常数
         public const int WM_SYSCOMMAND = 0x0112;
@@ -50,6 +50,14 @@ namespace MYTask
         public const int HTCAPTION = 0x0002;
         //窗体最小化
         public const int SC_MINIMIZE = 0xF020;
+        /// <summary>
+        /// 隐藏控件.默认则显示控件.
+        /// </summary>
+        public const Int32 AW_HIDE = 0x00010000;
+        /// <summary>
+        /// 使用淡入效果.只有当hWnd为顶层控件时才可以使用此标志.
+        /// </summary>
+        public const Int32 AW_BLEND = 0x00080000;
 
         public FormMain()
         {
@@ -101,18 +109,12 @@ namespace MYTask
             base.AutoScaleMode = AutoScaleMode.None;
         }
 
-        //窗体关闭时
         protected override void OnClosing(CancelEventArgs e)
         {
+            AnimateWindow(this.Handle, 150, AW_BLEND | AW_HIDE);
             base.OnClosing(e);
-            //先关闭阴影窗体
-            if (skin != null)
-            {
-                skin.Close();
-            }
-            //在Form_FormClosing中添加代码实现窗体的淡出
-            Win32.AnimateWindow(this.Handle, 120, Win32.AW_BLEND | Win32.AW_HIDE);
         }
+
         #endregion
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -621,7 +623,8 @@ namespace MYTask
 
         private void BtnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            //this.Close();
+            AnimateWindow(this.Handle, 150, AW_BLEND | AW_HIDE);
             Environment.Exit(0);
         }
 
