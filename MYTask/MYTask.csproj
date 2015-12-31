@@ -164,6 +164,12 @@
     <Compile Include="MyDB.cs" />
     <Compile Include="MyProj.cs" />
     <Compile Include="MyUser.cs" />
+    <Compile Include="ProjPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjPanelContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TaskProfilePanel.cs" />
     <Compile Include="UserList.cs">
       <SubType>Component</SubType>

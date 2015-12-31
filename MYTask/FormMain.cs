@@ -75,8 +75,8 @@ namespace MYTask
 
             SetStyles();
 
-            dHeight = Height - PanelGuideS.Height;
-            dWidth = Width - PanelProfile.Width - 48;
+            //dHeight = Height - PanelGuideS.Height;
+            //dWidth = Width - PanelProfile.Width - 48;
 
             //跳过登陆面板
             TextLogin_UID.RenewState(3);

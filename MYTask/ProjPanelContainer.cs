@@ -7,25 +7,35 @@ using System.Drawing;
 
 namespace MYTask
 {
-    class TaskPanelContainer:Panel
+    class ProjPanelContainer:Panel
     {
-        public int TaskNum = 0;
+        public int ProjNum = 0;
         public int NowIndex = -1;
-        public TaskPanel[] Tp = new TaskPanel[4];
-        public List<MyTask> TaskList = new List<MyTask>();
+        public ProjPanel[] Pp = new ProjPanel[12];
+        public List<MyProj> TaskList = new List<MyProj>();
+        // ProjPanel size = 157,145
+        
 
-        public TaskPanelContainer()
+        public ProjPanelContainer()
         {
             BackColor = Color.RoyalBlue;
             Location = new Point(0, 0);
             Visible = true;
-            for (int i = 0; i < 4; i++)
+            /*for (int i = 0; i < 4; i++)
             {
                 Tp[i] = new TaskPanel(3 + 111 * i, Width - 6);
                 Controls.Add(Tp[i]);
                 Controls.SetChildIndex(Tp[i], 0);
+            }*/
+            for (int i = 0; i < 12; i++)
+            {
+                Pp[i] = new ProjPanel(3 + i % 4 * 160, 3 + i / 4 * 148);
+                Controls.Add(Pp[i]);
+                Controls.SetChildIndex(Pp[i], 0);
             }
         }
+
+        /*
 
         public void AddTask(MyTask Newtask)
         {
@@ -39,6 +49,9 @@ namespace MYTask
             }
             else TaskNum++;
         }
+
+        */
+        /*
 
         public void AddTask(MyTask[] NewTaskList)
         {
@@ -69,6 +82,9 @@ namespace MYTask
             if (NowIndex < 0) NowIndex = 0;
         }
 
+        */
+        /*
+
         public void ClearTask()
         {
             int num = Math.Min(TaskNum, 4);
@@ -83,6 +99,9 @@ namespace MYTask
             NowIndex = -1;
         }
 
+        */
+        /*
+
         public void PageDown()
         {
             if (NowIndex + 4 > TaskNum - 1) return;
@@ -90,12 +109,18 @@ namespace MYTask
             RenewTaskPage();
         }
 
+        */
+        /*
+
         public void PageUp()
         {
             if (NowIndex < 4) return;
             NowIndex -= 4;
             RenewTaskPage();
         }
+
+        */
+        /*
 
         private void RenewTaskPage()
         {
@@ -113,11 +138,14 @@ namespace MYTask
             }
         }
 
+        */
+        /*
+
         public void RenewTaskPage(int Index)
         {
             NowIndex = Index;
             RenewTaskPage();
         }
-
+        */
     }
 }

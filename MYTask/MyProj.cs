@@ -17,6 +17,9 @@ namespace MYTask
         public MyUser ProjToUser;
         public int ProjStat;
         public DateTime ProjUpdateTime;
-
     }
+
+
+
+
 }

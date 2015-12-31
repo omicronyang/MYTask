@@ -30,6 +30,7 @@ class TaskPanel: Panel
         {
             InitCompenent();
         }
+
         public TaskPanel(int y, int width)
 	    {
 		    Size = new Size(width, 108);
@@ -154,8 +155,8 @@ class TaskPanel: Panel
 
             LabelTaskName.Text += MyTaskInf.TaskName;
             LabelProjName.Text = MyTaskInf.TaskProject;
-            LabelUserName.Init(MyTaskInf.TaskU);
-            LabelFromUserName.Init(MyTaskInf.TaskFU); 
+            LabelUserName.SetUser(MyTaskInf.TaskU);
+            LabelFromUserName.SetUser(MyTaskInf.TaskFU); 
 
             LabelEndTime_Update(MyTaskInf.TaskEndTime);
             LabelUpdateTime_Update(MyTaskInf.TaskUpdateTime);
