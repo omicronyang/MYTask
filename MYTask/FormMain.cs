@@ -13,8 +13,6 @@ namespace MYTask
     {
         private int TimerSideStat;
         private int TimerLogStat;
-        private int dHeight;
-        private int dWidth;
         private int LoginStat = 1;  // 0 正常登陆, 1 跳过验证
         private int DBaseStat = -1; // 0 离线数据, 1 在线数据
         private MyUser NowUser = new MyUser();
@@ -23,8 +21,10 @@ namespace MYTask
         public MyDB DataBase = new MyDB();
         private object NowFocus;
         private TabControl FocusTC;
+        private Color UIColor = Properties.Settings.Default.UIColor;
 
         private delegate void BGAddTaskList(MyTask[] Tlist, int Mode);
+        private delegate void BGAddProjList(MyProj[] Plist, int Mode);
         private delegate void BGAddUserList(MyUser[] Ulist);
         private delegate void BGWorkComplete(object sender, DoWorkEventArgs e);
 
@@ -50,18 +50,16 @@ namespace MYTask
         public const int HTCAPTION = 0x0002;
         //窗体最小化
         public const int SC_MINIMIZE = 0xF020;
-        /// <summary>
-        /// 隐藏控件.默认则显示控件.
-        /// </summary>
-        public const Int32 AW_HIDE = 0x00010000;
-        /// <summary>
-        /// 使用淡入效果.只有当hWnd为顶层控件时才可以使用此标志.
-        /// </summary>
-        public const Int32 AW_BLEND = 0x00080000;
+        public const int WS_MINIMIZEBOX = 0x00020000;
+        //动画参数
+        public const int AW_HIDE = 0x00010000;   //隐藏
+        public const int AW_BLEND = 0x00080000;  //淡入淡出
 
         public FormMain()
         {
             InitializeComponent();
+
+            Properties.Settings.Default.UIColor = Color.RoyalBlue;
 
             PanelGuide.Location = new Point(-175, 32);
             PanelGuideS.Location = new Point(0, 32);
@@ -74,6 +72,7 @@ namespace MYTask
             PanelMessages.Location = new Point(48, 32);
 
             SetStyles();
+            UIColorUpdate();
 
             //dHeight = Height - PanelGuideS.Height;
             //dWidth = Width - PanelProfile.Width - 48;
@@ -115,6 +114,16 @@ namespace MYTask
             base.OnClosing(e);
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style = cp.Style | WS_MINIMIZEBOX;
+                return cp;
+            }
+        }
+
         #endregion
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -142,12 +151,126 @@ namespace MYTask
             if (DBaseStat == 1) DataBase.Close();
         }
 
-        private void FormMain_Resize(object sender, EventArgs e)
+        #region 颜色设置
+
+        private void UIColorUpdate()
         {
-            //dHeight = Height - PanelGuideS.Height;
-            PanelGuide.Height = PanelGuideS.Height;
+            PanelLogin.BackColor = UIColor;
+            UI_Caption.BackColor = UIColor;
+
+            BtnProfile.BackColor = UIColor;
+
+            TaskListMy.BackColor = UIColor;
+            TaskListPub.BackColor = UIColor;
+            TaskListAll.BackColor = UIColor;
+
+            ProjListMy.BackColor = UIColor;
+            ProjListAll.BackColor = UIColor;
+            
+            double[] OHSL = RGBtoHSL(UIColor.R, UIColor.G, UIColor.B);
+
+            int[] LRGB = HSLtoRGB(OHSL[0], OHSL[1], OHSL[2] + 0.1);
+            int[] DRGB = HSLtoRGB(OHSL[0], OHSL[1], OHSL[2] - 0.1);
+            Color MDBC = Color.FromArgb(DRGB[0], DRGB[1], DRGB[2]);
+            Color MOBC = Color.FromArgb(LRGB[0], LRGB[1], LRGB[2]);
+
+            BtnCall.BackColor = UIColor;
+            BtnCall.FlatAppearance.MouseOverBackColor = MOBC;
+            BtnCall.FlatAppearance.MouseDownBackColor = MDBC;
+
+            BtnCallback.BackColor = UIColor;
+            BtnCallback.FlatAppearance.MouseOverBackColor = MOBC;
+            BtnCallback.FlatAppearance.MouseDownBackColor = MDBC;
+
+            BtnMin.BackColor = UIColor;
+            BtnMin.FlatAppearance.MouseOverBackColor = MOBC;
+            BtnMin.FlatAppearance.MouseDownBackColor = MDBC;
         }
 
+        private void UIColorUpdate(Color UIC)
+        {
+            UIColor = UIC;
+            UIColorUpdate();
+        }
+
+        private int[] HSLtoRGB(double H,double S, double L)
+        {
+            int[] rgb = new int[3];
+            double p1, p2;
+            double r, g, b;
+            if (L <= 0.5)
+                p2 = L * (1 + S);
+            else
+                p2 = L + S - (L * S);
+            p1 = 2 * L - p2;
+            if (S == 0)
+            {
+                r = L;
+                g = L;
+                b = L;
+            }
+            else
+            {
+                r = ToRGB(p1, p2, H + 120);
+                g = ToRGB(p1, p2, H);
+                b = ToRGB(p1, p2, H - 120);
+            }
+            rgb[0] = (int)Math.Round(r * 255);
+            rgb[1] = (int)Math.Round(g * 255);
+            rgb[2] = (int)Math.Round(b * 255);
+            return rgb;
+        }
+
+        private double[] RGBtoHSL(int R,int G,int B)
+        {
+            double r = R / 255.00;
+            double g = G / 255.00;
+            double b = B / 255.00;
+            double max, min, diff, r_dist, g_dist, b_dist;
+            double h, s, l;
+            double[] hsl = new double[3];
+
+            max = Math.Max(Math.Max(r, g), b);
+            min = Math.Min(Math.Min(r, g), b);
+            diff = max - min;
+            l = (max + min) / 2.00;
+            if (diff == 0) h = s = 0;
+            else
+            {
+                if (l < 50) s = diff / (max + min);
+                else s = diff / (2 - max - min);
+            }
+            r_dist = (max - r) / diff;
+            g_dist = (max - g) / diff;
+            b_dist = (max - b) / diff;
+            if (R == max) h = b_dist - g_dist;
+            else if (G == max) h = 2 + r_dist - b_dist;
+            else h = 4 + g_dist - r_dist;
+            h *= 60;
+            if (h < 0) h += 360;
+            if (h > 360) h -= 360;
+            hsl[0] = h;
+            hsl[1] = s;
+            hsl[2] = l;
+            return hsl;
+        }
+
+        private double ToRGB(double q1,double q2,double hue)
+        {
+            if (hue > 360) hue -= 360;
+            if (hue < 0) hue += 360;
+            if (hue < 60) return (q1 + (q2 - q1) * hue / 60);
+            if (hue < 180) return q2;
+            if (hue < 240) return (q1 + (q2 - q1) * (240 - hue) / 60);
+            return q1;
+        }
+
+
+
+
+        #endregion
+
+        #region 数据库连接
         private void TestConnect(object sender, DoWorkEventArgs e)
         {
             Action aDelegate = delegate { this.BarConnecting.MarqueeAnimationSpeed = 5; };
@@ -157,7 +280,7 @@ namespace MYTask
             {
                 DBaseStat = DataBase.Online;
             }
-            else MessageBox.Show("无法连接到数据库：请检查文件是否完整");
+            else MessageBox.Show("无法连接到数据库：请让设备连接到网络或检查离线数据文件是否完整");
         }
 
         private void RenewDBStat(object sender, RunWorkerCompletedEventArgs e)
@@ -200,6 +323,7 @@ namespace MYTask
             }
 
         }
+        #endregion
 
         private void InitList(object sender, DoWorkEventArgs e)
         {
@@ -212,7 +336,7 @@ namespace MYTask
 
 
             AddTaskList(DataBase.GetTaskList(), 2);
-            //MessageBox.Show("TasklistDone");
+            AddProjList(DataBase.GetProjList(), 2);
             AddUserList(DataBase.GetUserList());
             LabelBlock.Visible = false;
         }
@@ -299,6 +423,8 @@ namespace MYTask
             BtnPageUp.Visible = false;
             BtnPageDown.Visible = false;
             LabelPage.Visible = false;
+            FocusTC = null;
+            LabelTitle.Text = "WSS - 用户详情";
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -320,7 +446,8 @@ namespace MYTask
                 case 1: { UpdatePageControl(TaskListPub); break; }
                 case 2: { UpdatePageControl(TaskListAll); break; }
             }
-            
+            LabelTitle.Text = "WSS - 任务列表";
+
             me.Visible = true;
             TabsProject.Visible = false;
             PanelProfile.Visible = false;
@@ -333,8 +460,12 @@ namespace MYTask
             TabControl me = TabsProject;
 
             FocusTC = TabsProject;
-            BtnPageUp.Visible = true;
-            BtnPageDown.Visible = true;
+            switch (TabsProject.SelectedIndex)
+            {
+                case 0: { UpdatePageControl(ProjListMy); break; }
+                case 1: { UpdatePageControl(ProjListAll); break; }
+            }
+            LabelTitle.Text = "WSS - 项目列表";
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -350,6 +481,8 @@ namespace MYTask
             BtnPageUp.Visible = false;
             BtnPageDown.Visible = false;
             LabelPage.Visible = false;
+            FocusTC = null;
+            LabelTitle.Text = "WSS - 联系人列表";
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -365,6 +498,8 @@ namespace MYTask
             BtnPageUp.Visible = false;
             BtnPageDown.Visible = false;
             LabelPage.Visible = false;
+            FocusTC = null;
+            LabelTitle.Text = "WSS - 消息中心";
 
             me.Visible = true;
             TabsTask.Visible = false;
@@ -511,10 +646,12 @@ namespace MYTask
 
             AddTaskList(DataBase.GetTaskList(NowUser.UID, 0), 0);
             AddTaskList(DataBase.GetTaskList(NowUser.UID, 1), 1);
+            AddProjList(DataBase.GetProjList(NowUser.UID), 0);
+
             TaskListAll.RenewTaskPage(0);
             UpdatePageControl(TaskListMy);
             TabsTask.SelectedIndex = 0;
-            //MessageBox.Show(NowUser.Name);
+            LabelTitle.Text = "WSS - 任务列表";
             TimerLogStat = 1;
             TimerLogin.Start();
         }
@@ -536,6 +673,8 @@ namespace MYTask
             InitLoginBox("");
             TaskListMy.ClearTask();
             TaskListPub.ClearTask();
+            ProjListMy.ClearProj();
+            LabelTitle.Text = "WSS - 登录";
             TimerLogStat = 0;
             TimerLogin.Start();
 
@@ -551,7 +690,11 @@ namespace MYTask
         {
 
         }
-
+        /// <summary>
+        /// 为任务列表容器添加任务项
+        /// </summary>
+        /// <param name="Tasklist">元数据</param>
+        /// <param name="Mode">0为添加指派给用户的任务，1为用户发布的任务，否则为全部任务</param>
         private void AddTaskList(MyTask[] Tasklist, int Mode)
         {
             if (TaskListMy.InvokeRequired)
@@ -568,6 +711,28 @@ namespace MYTask
             else Target = TaskListAll;
 
             Target.AddTask(Tasklist);
+        }
+
+        /// <summary>
+        /// 为项目列表容器添加项目项
+        /// </summary>
+        /// <param name="Projlist">元数据</param>
+        /// <param name="Mode">0为用户负责的项目，否则为全部项目</param>
+        private void AddProjList(MyProj[] Projlist, int Mode)
+        {
+            if (ProjListMy.InvokeRequired)
+            {
+                BGAddProjList BGAPL = new BGAddProjList(AddProjList);
+                Invoke(BGAPL, Projlist, Mode);
+                return;
+            }
+
+            ProjPanelContainer Target;
+
+            if (Mode == 0) Target = ProjListMy;
+            else Target = ProjListAll;
+
+            Target.AddProj(Projlist);
         }
 
         private void AddUserList(MyUser[] Ulist)
@@ -648,6 +813,19 @@ namespace MYTask
                 (Target.NowIndex / 4 + 1).ToString(),
                 (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
+            else if (NowFocus.GetType().ToString() == "MYTask.ProjPanelContainer")
+            {
+                ProjPanelContainer Target = (ProjPanelContainer)NowFocus;
+                Target.PageUp();
+                if (Target.NowIndex <= 0)
+                    BtnPageUp.Visible = false;
+                if (!BtnPageDown.Visible)
+                    BtnPageDown.Visible = true;
+                LabelPage.Text = string.Format("{0}/{1}",
+                (Target.NowIndex / 12 + 1).ToString(),
+                (Target.ProjNum % 12 == 0) ? (Target.ProjNum / 12).ToString() : (Target.ProjNum / 12 + 1).ToString());
+            }
+                
         }
 
         private void BtnPageDown_Click(object sender, EventArgs e)
@@ -664,6 +842,18 @@ namespace MYTask
                 (Target.NowIndex / 4 + 1).ToString(),
                 (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
+            else if (NowFocus.GetType().ToString() == "MYTask.ProjPanelContainer")
+            {
+                ProjPanelContainer Target = (ProjPanelContainer)NowFocus;
+                Target.PageDown();
+                if (Target.NowIndex + 12 > Target.ProjNum - 1)
+                    BtnPageDown.Visible = false;
+                if (!BtnPageUp.Visible)
+                    BtnPageUp.Visible = true;
+                LabelPage.Text = string.Format("{0}/{1}",
+                (Target.NowIndex / 12 + 1).ToString(),
+                (Target.ProjNum % 12 == 0) ? (Target.ProjNum / 12).ToString() : (Target.ProjNum / 12 + 1).ToString());
+            }
         }
         
         private void TabsTask_SelectedIndexChanged(object sender, EventArgs e)
@@ -677,6 +867,16 @@ namespace MYTask
             }
         }
 
+        private void TabsProject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (FocusTC != TabsProject) return;
+            switch (TabsProject.SelectedIndex)
+            {
+                case 0: { UpdatePageControl(ProjListMy); break; }
+                case 1: { UpdatePageControl(ProjListAll); break; }
+            }
+        }
+
         private void UpdatePageControl(TaskPanelContainer Target)
         {
             NowFocus = Target;
@@ -685,6 +885,17 @@ namespace MYTask
             LabelPage.Text = string.Format("{0}/{1}",
                 (Target.NowIndex / 4 + 1).ToString(),
                 (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
+            LabelPage.Visible = true;
+        }
+
+        private void UpdatePageControl(ProjPanelContainer Target)
+        {
+            NowFocus = Target;
+            BtnPageUp.Visible = (Target.NowIndex <= 0) ? false : true;
+            BtnPageDown.Visible = (Target.NowIndex + 12 > Target.ProjNum - 1) ? false : true;
+            LabelPage.Text = string.Format("{0}/{1}",
+                (Target.NowIndex / 12 + 1).ToString(),
+                (Target.ProjNum % 12 == 0) ? (Target.ProjNum / 12).ToString() : (Target.ProjNum / 12 + 1).ToString());
             LabelPage.Visible = true;
         }
 

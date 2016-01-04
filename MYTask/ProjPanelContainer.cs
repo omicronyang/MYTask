@@ -12,7 +12,7 @@ namespace MYTask
         public int ProjNum = 0;
         public int NowIndex = -1;
         public ProjPanel[] Pp = new ProjPanel[12];
-        public List<MyProj> TaskList = new List<MyProj>();
+        public List<MyProj> ProjList = new List<MyProj>();
         // ProjPanel size = 157,145
         
 
@@ -20,132 +20,108 @@ namespace MYTask
         {
             BackColor = Color.RoyalBlue;
             Location = new Point(0, 0);
+            Height = 0;
             Visible = true;
-            /*for (int i = 0; i < 4; i++)
-            {
-                Tp[i] = new TaskPanel(3 + 111 * i, Width - 6);
-                Controls.Add(Tp[i]);
-                Controls.SetChildIndex(Tp[i], 0);
-            }*/
             for (int i = 0; i < 12; i++)
             {
                 Pp[i] = new ProjPanel(3 + i % 4 * 160, 3 + i / 4 * 148);
+                Pp[i].Visible = false;
                 Controls.Add(Pp[i]);
                 Controls.SetChildIndex(Pp[i], 0);
             }
         }
 
-        /*
-
-        public void AddTask(MyTask Newtask)
+        
+        public void AddProj(MyProj NewProj)
         {
-            TaskList.Add(Newtask);
-            if (TaskNum < 4)
+            ProjList.Add(NewProj);
+            if (ProjNum < 12)
             {
-                TaskNum++;
-                Tp[TaskNum - 1].UpdateTask(Newtask);
-                Controls.Add(Tp[TaskNum - 1]);
-                Controls.SetChildIndex(Tp[TaskNum - 1], 0);
+                ProjNum++;
+                Pp[ProjNum - 1].UpdateProj(NewProj);
+                Pp[ProjNum - 1].Visible = true;
             }
-            else TaskNum++;
+            else ProjNum++;
         }
 
-        */
-        /*
-
-        public void AddTask(MyTask[] NewTaskList)
+        public void AddProj(MyProj[] NewProjList)
         {
-            int oldnum = TaskNum;
-            TaskNum += NewTaskList.Length;
-            TaskList.AddRange(NewTaskList);
-            if (TaskNum <= 4)
+            int oldnum = ProjNum;
+            ProjNum += NewProjList.Length;
+            ProjList.AddRange(NewProjList);
+
+            if (ProjNum <= 12)
             {
-                Height = 3 + TaskNum * 111;
-                for (int i = 0; i < TaskNum; i++)
+                Height = 3 + ((ProjNum % 4 == 0) ? ProjNum / 4 : ProjNum / 4 + 1) * 148;
+                for (int i = 0; i < ProjNum; i++)
                 {
-                    Tp[i].UpdateTask(TaskList[i]);
-                    Controls.Add(Tp[i]);
-                    Controls.SetChildIndex(Tp[i], 0);
-                }              
+                    Pp[i].UpdateProj(ProjList[i]);
+                    Pp[i].Visible = true;
+                }
             }
             else
             {
                 Height = 447;
-                if (oldnum < 4)
-                    for (int i = oldnum; i < 4; i++)
+                if (oldnum <12)
+                    for (int i = oldnum; i < 12; i++)
                     {
-                        Tp[i].UpdateTask(TaskList[i]);
-                        Controls.Add(Tp[i]);
-                        Controls.SetChildIndex(Tp[i], 0);
+                        Pp[i].UpdateProj(ProjList[i]);
+                        Pp[i].Visible = true;
                     }
             }
             if (NowIndex < 0) NowIndex = 0;
         }
 
-        */
-        /*
-
-        public void ClearTask()
+        public void ClearProj()
         {
-            int num = Math.Min(TaskNum, 4);
-            while (num > 0)
-            {
-                Controls.RemoveAt(num - 1);
-                num--;
-            }
+            for (int i = 0; i < 12; i++)
+                Pp[i].Visible = false;
             Height = 0;
-            TaskNum = 0;
-            TaskList.Clear();
+            ProjNum = 0;
+            ProjList.Clear();
             NowIndex = -1;
         }
 
-        */
-        /*
-
         public void PageDown()
         {
-            if (NowIndex + 4 > TaskNum - 1) return;
-            NowIndex += 4;
-            RenewTaskPage();
+            if (NowIndex + 12 > ProjNum - 1) return;
+            NowIndex += 12;
+            RenewProjPage();
         }
-
-        */
-        /*
-
         public void PageUp()
         {
-            if (NowIndex < 4) return;
-            NowIndex -= 4;
-            RenewTaskPage();
+            if (NowIndex < 12) return;
+            NowIndex -= 12;
+            RenewProjPage();
         }
 
-        */
-        /*
-
-        private void RenewTaskPage()
+        private void RenewProjPage()
         {
-            if (TaskNum-NowIndex >= 4)
+            if (ProjNum-NowIndex >= 12)
             {
-                for (int i = NowIndex; i < NowIndex + 4; i++)
-                    Tp[i - NowIndex].UpdateTask(TaskList[i]);
+                for (int i = NowIndex; i < NowIndex + 12; i++)
+                {
+                    Pp[i - NowIndex].UpdateProj(ProjList[i]);
+                    Pp[i - NowIndex].Visible = true;
+                }
                 Height = 447;
             } 
             else
             {
-                for (int i = NowIndex; i < TaskNum; i++)
-                    Tp[i - NowIndex].UpdateTask(TaskList[i]);
-                Height = 3 + (TaskNum - NowIndex) * 111;
+                for (int i = NowIndex; i < ProjNum; i++)
+                    Pp[i - NowIndex].UpdateProj(ProjList[i]);
+                for (int i = 12 - ProjNum; i < 12; i++)
+                    Pp[i].Visible = false;
+
+                int HeightNum = ProjNum - NowIndex;
+                Height = 3 + ((HeightNum % 4 == 0) ? HeightNum / 4 : HeightNum / 4 + 1) * 148;
             }
         }
 
-        */
-        /*
-
-        public void RenewTaskPage(int Index)
+        public void RenewProjPage(int Index)
         {
             NowIndex = Index;
-            RenewTaskPage();
+            RenewProjPage();
         }
-        */
     }
 }

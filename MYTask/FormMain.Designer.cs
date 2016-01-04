@@ -78,12 +78,12 @@ namespace MYTask
             this.BtnLogin = new System.Windows.Forms.Button();
             this.TabsProject = new System.Windows.Forms.TabControl();
             this.ProjMy = new System.Windows.Forms.TabPage();
-            this.ProjPub = new System.Windows.Forms.TabPage();
             this.ProjAll = new System.Windows.Forms.TabPage();
             this.PanelContacts = new System.Windows.Forms.Panel();
             this.PanelMessages = new System.Windows.Forms.Panel();
             this.TimerLogin = new System.Windows.Forms.Timer(this.components);
             this.UI_Caption = new System.Windows.Forms.Panel();
+            this.LabelTitle = new System.Windows.Forms.Label();
             this.BtnMin = new System.Windows.Forms.Button();
             this.BtnClose = new System.Windows.Forms.Button();
             this.TextLogin_Psw = new MYTask.LoginTextbox();
@@ -94,9 +94,8 @@ namespace MYTask
             this.TaskListPub = new MYTask.TaskPanelContainer();
             this.TaskListAll = new MYTask.TaskPanelContainer();
             this.ProjListMy = new MYTask.ProjPanelContainer();
-            this.ContactList = new MYTask.UserList();
             this.ProjListAll = new MYTask.ProjPanelContainer();
-            this.projPanelContainer1 = new MYTask.ProjPanelContainer();
+            this.ContactList = new MYTask.UserList();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
             this.PanelGuideS.SuspendLayout();
@@ -109,7 +108,6 @@ namespace MYTask
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).BeginInit();
             this.TabsProject.SuspendLayout();
             this.ProjMy.SuspendLayout();
-            this.ProjPub.SuspendLayout();
             this.ProjAll.SuspendLayout();
             this.PanelContacts.SuspendLayout();
             this.UI_Caption.SuspendLayout();
@@ -203,7 +201,7 @@ namespace MYTask
             this.BtnContact.Location = new System.Drawing.Point(0, 144);
             this.BtnContact.Margin = new System.Windows.Forms.Padding(0);
             this.BtnContact.Name = "BtnContact";
-            this.BtnContact.Size = new System.Drawing.Size(174, 48);
+            this.BtnContact.Size = new System.Drawing.Size(175, 48);
             this.BtnContact.TabIndex = 8;
             this.BtnContact.Text = "通讯录";
             this.BtnContact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -219,7 +217,7 @@ namespace MYTask
             this.BtnProfile.Location = new System.Drawing.Point(48, 0);
             this.BtnProfile.Margin = new System.Windows.Forms.Padding(0);
             this.BtnProfile.Name = "BtnProfile";
-            this.BtnProfile.Size = new System.Drawing.Size(126, 48);
+            this.BtnProfile.Size = new System.Drawing.Size(127, 48);
             this.BtnProfile.TabIndex = 7;
             this.BtnProfile.TabStop = true;
             this.BtnProfile.Text = "学生会信息部\r\n开发人员";
@@ -231,7 +229,8 @@ namespace MYTask
             // 
             this.CloudStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CloudStatus.Image = global::MYTask.Properties.Resources.Cloud_Sync_32;
-            this.CloudStatus.Location = new System.Drawing.Point(126, 430);
+            this.CloudStatus.Location = new System.Drawing.Point(127, 430);
+            this.CloudStatus.Margin = new System.Windows.Forms.Padding(0);
             this.CloudStatus.Name = "CloudStatus";
             this.CloudStatus.Padding = new System.Windows.Forms.Padding(8);
             this.CloudStatus.Size = new System.Drawing.Size(48, 48);
@@ -258,7 +257,7 @@ namespace MYTask
             this.BtnMessage.Location = new System.Drawing.Point(0, 192);
             this.BtnMessage.Margin = new System.Windows.Forms.Padding(0);
             this.BtnMessage.Name = "BtnMessage";
-            this.BtnMessage.Size = new System.Drawing.Size(174, 48);
+            this.BtnMessage.Size = new System.Drawing.Size(175, 48);
             this.BtnMessage.TabIndex = 3;
             this.BtnMessage.Text = "消息";
             this.BtnMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -275,7 +274,7 @@ namespace MYTask
             this.BtnProject.Location = new System.Drawing.Point(0, 96);
             this.BtnProject.Margin = new System.Windows.Forms.Padding(0);
             this.BtnProject.Name = "BtnProject";
-            this.BtnProject.Size = new System.Drawing.Size(174, 48);
+            this.BtnProject.Size = new System.Drawing.Size(175, 48);
             this.BtnProject.TabIndex = 2;
             this.BtnProject.Text = "我的项目";
             this.BtnProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -292,7 +291,7 @@ namespace MYTask
             this.BtnTask.Location = new System.Drawing.Point(0, 48);
             this.BtnTask.Margin = new System.Windows.Forms.Padding(0);
             this.BtnTask.Name = "BtnTask";
-            this.BtnTask.Size = new System.Drawing.Size(174, 48);
+            this.BtnTask.Size = new System.Drawing.Size(175, 48);
             this.BtnTask.TabIndex = 1;
             this.BtnTask.Text = "我的任务";
             this.BtnTask.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -733,14 +732,14 @@ namespace MYTask
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TabsProject.Controls.Add(this.ProjMy);
-            this.TabsProject.Controls.Add(this.ProjPub);
             this.TabsProject.Controls.Add(this.ProjAll);
-            this.TabsProject.Location = new System.Drawing.Point(48, 32);
+            this.TabsProject.Location = new System.Drawing.Point(48, 510);
             this.TabsProject.Name = "TabsProject";
             this.TabsProject.SelectedIndex = 0;
             this.TabsProject.Size = new System.Drawing.Size(652, 510);
             this.TabsProject.TabIndex = 8;
             this.TabsProject.Visible = false;
+            this.TabsProject.SelectedIndexChanged += new System.EventHandler(this.TabsProject_SelectedIndexChanged);
             // 
             // ProjMy
             // 
@@ -753,20 +752,9 @@ namespace MYTask
             this.ProjMy.Text = "负责的项目";
             this.ProjMy.UseVisualStyleBackColor = true;
             // 
-            // ProjPub
-            // 
-            this.ProjPub.Controls.Add(this.ProjListAll);
-            this.ProjPub.Location = new System.Drawing.Point(4, 30);
-            this.ProjPub.Name = "ProjPub";
-            this.ProjPub.Padding = new System.Windows.Forms.Padding(3);
-            this.ProjPub.Size = new System.Drawing.Size(644, 476);
-            this.ProjPub.TabIndex = 1;
-            this.ProjPub.Text = "发布的项目";
-            this.ProjPub.UseVisualStyleBackColor = true;
-            // 
             // ProjAll
             // 
-            this.ProjAll.Controls.Add(this.projPanelContainer1);
+            this.ProjAll.Controls.Add(this.ProjListAll);
             this.ProjAll.Location = new System.Drawing.Point(4, 30);
             this.ProjAll.Name = "ProjAll";
             this.ProjAll.Size = new System.Drawing.Size(644, 476);
@@ -791,7 +779,7 @@ namespace MYTask
             this.PanelMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelMessages.BackColor = System.Drawing.Color.Purple;
+            this.PanelMessages.BackColor = System.Drawing.Color.Gainsboro;
             this.PanelMessages.Location = new System.Drawing.Point(48, 32);
             this.PanelMessages.Name = "PanelMessages";
             this.PanelMessages.Size = new System.Drawing.Size(652, 478);
@@ -805,6 +793,7 @@ namespace MYTask
             // UI_Caption
             // 
             this.UI_Caption.BackColor = System.Drawing.Color.RoyalBlue;
+            this.UI_Caption.Controls.Add(this.LabelTitle);
             this.UI_Caption.Controls.Add(this.BtnMin);
             this.UI_Caption.Controls.Add(this.BtnClose);
             this.UI_Caption.Location = new System.Drawing.Point(0, 0);
@@ -813,6 +802,17 @@ namespace MYTask
             this.UI_Caption.Size = new System.Drawing.Size(700, 32);
             this.UI_Caption.TabIndex = 11;
             this.UI_Caption.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UI_Caption_MouseDown);
+            // 
+            // LabelTitle
+            // 
+            this.LabelTitle.AutoSize = true;
+            this.LabelTitle.ForeColor = System.Drawing.Color.White;
+            this.LabelTitle.Location = new System.Drawing.Point(3, 6);
+            this.LabelTitle.Name = "LabelTitle";
+            this.LabelTitle.Size = new System.Drawing.Size(93, 21);
+            this.LabelTitle.TabIndex = 2;
+            this.LabelTitle.Text = "WSS - 登录";
+            this.LabelTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UI_Caption_MouseDown);
             // 
             // BtnMin
             // 
@@ -921,6 +921,14 @@ namespace MYTask
             this.ProjListMy.Size = new System.Drawing.Size(643, 447);
             this.ProjListMy.TabIndex = 0;
             // 
+            // ProjListAll
+            // 
+            this.ProjListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ProjListAll.Location = new System.Drawing.Point(0, 0);
+            this.ProjListAll.Name = "ProjListAll";
+            this.ProjListAll.Size = new System.Drawing.Size(643, 447);
+            this.ProjListAll.TabIndex = 1;
+            // 
             // ContactList
             // 
             this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -933,22 +941,6 @@ namespace MYTask
             this.ContactList.View = System.Windows.Forms.View.Details;
             this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
             this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
-            // 
-            // ProjListAll
-            // 
-            this.ProjListAll.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ProjListAll.Location = new System.Drawing.Point(0, 0);
-            this.ProjListAll.Name = "ProjListAll";
-            this.ProjListAll.Size = new System.Drawing.Size(643, 447);
-            this.ProjListAll.TabIndex = 1;
-            // 
-            // projPanelContainer1
-            // 
-            this.projPanelContainer1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.projPanelContainer1.Location = new System.Drawing.Point(0, 0);
-            this.projPanelContainer1.Name = "projPanelContainer1";
-            this.projPanelContainer1.Size = new System.Drawing.Size(643, 447);
-            this.projPanelContainer1.TabIndex = 1;
             // 
             // FormMain
             // 
@@ -973,7 +965,6 @@ namespace MYTask
             this.Text = "SSERSay - Main";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Unload);
             this.Load += new System.EventHandler(this.FormMain_Load);
-            this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.PanelGuide.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).EndInit();
             this.PanelGuideS.ResumeLayout(false);
@@ -987,10 +978,10 @@ namespace MYTask
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).EndInit();
             this.TabsProject.ResumeLayout(false);
             this.ProjMy.ResumeLayout(false);
-            this.ProjPub.ResumeLayout(false);
             this.ProjAll.ResumeLayout(false);
             this.PanelContacts.ResumeLayout(false);
             this.UI_Caption.ResumeLayout(false);
+            this.UI_Caption.PerformLayout();
             this.PanelProfile.ResumeLayout(false);
             this.PanelProfile.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1030,7 +1021,6 @@ namespace MYTask
 
         private TabControl TabsProject;
         private TabPage ProjMy;
-        private TabPage ProjPub;
         private TabPage ProjAll;
         private PictureBox pictureBox1;
 
@@ -1073,6 +1063,6 @@ namespace MYTask
         private Button BtnSettings;
         private ProjPanelContainer ProjListMy;
         private ProjPanelContainer ProjListAll;
-        private ProjPanelContainer projPanelContainer1;
+        private Label LabelTitle;
     }
 }

@@ -311,8 +311,8 @@ namespace MYTask
             Result.ProjCode = Convert.ToString(Source["project_code"]);
             Result.ProjRemark = Convert.ToString(Source["project_text"]);
             Result.ProjType = Convert.ToInt32(Source["project_type"]);
-            Result.ProjStartTime = Convert.ToDateTime(Source["project_start"]);
-            Result.ProjEndTime = Convert.ToDateTime(Source["project_end"]);
+            //Result.ProjStartTime = Convert.ToDateTime(Source["project_start"]);
+            //Result.ProjEndTime = Convert.ToDateTime(Source["project_end"]);
             Result.ProjToUser = GetUser(Convert.ToInt32(Source["project_to_user"]));
             Result.ProjStat = Convert.ToInt32(Source["project_status"]);
             Result.ProjUpdateTime = Convert.ToDateTime(Source["project_lastupdate"]);
@@ -320,7 +320,7 @@ namespace MYTask
         }
 
         /// <summary>
-        /// 获取项目列表
+        /// 获取所有项目列表
         /// </summary>
         /// <returns></returns>
         public MyProj[] GetProjList()
@@ -335,6 +335,27 @@ namespace MYTask
             }
             return Result;
         }
+
+        /// <summary>
+        /// 获取用户负责的项目列表
+        /// </summary>
+        /// <param name="Uid">用户ID</param>
+        /// <returns></returns>
+        public MyProj[] GetProjList(int Uid)
+        {
+            string FilterStr;
+            FilterStr = "project_to_user='" + Uid.ToString() + "'";
+            DataRow[] Matches = DataBase.Tables["tk_project"].Select(FilterStr);
+            int Cnt = Matches.Count();
+            MyProj[] Result = new MyProj[Cnt];
+            for (int i = 0; i < Cnt; i++)
+            {
+                Result[i] = new MyProj();
+                Result[i] = GetProjFromRow(Matches[i]);
+            }
+            return Result;
+        }
+
         #endregion
 
 

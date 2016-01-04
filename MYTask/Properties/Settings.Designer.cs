@@ -22,5 +22,17 @@ namespace MYTask.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SeaGreen")]
+        public global::System.Drawing.Color UIColor {
+            get {
+                return ((global::System.Drawing.Color)(this["UIColor"]));
+            }
+            set {
+                this["UIColor"] = value;
+            }
+        }
     }
 }

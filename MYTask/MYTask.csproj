@@ -170,6 +170,7 @@
     <Compile Include="ProjPanelContainer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="TaskProfilePanel.cs" />
     <Compile Include="UserList.cs">
       <SubType>Component</SubType>

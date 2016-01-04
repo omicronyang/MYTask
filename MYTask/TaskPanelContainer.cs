@@ -34,8 +34,7 @@ namespace MYTask
             {
                 TaskNum++;
                 Tp[TaskNum - 1].UpdateTask(Newtask);
-                Controls.Add(Tp[TaskNum - 1]);
-                Controls.SetChildIndex(Tp[TaskNum - 1], 0);
+                Tp[TaskNum - 1].Visible = true;
             }
             else TaskNum++;
         }
@@ -51,8 +50,7 @@ namespace MYTask
                 for (int i = 0; i < TaskNum; i++)
                 {
                     Tp[i].UpdateTask(TaskList[i]);
-                    Controls.Add(Tp[i]);
-                    Controls.SetChildIndex(Tp[i], 0);
+                    Tp[i].Visible = true;
                 }              
             }
             else
@@ -62,8 +60,7 @@ namespace MYTask
                     for (int i = oldnum; i < 4; i++)
                     {
                         Tp[i].UpdateTask(TaskList[i]);
-                        Controls.Add(Tp[i]);
-                        Controls.SetChildIndex(Tp[i], 0);
+                        Tp[i].Visible = true;
                     }
             }
             if (NowIndex < 0) NowIndex = 0;
@@ -71,12 +68,8 @@ namespace MYTask
 
         public void ClearTask()
         {
-            int num = Math.Min(TaskNum, 4);
-            while (num > 0)
-            {
-                Controls.RemoveAt(num - 1);
-                num--;
-            }
+            for (int i = 0; i < 4; i++)
+                Tp[i].Visible = false;
             Height = 0;
             TaskNum = 0;
             TaskList.Clear();

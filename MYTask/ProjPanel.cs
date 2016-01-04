@@ -53,7 +53,7 @@ namespace MYTask
             LabelProjName.Location = new Point(0, 0);
             LabelProjName.Name = "LabelProjName";
             LabelProjName.Size = new Size(157, 80);
-            LabelProjName.Text = "信息部体育节成绩及其他信息公众号实时发布";
+            LabelProjName.Text = "项目名称";
             LabelProjName.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // LabelUserName
@@ -62,7 +62,7 @@ namespace MYTask
             LabelUserName.Location = new Point(0, 80);
             LabelUserName.Name = "LabelUserName";
             LabelUserName.Size = new Size(157, 44);
-            LabelUserName.Text = "学生会信息部\r\n测试人员";
+            LabelUserName.Text = "项目负责人";
             //LabelUserName.Init(MyProjInf.ProjToUser);
             LabelUserName.TextAlign = ContentAlignment.MiddleCenter;
 
@@ -77,6 +77,7 @@ namespace MYTask
 
             LabelProjName.Text = MyProjInf.ProjName;
             LabelUserName.SetUser(MyProjInf.ProjToUser);
+            LabelUserName.Text = LabelUserName.Text.Replace(' ', '\n');
             LabelStat_Update(MyProjInf.ProjStat);
         }
 
