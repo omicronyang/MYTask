@@ -159,7 +159,7 @@ class TaskPanel: Panel
             LabelFromUserName.SetUser(MyTaskInf.TaskFU); 
 
             LabelEndTime_Update(MyTaskInf.TaskEndTime);
-            LabelUpdateTime_Update(MyTaskInf.TaskUpdateTime);
+            LabelUpdateTime_Update(MyTaskInf.UpdateTime);
 
             LabelWorkTime_Update(MyTaskInf.TaskPlanTime, MyTaskInf.TaskUsedTime);
 	    }

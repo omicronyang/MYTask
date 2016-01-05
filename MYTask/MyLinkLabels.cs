@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace MYTask
 {
-    class LinkUserLabel:LinkLabel
+    class LinkUserLabel : LinkLabel
     {
         public MyUser user = new MyUser();
 
@@ -26,7 +26,6 @@ namespace MYTask
             Text = user.Name;
         }
 
-
         protected override void OnClick(EventArgs e)
         {
             FormMain formmain = (FormMain)Form.ActiveForm;
@@ -34,6 +33,10 @@ namespace MYTask
             formmain.ShowPanelProfile();
             base.OnClick(e);
         }
-        
+    }
+
+    class LinkTaskLabel : LinkLabel
+    {
+        public MyTask task;
     }
 }

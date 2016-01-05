@@ -151,30 +151,23 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="LinkTaskLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LinkUserLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="LoginTextbox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MyClasses.cs" />
     <Compile Include="MyDB.cs" />
-    <Compile Include="MyProj.cs" />
-    <Compile Include="MyUser.cs" />
-    <Compile Include="ProjPanel.cs">
+    <Compile Include="MyLinkLabels.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProjPanelContainer.cs">
+    <Compile Include="MyListViews.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MyPanels.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="TaskProfilePanel.cs" />
-    <Compile Include="UserList.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="UIColor.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -183,14 +176,10 @@
     <Compile Include="PswString.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MyTask.cs" />
     <Compile Include="TaskPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TaskPanelContainer.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserProfilePanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="FormMain.resx">

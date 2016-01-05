@@ -20,10 +20,12 @@ namespace MYTask
         private int OfflineOnly = 1; //0 尝试在线连接; 1 关闭在线尝试
         public int Online;           //0 表示离线;     1 表示在线
         private DataSet DataBase = new DataSet();
-        private string[] TabelList = new string[4] { "tk_user", "tk_task", "tk_task_byday", "tk_project" };
+        private string[] TabelList = new string[6] { "tk_user", "tk_task", "tk_task_byday", "tk_project", "tk_announcement","tk_message" };
         
             
-            
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
         public MyDB()
         {
             string server = "qdm183517592.my3w.com";
@@ -35,11 +37,12 @@ namespace MYTask
                 server, uid, upw, dbname);
             OfflineConnectCommand = String.Format("Data Source={0};Version=3;",
                 localdbname);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
                 DataBase.Tables.Add(TabelList[i]);
 
         }
 
+        #region DatabaseConnection
         public bool Connect()
         {
             if (OfflineOnly == 1) return ConnectOffline();
@@ -48,7 +51,7 @@ namespace MYTask
                 OnlineDBase = new MySqlConnection(OnlineConnectCommand);
                 OnlineDBase.Open();
                 Online = 1;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 6; i++)
                     GetTabel(TabelList[i]);
                 return true;
             }
@@ -65,7 +68,7 @@ namespace MYTask
                 LocalDBase = new SQLiteConnection(OfflineConnectCommand);
                 LocalDBase.Open();
                 Online = 0;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 6; i++)
                     GetTabel(TabelList[i]);
                 return true;
             }
@@ -78,7 +81,7 @@ namespace MYTask
         /// <summary>
         /// 获取数据表
         /// </summary>
-        /// <param name="DTName">连接数据库的名称</param>
+        /// <param name="DTName">连接数据表的名称</param>
         private void GetTabel(string DTName)
         {
             string sql = "Select * From " + DTName;
@@ -97,6 +100,7 @@ namespace MYTask
                 reader.Close();
             }
         }
+        #endregion
 
         #region UserControl
         /// <summary>
@@ -200,7 +204,7 @@ namespace MYTask
             Result.TaskPriority = Convert.ToInt32(Source["csa_priority"]);
             Result.TaskImportance = Convert.ToInt32(Source["csa_temp"]);
             Result.TaskEndTime = Convert.ToDateTime(Source["csa_plan_et"]);
-            Result.TaskUpdateTime = Convert.ToDateTime(Source["csa_last_update"]);
+            Result.UpdateTime = Convert.ToDateTime(Source["csa_last_update"]);
             Result.TaskU = GetUser(Convert.ToInt32(Source["csa_to_user"]));
             Result.TaskFU = GetUser(Convert.ToInt32(Source["csa_from_user"]));
             Result.TaskType = Convert.ToInt32(Source["csa_type"]);
@@ -232,7 +236,7 @@ namespace MYTask
             Result.TBComment = Convert.ToInt32(Source["csa_tb_comment"]);
             Result.TBManhour = Convert.ToDouble(Source["csa_tb_manhour"]);
             Result.TBText = Convert.ToString(Source["csa_tb_text"]);
-            Result.TBUpdateTime = Convert.ToDateTime(Source["csa_tb_lastupdate"]);
+            Result.UpdateTime = Convert.ToDateTime(Source["csa_tb_lastupdate"]);
             return Result;
         }
 
@@ -315,7 +319,7 @@ namespace MYTask
             //Result.ProjEndTime = Convert.ToDateTime(Source["project_end"]);
             Result.ProjToUser = GetUser(Convert.ToInt32(Source["project_to_user"]));
             Result.ProjStat = Convert.ToInt32(Source["project_status"]);
-            Result.ProjUpdateTime = Convert.ToDateTime(Source["project_lastupdate"]);
+            Result.UpdateTime = Convert.ToDateTime(Source["project_lastupdate"]);
             return Result;
         }
 
@@ -356,9 +360,129 @@ namespace MYTask
             return Result;
         }
 
+        /// <summary>
+        /// 获取单个项目
+        /// </summary>
+        /// <param name="Pid">项目ID</param>
+        /// <returns></returns>
+        public MyProj GetProj(int Pid)
+        {
+            MyProj Result = new MyProj();
+            DataRow[] Matches = DataBase.Tables["tk_project"].Select("id='" + Pid.ToString() + "'");
+            if (Matches.Length == 0)
+            {
+                return Result;
+            }
+            Result = GetProjFromRow(Matches[0]);
+            return Result;
+        }
+
         #endregion
 
+        #region MessageControl
+        /// <summary>
+        /// 从数据源获取公告
+        /// </summary>
+        /// <param name="Source">数据源</param>
+        /// <returns></returns>
+        private MyAnnounce GetAnnounceFromRow(DataRow Source)
+        {
+            MyAnnounce Result = new MyAnnounce();
+            Result.AID = Convert.ToInt32(Source["aid"]);
+            Result.Title = Convert.ToString(Source["tk_anc_title"]);
+            Result.Text = Convert.ToString(Source["tk_anc_text"]);
+            Result.FromUser = GetUser(Convert.ToInt32(Source["tk_anc_create"]));
+            Result.UpdateTime = Convert.ToDateTime(Source["tk_anc_lastupdate"]);
+            return Result;
+        }
 
+        /// <summary>
+        /// 获取所有公告列表
+        /// </summary>
+        /// <returns></returns>
+        public MyAnnounce[] GetAnnounceList()
+        {
+            DataRow[] Matches = DataBase.Tables["tk_announcement"].Select();
+            int Cnt = Matches.Count();
+            MyAnnounce[] Result = new MyAnnounce[Cnt];
+            for (int i = 0; i < Cnt; i++)
+            {
+                Result[i] = new MyAnnounce();
+                Result[i] = GetAnnounceFromRow(Matches[i]);
+            }
+            return Result;
+        }
+
+        /// <summary>
+        /// 获取单个公告
+        /// </summary>
+        /// <param name="Aid">公告ID</param>
+        /// <returns></returns>
+        public MyAnnounce GetAnnounce(int Aid)
+        {
+            MyAnnounce Result = new MyAnnounce();
+            DataRow[] Matches = DataBase.Tables["tk_announcement"].Select("aid='" + Aid.ToString() + "'");
+            if (Matches.Length == 0)
+            {
+                return Result;
+            }
+            Result = GetAnnounceFromRow(Matches[0]);
+            return Result;
+        }
+
+        /// <summary>
+        /// 从数据源获取消息
+        /// </summary>
+        /// <param name="Source">数据源</param>
+        /// <returns></returns>
+        private MyMessage GetMessFromRow(DataRow Source)
+        {
+            MyMessage Result = new MyMessage();
+            Result.MID = Convert.ToInt32(Source["meid"]);
+            Result.ToUser = GetUser(Convert.ToInt32(Source["tk_mess_touser"]));
+            Result.FromUser = GetUser(Convert.ToInt32(Source["tk_mess_fromuser"]));
+            Result.UpdateText(Convert.ToString(Source["tk_mess_title"]));
+            Result.Stat = Convert.ToInt32(Source["tk_mess_status"]);
+            Result.UpdateTime = Convert.ToDateTime(Source["tk_mess_time"]);
+            return Result;
+        }
+
+        /// <summary>
+        /// 获取用户的通知
+        /// </summary>
+        /// <param name="Uid">用户ID</param>
+        /// <returns></returns>
+        public MyMessage[] GetMessList(int Uid)
+        {
+            DataRow[] Matches = DataBase.Tables["tk_message"].Select("tk_mess_touser='" + Uid.ToString() + "'");
+            int Cnt = Matches.Count();
+            MyMessage[] Result = new MyMessage[Cnt];
+            for (int i=0;i< Cnt; i++)
+            {
+                Result[i] = new MyMessage();
+                Result[i] = GetMessFromRow(Matches[i]);
+            }
+            return Result;
+        }
+
+        /// <summary>
+        /// 获取单个通知
+        /// </summary>
+        /// <param name="Mid">通知ID</param>
+        /// <returns></returns>
+        public MyMessage GetMess(int Mid)
+        {
+            MyMessage Result = new MyMessage();
+            DataRow[] Matches = DataBase.Tables["tk_message"].Select("meid='" + Mid.ToString() + "'");
+            if (Matches.Length == 0)
+            {
+                return Result;
+            }
+            Result = GetMessFromRow(Matches[0]);
+            return Result;
+        }
+
+        #endregion
         public void Close()
         {
             if (OnlineDBase != null) OnlineDBase.Close();

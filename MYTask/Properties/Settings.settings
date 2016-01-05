@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="UIColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">SeaGreen</Value>
+      <Value Profile="(Default)">OrangeRed</Value>
+    </Setting>
+    <Setting Name="UIColorType" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

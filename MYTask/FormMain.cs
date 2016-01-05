@@ -21,11 +21,13 @@ namespace MYTask
         public MyDB DataBase = new MyDB();
         private object NowFocus;
         private TabControl FocusTC;
-        private Color UIColor = Properties.Settings.Default.UIColor;
+        private UIColor Theme = new UIColor();
 
         private delegate void BGAddTaskList(MyTask[] Tlist, int Mode);
         private delegate void BGAddProjList(MyProj[] Plist, int Mode);
         private delegate void BGAddUserList(MyUser[] Ulist);
+        private delegate void BGAddAnnList(MyAnnounce[] Alist);
+        private delegate void BGAddMessList(MyMessage[] Mlist);
         private delegate void BGWorkComplete(object sender, DoWorkEventArgs e);
 
         [DllImport("user32.dll")]
@@ -72,7 +74,7 @@ namespace MYTask
             PanelMessages.Location = new Point(48, 32);
 
             SetStyles();
-            UIColorUpdate();
+            UIColorUpdate(Properties.Settings.Default.UIColorType);
 
             //dHeight = Height - PanelGuideS.Height;
             //dWidth = Width - PanelProfile.Width - 48;
@@ -153,44 +155,42 @@ namespace MYTask
 
         #region 颜色设置
 
-        private void UIColorUpdate()
+        private void UIColorUpdate(int ColorType)
         {
-            PanelLogin.BackColor = UIColor;
-            UI_Caption.BackColor = UIColor;
+            Theme.UpdateColor(ColorType);
 
-            BtnProfile.BackColor = UIColor;
+            PanelLogin.BackColor = Theme.MainColor;
+            UI_Caption.BackColor = Theme.MainColor;
 
-            TaskListMy.BackColor = UIColor;
-            TaskListPub.BackColor = UIColor;
-            TaskListAll.BackColor = UIColor;
+            BtnProfile.BackColor = Theme.MainColor;
 
-            ProjListMy.BackColor = UIColor;
-            ProjListAll.BackColor = UIColor;
-            
-            double[] OHSL = RGBtoHSL(UIColor.R, UIColor.G, UIColor.B);
+            TaskListMy.BackColor = Theme.MainColor;
+            TaskListPub.BackColor = Theme.MainColor;
+            TaskListAll.BackColor = Theme.MainColor;
 
-            int[] LRGB = HSLtoRGB(OHSL[0], OHSL[1], OHSL[2] + 0.1);
-            int[] DRGB = HSLtoRGB(OHSL[0], OHSL[1], OHSL[2] - 0.1);
-            Color MDBC = Color.FromArgb(DRGB[0], DRGB[1], DRGB[2]);
-            Color MOBC = Color.FromArgb(LRGB[0], LRGB[1], LRGB[2]);
+            ProjListMy.BackColor = Theme.MainColor;
+            ProjListAll.BackColor = Theme.MainColor;
 
-            BtnCall.BackColor = UIColor;
-            BtnCall.FlatAppearance.MouseOverBackColor = MOBC;
-            BtnCall.FlatAppearance.MouseDownBackColor = MDBC;
+            BtnCall.BackColor = Theme.MainColor;
+            BtnCall.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            BtnCall.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
 
-            BtnCallback.BackColor = UIColor;
-            BtnCallback.FlatAppearance.MouseOverBackColor = MOBC;
-            BtnCallback.FlatAppearance.MouseDownBackColor = MDBC;
+            BtnCallback.BackColor = Theme.MainColor;
+            BtnCallback.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            BtnCallback.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
 
-            BtnMin.BackColor = UIColor;
-            BtnMin.FlatAppearance.MouseOverBackColor = MOBC;
-            BtnMin.FlatAppearance.MouseDownBackColor = MDBC;
+            BtnMin.BackColor = Theme.MainColor;
+            BtnMin.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            BtnMin.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
         }
 
         private void UIColorUpdate(Color UIC)
         {
-            UIColor = UIC;
-            UIColorUpdate();
+            if (UIC == Color.RoyalBlue) UIColorUpdate(1);
+            else if (UIC == Color.SeaGreen) UIColorUpdate(2);
+            else if (UIC == Color.DarkMagenta) UIColorUpdate(3);
+            else if (UIC == Color.Crimson) UIColorUpdate(4);
+            else if (UIC == Color.OrangeRed) UIColorUpdate(5);
         }
 
         private int[] HSLtoRGB(double H,double S, double L)
@@ -338,6 +338,7 @@ namespace MYTask
             AddTaskList(DataBase.GetTaskList(), 2);
             AddProjList(DataBase.GetProjList(), 2);
             AddUserList(DataBase.GetUserList());
+            AddAnnList(DataBase.GetAnnounceList());
             LabelBlock.Visible = false;
         }
 
@@ -380,6 +381,10 @@ namespace MYTask
                         {
                             TimerLogin.Stop();
                             PanelLogin.Location = new Point(0, 32);
+                            TaskListMy.ClearTask();
+                            TaskListPub.ClearTask();
+                            ProjListMy.ClearProj();
+                            MessList.Items.Clear();
                         }
                         break;
                     }
@@ -647,6 +652,7 @@ namespace MYTask
             AddTaskList(DataBase.GetTaskList(NowUser.UID, 0), 0);
             AddTaskList(DataBase.GetTaskList(NowUser.UID, 1), 1);
             AddProjList(DataBase.GetProjList(NowUser.UID), 0);
+            AddMessList(DataBase.GetMessList(NowUser.UID));
 
             TaskListAll.RenewTaskPage(0);
             UpdatePageControl(TaskListMy);
@@ -671,13 +677,9 @@ namespace MYTask
             PanelLogin.Location = new Point(0, this.Height);
             PanelLogin.Visible = true;
             InitLoginBox("");
-            TaskListMy.ClearTask();
-            TaskListPub.ClearTask();
-            ProjListMy.ClearProj();
             LabelTitle.Text = "WSS - 登录";
             TimerLogStat = 0;
             TimerLogin.Start();
-
         }
 
         private void BtnLogout_Click(object sender, EventArgs e)
@@ -690,6 +692,9 @@ namespace MYTask
         {
 
         }
+
+
+        #region 添加元素
         /// <summary>
         /// 为任务列表容器添加任务项
         /// </summary>
@@ -735,6 +740,10 @@ namespace MYTask
             Target.AddProj(Projlist);
         }
 
+        /// <summary>
+        /// 添加用户列表
+        /// </summary>
+        /// <param name="Ulist"></param>
         private void AddUserList(MyUser[] Ulist)
         {
             if (ContactList.InvokeRequired)
@@ -747,6 +756,30 @@ namespace MYTask
             ContactList.AddUserList(Ulist);
         }
 
+        private void AddAnnList(MyAnnounce[] Alist)
+        {
+            if (AnnList.InvokeRequired)
+            {
+                BGAddAnnList BGAAL = new BGAddAnnList(AddAnnList);
+                Invoke(BGAAL, Alist);
+                return;
+            }
+            AnnList.AddAnnList(Alist);
+        }
+
+        private void AddMessList(MyMessage[] Mlist)
+        {
+            if (MessList.InvokeRequired)
+            {
+                BGAddMessList BGAML = new BGAddMessList(AddMessList);
+                Invoke(BGAML, Mlist);
+                return;
+            }
+            MessList.AddMessList(Mlist);
+        }
+
+
+        #endregion
 
         private void ContactList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
@@ -899,5 +932,9 @@ namespace MYTask
             LabelPage.Visible = true;
         }
 
+        private void announceList1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            MessageBox.Show(AnnList.Columns[0].Width.ToString());
+        }
     }
 }

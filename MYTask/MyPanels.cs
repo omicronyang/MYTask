@@ -7,7 +7,216 @@ using System.Drawing;
 
 namespace MYTask
 {
-    class UserProfilePanel:Panel
+    class ProjPanel : Panel
+    {
+        MyProj MyProjInf = new MyProj();
+        LinkLabel LabelProjName = new LinkLabel();
+        Label LabelStat = new Label();
+        LinkUserLabel LabelUserName = new LinkUserLabel();
+
+        public ProjPanel()
+        {
+            InitCompenent();
+        }
+
+        /// <summary>
+        /// 初始化控件并指定左上角坐标
+        /// </summary>
+        /// <param name="x">左上角X坐标</param>
+        /// <param name="y">左上角Y坐标</param>
+        public ProjPanel(int x, int y)
+        {
+            Location = new Point(x, y);
+            InitCompenent();
+        }
+
+        /// <summary>
+        /// 初始化组件
+        /// </summary>
+        private void InitCompenent()
+        {
+            Size = new Size(157, 145);
+            BackColor = Color.Gainsboro;
+            // 
+            // LabelStat
+            // 
+            LabelStat.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            LabelStat.Location = new Point(0, 124);
+            LabelStat.Name = "LabelStat";
+            LabelStat.Size = new Size(157, 21);
+            LabelStat.Text = "项目状态";
+            LabelStat.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // LabelProjName
+            // 
+            LabelProjName.Font = new Font("微软雅黑", 14F, FontStyle.Bold, GraphicsUnit.Point, 134);
+            LabelProjName.Location = new Point(0, 0);
+            LabelProjName.Name = "LabelProjName";
+            LabelProjName.Size = new Size(157, 80);
+            LabelProjName.Text = "项目名称";
+            LabelProjName.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // LabelUserName
+            // 
+            LabelUserName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, 134);
+            LabelUserName.Location = new Point(0, 80);
+            LabelUserName.Name = "LabelUserName";
+            LabelUserName.Size = new Size(157, 44);
+            LabelUserName.Text = "项目负责人";
+            //LabelUserName.Init(MyProjInf.ProjToUser);
+            LabelUserName.TextAlign = ContentAlignment.MiddleCenter;
+
+            Controls.Add(LabelProjName);
+            Controls.Add(LabelUserName);
+            Controls.Add(LabelStat);
+        }
+
+        public void UpdateProj(MyProj Source)
+        {
+            MyProjInf = Source;
+
+            LabelProjName.Text = MyProjInf.ProjName;
+            LabelUserName.SetUser(MyProjInf.ProjToUser);
+            LabelUserName.Text = LabelUserName.Text.Replace(' ', '\n');
+            LabelStat_Update(MyProjInf.ProjStat);
+        }
+
+        private void LabelStat_Update(int Stat)
+        {
+            Label me = LabelStat;
+            switch (Stat)
+            {
+                case 2: { me.Text = "前期策划"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
+                case 8: { me.Text = "准备阶段"; me.BackColor = Color.FromArgb(0, 153, 0); break; }
+                case 9: { me.Text = "已结束"; me.BackColor = Color.FromArgb(204, 204, 204); break; }
+                case 14: { me.Text = "中断"; me.BackColor = Color.FromArgb(255, 0, 0); break; }
+                case 22: { me.Text = "推迟"; me.BackColor = Color.FromArgb(255, 204, 0); break; }
+                case 24: { me.Text = "执行"; me.BackColor = Color.FromArgb(51, 102, 153); break; }
+                case 25: { me.Text = "后期整理"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+            }
+        }
+
+    }
+
+    class ProjPanelContainer : Panel
+    {
+        public int ProjNum = 0;
+        public int NowIndex = -1;
+        public ProjPanel[] Pp = new ProjPanel[12];
+        public List<MyProj> ProjList = new List<MyProj>();
+        // ProjPanel size = 157,145
+
+
+        public ProjPanelContainer()
+        {
+            BackColor = Color.RoyalBlue;
+            Location = new Point(0, 0);
+            Height = 0;
+            Visible = true;
+            for (int i = 0; i < 12; i++)
+            {
+                Pp[i] = new ProjPanel(3 + i % 4 * 160, 3 + i / 4 * 148);
+                Pp[i].Visible = false;
+                Controls.Add(Pp[i]);
+                Controls.SetChildIndex(Pp[i], 0);
+            }
+        }
+
+
+        public void AddProj(MyProj NewProj)
+        {
+            ProjList.Add(NewProj);
+            if (ProjNum < 12)
+            {
+                ProjNum++;
+                Pp[ProjNum - 1].UpdateProj(NewProj);
+                Pp[ProjNum - 1].Visible = true;
+            }
+            else ProjNum++;
+        }
+
+        public void AddProj(MyProj[] NewProjList)
+        {
+            int oldnum = ProjNum;
+            ProjNum += NewProjList.Length;
+            ProjList.AddRange(NewProjList);
+
+            if (ProjNum <= 12)
+            {
+                Height = 3 + ((ProjNum % 4 == 0) ? ProjNum / 4 : ProjNum / 4 + 1) * 148;
+                for (int i = 0; i < ProjNum; i++)
+                {
+                    Pp[i].UpdateProj(ProjList[i]);
+                    Pp[i].Visible = true;
+                }
+            }
+            else
+            {
+                Height = 447;
+                if (oldnum < 12)
+                    for (int i = oldnum; i < 12; i++)
+                    {
+                        Pp[i].UpdateProj(ProjList[i]);
+                        Pp[i].Visible = true;
+                    }
+            }
+            if (NowIndex < 0) NowIndex = 0;
+        }
+
+        public void ClearProj()
+        {
+            for (int i = 0; i < 12; i++)
+                Pp[i].Visible = false;
+            Height = 0;
+            ProjNum = 0;
+            ProjList.Clear();
+            NowIndex = -1;
+        }
+
+        public void PageDown()
+        {
+            if (NowIndex + 12 > ProjNum - 1) return;
+            NowIndex += 12;
+            RenewProjPage();
+        }
+        public void PageUp()
+        {
+            if (NowIndex < 12) return;
+            NowIndex -= 12;
+            RenewProjPage();
+        }
+
+        private void RenewProjPage()
+        {
+            if (ProjNum - NowIndex >= 12)
+            {
+                for (int i = NowIndex; i < NowIndex + 12; i++)
+                {
+                    Pp[i - NowIndex].UpdateProj(ProjList[i]);
+                    Pp[i - NowIndex].Visible = true;
+                }
+                Height = 447;
+            }
+            else
+            {
+                for (int i = NowIndex; i < ProjNum; i++)
+                    Pp[i - NowIndex].UpdateProj(ProjList[i]);
+                for (int i = 12 - ProjNum; i < 12; i++)
+                    Pp[i].Visible = false;
+
+                int HeightNum = ProjNum - NowIndex;
+                Height = 3 + ((HeightNum % 4 == 0) ? HeightNum / 4 : HeightNum / 4 + 1) * 148;
+            }
+        }
+
+        public void RenewProjPage(int Index)
+        {
+            NowIndex = Index;
+            RenewProjPage();
+        }
+    }
+
+    class UserProfilePanel : Panel
     {
 
         public Button ProfileBtnOK = new Button();
@@ -36,7 +245,7 @@ namespace MYTask
             ProfileBtnOK.UseVisualStyleBackColor = true;
             ProfileBtnOK.Visible = false;
             ProfileBtnOK.Click += new EventHandler(ProfileBtnOK_Click);
-           
+
             ProfileBtnCancel.Anchor = (AnchorStyles.Top | AnchorStyles.Right);
             ProfileBtnCancel.FlatAppearance.BorderSize = 0;
             ProfileBtnCancel.FlatAppearance.MouseDownBackColor = Color.Gray;
@@ -170,7 +379,7 @@ namespace MYTask
             ProfileRemark.SetNonactive();
         }
 
-        public void SetProfileInfo(MyUser U,int Mode)
+        public void SetProfileInfo(MyUser U, int Mode)
         {
             ProfileBtnEdit.Visible = (Mode == 0) ? false : true;
             ProfileUserName.Text = U.Name;
@@ -180,4 +389,5 @@ namespace MYTask
         }
 
     }
+
 }
