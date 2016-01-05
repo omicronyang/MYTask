@@ -55,11 +55,8 @@ namespace MYTask
             this.TimerSidebar = new System.Windows.Forms.Timer(this.components);
             this.TabsTask = new System.Windows.Forms.TabControl();
             this.TaskMy = new System.Windows.Forms.TabPage();
-            this.TaskListMy = new MYTask.TaskPanelContainer();
             this.TaskPub = new System.Windows.Forms.TabPage();
-            this.TaskListPub = new MYTask.TaskPanelContainer();
             this.TaskAll = new System.Windows.Forms.TabPage();
-            this.TaskListAll = new MYTask.TaskPanelContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LabelFromUserName = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -74,31 +71,35 @@ namespace MYTask
             this.LabelPT = new System.Windows.Forms.Label();
             this.LabelTaskName = new System.Windows.Forms.LinkLabel();
             this.PanelLogin = new System.Windows.Forms.Panel();
-            this.LabelBlock = new System.Windows.Forms.Label();
-            this.TextLogin_Psw = new MYTask.LoginTextbox();
-            this.TextLogin_UID = new MYTask.LoginTextbox();
-            this.CloudStatusLogin = new System.Windows.Forms.PictureBox();
-            this.BarConnecting = new System.Windows.Forms.ProgressBar();
-            this.BtnFindPsw = new System.Windows.Forms.Button();
-            this.BtnLogin = new System.Windows.Forms.Button();
+            this.PLogin_LabelBlock = new System.Windows.Forms.Label();
+            this.PLogin_PicLogo = new System.Windows.Forms.PictureBox();
+            this.PLogin_PicCloud = new System.Windows.Forms.PictureBox();
+            this.PLogin_BarConnecting = new System.Windows.Forms.ProgressBar();
+            this.PLogin_BtnFindPsw = new System.Windows.Forms.Button();
+            this.PLogin_BtnLogin = new System.Windows.Forms.Button();
             this.TabsProject = new System.Windows.Forms.TabControl();
             this.ProjMy = new System.Windows.Forms.TabPage();
-            this.ProjListMy = new MYTask.ProjPanelContainer();
             this.ProjAll = new System.Windows.Forms.TabPage();
-            this.ProjListAll = new MYTask.ProjPanelContainer();
             this.PanelContacts = new System.Windows.Forms.Panel();
-            this.ContactList = new MYTask.UserList();
             this.PanelMessages = new System.Windows.Forms.Panel();
             this.LabelMessageLabel = new System.Windows.Forms.Label();
-            this.MessList = new MYTask.MessageList();
-            this.AnnList = new MYTask.AnnounceList();
             this.TimerLogin = new System.Windows.Forms.Timer(this.components);
             this.UI_Caption = new System.Windows.Forms.Panel();
             this.LabelTitle = new System.Windows.Forms.Label();
             this.BtnMin = new System.Windows.Forms.Button();
             this.BtnClose = new System.Windows.Forms.Button();
-            this.PanelProfile = new MYTask.UserProfilePanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.TimerUser = new System.Windows.Forms.Timer(this.components);
+            this.PLogin_TextPsw = new MYTask.LoginTextbox();
+            this.PLogin_TextUID = new MYTask.LoginTextbox();
+            this.PanelUser = new MYTask.UserProfilePanel();
+            this.TaskListMy = new MYTask.TaskPanelContainer();
+            this.TaskListPub = new MYTask.TaskPanelContainer();
+            this.TaskListAll = new MYTask.TaskPanelContainer();
+            this.ProjListMy = new MYTask.ProjPanelContainer();
+            this.ProjListAll = new MYTask.ProjPanelContainer();
+            this.ContactList = new MYTask.UserList();
+            this.MessList = new MYTask.MessageList();
+            this.AnnList = new MYTask.AnnounceList();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
             this.PanelGuideS.SuspendLayout();
@@ -108,15 +109,14 @@ namespace MYTask
             this.TaskPub.SuspendLayout();
             this.TaskAll.SuspendLayout();
             this.PanelLogin.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PLogin_PicLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PLogin_PicCloud)).BeginInit();
             this.TabsProject.SuspendLayout();
             this.ProjMy.SuspendLayout();
             this.ProjAll.SuspendLayout();
             this.PanelContacts.SuspendLayout();
             this.PanelMessages.SuspendLayout();
             this.UI_Caption.SuspendLayout();
-            this.PanelProfile.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelGuide
@@ -333,7 +333,7 @@ namespace MYTask
             // 
             // BtnPageDown
             // 
-            this.BtnPageDown.BackColor = System.Drawing.Color.LightGray;
+            this.BtnPageDown.BackColor = System.Drawing.Color.Transparent;
             this.BtnPageDown.FlatAppearance.BorderSize = 0;
             this.BtnPageDown.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnPageDown.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
@@ -350,7 +350,7 @@ namespace MYTask
             // 
             // BtnPageUp
             // 
-            this.BtnPageUp.BackColor = System.Drawing.Color.LightGray;
+            this.BtnPageUp.BackColor = System.Drawing.Color.Transparent;
             this.BtnPageUp.FlatAppearance.BorderSize = 0;
             this.BtnPageUp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnPageUp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
@@ -428,6 +428,7 @@ namespace MYTask
             // 
             // BtnProjectS
             // 
+            this.BtnProjectS.BackColor = System.Drawing.Color.LightGray;
             this.BtnProjectS.FlatAppearance.BorderSize = 0;
             this.BtnProjectS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.BtnProjectS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
@@ -439,7 +440,7 @@ namespace MYTask
             this.BtnProjectS.Size = new System.Drawing.Size(48, 48);
             this.BtnProjectS.TabIndex = 2;
             this.BtnProjectS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnProjectS.UseVisualStyleBackColor = true;
+            this.BtnProjectS.UseVisualStyleBackColor = false;
             this.BtnProjectS.Click += new System.EventHandler(this.BtnProject_Click);
             // 
             // BtnTaskS
@@ -490,17 +491,6 @@ namespace MYTask
             this.TaskMy.Text = "负责的任务";
             this.TaskMy.UseVisualStyleBackColor = true;
             // 
-            // TaskListMy
-            // 
-            this.TaskListMy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskListMy.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TaskListMy.Location = new System.Drawing.Point(0, 0);
-            this.TaskListMy.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.TaskListMy.Name = "TaskListMy";
-            this.TaskListMy.Size = new System.Drawing.Size(644, 0);
-            this.TaskListMy.TabIndex = 0;
-            // 
             // TaskPub
             // 
             this.TaskPub.Controls.Add(this.TaskListPub);
@@ -512,17 +502,6 @@ namespace MYTask
             this.TaskPub.Text = "发布的任务";
             this.TaskPub.UseVisualStyleBackColor = true;
             // 
-            // TaskListPub
-            // 
-            this.TaskListPub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskListPub.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TaskListPub.Location = new System.Drawing.Point(0, 0);
-            this.TaskListPub.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.TaskListPub.Name = "TaskListPub";
-            this.TaskListPub.Size = new System.Drawing.Size(644, 0);
-            this.TaskListPub.TabIndex = 0;
-            // 
             // TaskAll
             // 
             this.TaskAll.Controls.Add(this.TaskListAll);
@@ -532,17 +511,6 @@ namespace MYTask
             this.TaskAll.TabIndex = 2;
             this.TaskAll.Text = "所有任务";
             this.TaskAll.UseVisualStyleBackColor = true;
-            // 
-            // TaskListAll
-            // 
-            this.TaskListAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskListAll.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TaskListAll.Location = new System.Drawing.Point(0, 0);
-            this.TaskListAll.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.TaskListAll.Name = "TaskListAll";
-            this.TaskListAll.Size = new System.Drawing.Size(644, 0);
-            this.TaskListAll.TabIndex = 0;
             // 
             // panel1
             // 
@@ -692,91 +660,87 @@ namespace MYTask
             // PanelLogin
             // 
             this.PanelLogin.BackColor = System.Drawing.Color.RoyalBlue;
-            this.PanelLogin.Controls.Add(this.LabelBlock);
-            this.PanelLogin.Controls.Add(this.TextLogin_Psw);
-            this.PanelLogin.Controls.Add(this.TextLogin_UID);
-            this.PanelLogin.Controls.Add(this.CloudStatusLogin);
-            this.PanelLogin.Controls.Add(this.BarConnecting);
-            this.PanelLogin.Controls.Add(this.BtnFindPsw);
-            this.PanelLogin.Controls.Add(this.BtnLogin);
+            this.PanelLogin.Controls.Add(this.PLogin_LabelBlock);
+            this.PanelLogin.Controls.Add(this.PLogin_PicLogo);
+            this.PanelLogin.Controls.Add(this.PLogin_TextPsw);
+            this.PanelLogin.Controls.Add(this.PLogin_TextUID);
+            this.PanelLogin.Controls.Add(this.PLogin_PicCloud);
+            this.PanelLogin.Controls.Add(this.PLogin_BarConnecting);
+            this.PanelLogin.Controls.Add(this.PLogin_BtnFindPsw);
+            this.PanelLogin.Controls.Add(this.PLogin_BtnLogin);
             this.PanelLogin.Location = new System.Drawing.Point(0, 510);
             this.PanelLogin.Margin = new System.Windows.Forms.Padding(0);
             this.PanelLogin.Name = "PanelLogin";
             this.PanelLogin.Size = new System.Drawing.Size(700, 478);
             this.PanelLogin.TabIndex = 6;
+            this.PanelLogin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UI_Caption_MouseDown);
             // 
-            // LabelBlock
+            // PLogin_LabelBlock
             // 
-            this.LabelBlock.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LabelBlock.ForeColor = System.Drawing.Color.White;
-            this.LabelBlock.Location = new System.Drawing.Point(350, 124);
-            this.LabelBlock.Name = "LabelBlock";
-            this.LabelBlock.Size = new System.Drawing.Size(308, 225);
-            this.LabelBlock.TabIndex = 11;
-            this.LabelBlock.Text = "正在加载任务列表，请稍候…";
-            this.LabelBlock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.PLogin_LabelBlock.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PLogin_LabelBlock.ForeColor = System.Drawing.Color.White;
+            this.PLogin_LabelBlock.Location = new System.Drawing.Point(350, 124);
+            this.PLogin_LabelBlock.Name = "PLogin_LabelBlock";
+            this.PLogin_LabelBlock.Size = new System.Drawing.Size(308, 225);
+            this.PLogin_LabelBlock.TabIndex = 11;
+            this.PLogin_LabelBlock.Text = "正在加载任务列表，请稍候…";
+            this.PLogin_LabelBlock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TextLogin_Psw
+            // PLogin_PicLogo
             // 
-            this.TextLogin_Psw.Location = new System.Drawing.Point(400, 211);
-            this.TextLogin_Psw.Name = "TextLogin_Psw";
-            this.TextLogin_Psw.Size = new System.Drawing.Size(215, 29);
-            this.TextLogin_Psw.TabIndex = 10;
-            this.TextLogin_Psw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextLogin_Psw_Keypress);
+            this.PLogin_PicLogo.Location = new System.Drawing.Point(52, 108);
+            this.PLogin_PicLogo.Name = "PLogin_PicLogo";
+            this.PLogin_PicLogo.Size = new System.Drawing.Size(223, 205);
+            this.PLogin_PicLogo.TabIndex = 12;
+            this.PLogin_PicLogo.TabStop = false;
+            this.PLogin_PicLogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UI_Caption_MouseDown);
             // 
-            // TextLogin_UID
+            // PLogin_PicCloud
             // 
-            this.TextLogin_UID.Location = new System.Drawing.Point(400, 176);
-            this.TextLogin_UID.Name = "TextLogin_UID";
-            this.TextLogin_UID.Size = new System.Drawing.Size(215, 29);
-            this.TextLogin_UID.TabIndex = 9;
+            this.PLogin_PicCloud.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.PLogin_PicCloud.Image = global::MYTask.Properties.Resources.Cloud_Connecting_32;
+            this.PLogin_PicCloud.Location = new System.Drawing.Point(665, 443);
+            this.PLogin_PicCloud.Name = "PLogin_PicCloud";
+            this.PLogin_PicCloud.Size = new System.Drawing.Size(32, 32);
+            this.PLogin_PicCloud.TabIndex = 8;
+            this.PLogin_PicCloud.TabStop = false;
             // 
-            // CloudStatusLogin
+            // PLogin_BarConnecting
             // 
-            this.CloudStatusLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CloudStatusLogin.Image = global::MYTask.Properties.Resources.Cloud_Connecting_32;
-            this.CloudStatusLogin.Location = new System.Drawing.Point(665, 443);
-            this.CloudStatusLogin.Name = "CloudStatusLogin";
-            this.CloudStatusLogin.Size = new System.Drawing.Size(32, 32);
-            this.CloudStatusLogin.TabIndex = 8;
-            this.CloudStatusLogin.TabStop = false;
+            this.PLogin_BarConnecting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.PLogin_BarConnecting.Location = new System.Drawing.Point(7, 456);
+            this.PLogin_BarConnecting.MarqueeAnimationSpeed = 0;
+            this.PLogin_BarConnecting.Name = "PLogin_BarConnecting";
+            this.PLogin_BarConnecting.Size = new System.Drawing.Size(652, 15);
+            this.PLogin_BarConnecting.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.PLogin_BarConnecting.TabIndex = 7;
             // 
-            // BarConnecting
+            // PLogin_BtnFindPsw
             // 
-            this.BarConnecting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BarConnecting.Location = new System.Drawing.Point(7, 456);
-            this.BarConnecting.MarqueeAnimationSpeed = 0;
-            this.BarConnecting.Name = "BarConnecting";
-            this.BarConnecting.Size = new System.Drawing.Size(652, 15);
-            this.BarConnecting.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.BarConnecting.TabIndex = 7;
+            this.PLogin_BtnFindPsw.Image = global::MYTask.Properties.Resources.FindPsw_32;
+            this.PLogin_BtnFindPsw.Location = new System.Drawing.Point(451, 254);
+            this.PLogin_BtnFindPsw.Name = "PLogin_BtnFindPsw";
+            this.PLogin_BtnFindPsw.Size = new System.Drawing.Size(48, 48);
+            this.PLogin_BtnFindPsw.TabIndex = 6;
+            this.PLogin_BtnFindPsw.UseVisualStyleBackColor = true;
+            this.PLogin_BtnFindPsw.Visible = false;
+            this.PLogin_BtnFindPsw.Click += new System.EventHandler(this.BtnFindPsw_Click);
             // 
-            // BtnFindPsw
+            // PLogin_BtnLogin
             // 
-            this.BtnFindPsw.Image = global::MYTask.Properties.Resources.FindPsw_32;
-            this.BtnFindPsw.Location = new System.Drawing.Point(451, 254);
-            this.BtnFindPsw.Name = "BtnFindPsw";
-            this.BtnFindPsw.Size = new System.Drawing.Size(48, 48);
-            this.BtnFindPsw.TabIndex = 6;
-            this.BtnFindPsw.UseVisualStyleBackColor = true;
-            this.BtnFindPsw.Visible = false;
-            this.BtnFindPsw.Click += new System.EventHandler(this.BtnFindPsw_Click);
-            // 
-            // BtnLogin
-            // 
-            this.BtnLogin.BackColor = System.Drawing.Color.LightGray;
-            this.BtnLogin.FlatAppearance.BorderSize = 0;
-            this.BtnLogin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.BtnLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.BtnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnLogin.Image = global::MYTask.Properties.Resources.Login_32;
-            this.BtnLogin.Location = new System.Drawing.Point(400, 254);
-            this.BtnLogin.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnLogin.Name = "BtnLogin";
-            this.BtnLogin.Size = new System.Drawing.Size(48, 48);
-            this.BtnLogin.TabIndex = 5;
-            this.BtnLogin.UseVisualStyleBackColor = false;
-            this.BtnLogin.Click += new System.EventHandler(this.BtnLogin_Click);
+            this.PLogin_BtnLogin.BackColor = System.Drawing.Color.LightGray;
+            this.PLogin_BtnLogin.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.PLogin_BtnLogin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.PLogin_BtnLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.PLogin_BtnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PLogin_BtnLogin.Image = global::MYTask.Properties.Resources.Login_32;
+            this.PLogin_BtnLogin.Location = new System.Drawing.Point(400, 254);
+            this.PLogin_BtnLogin.Margin = new System.Windows.Forms.Padding(0);
+            this.PLogin_BtnLogin.Name = "PLogin_BtnLogin";
+            this.PLogin_BtnLogin.Size = new System.Drawing.Size(48, 48);
+            this.PLogin_BtnLogin.TabIndex = 5;
+            this.PLogin_BtnLogin.UseVisualStyleBackColor = false;
+            this.PLogin_BtnLogin.Click += new System.EventHandler(this.BtnLogin_Click);
             // 
             // TabsProject
             // 
@@ -804,14 +768,6 @@ namespace MYTask
             this.ProjMy.Text = "负责的项目";
             this.ProjMy.UseVisualStyleBackColor = true;
             // 
-            // ProjListMy
-            // 
-            this.ProjListMy.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ProjListMy.Location = new System.Drawing.Point(0, 0);
-            this.ProjListMy.Name = "ProjListMy";
-            this.ProjListMy.Size = new System.Drawing.Size(643, 447);
-            this.ProjListMy.TabIndex = 0;
-            // 
             // ProjAll
             // 
             this.ProjAll.Controls.Add(this.ProjListAll);
@@ -821,14 +777,6 @@ namespace MYTask
             this.ProjAll.TabIndex = 2;
             this.ProjAll.Text = "所有项目";
             this.ProjAll.UseVisualStyleBackColor = true;
-            // 
-            // ProjListAll
-            // 
-            this.ProjListAll.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ProjListAll.Location = new System.Drawing.Point(0, 0);
-            this.ProjListAll.Name = "ProjListAll";
-            this.ProjListAll.Size = new System.Drawing.Size(643, 447);
-            this.ProjListAll.TabIndex = 1;
             // 
             // PanelContacts
             // 
@@ -842,22 +790,6 @@ namespace MYTask
             this.PanelContacts.Size = new System.Drawing.Size(652, 478);
             this.PanelContacts.TabIndex = 9;
             // 
-            // ContactList
-            // 
-            this.ContactList.BackColor = System.Drawing.Color.White;
-            this.ContactList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContactList.FullRowSelect = true;
-            this.ContactList.GridLines = true;
-            this.ContactList.Location = new System.Drawing.Point(0, 0);
-            this.ContactList.Name = "ContactList";
-            this.ContactList.Size = new System.Drawing.Size(652, 478);
-            this.ContactList.TabIndex = 0;
-            this.ContactList.UseCompatibleStateImageBehavior = false;
-            this.ContactList.View = System.Windows.Forms.View.Details;
-            this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
-            this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
-            // 
             // PanelMessages
             // 
             this.PanelMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -867,7 +799,7 @@ namespace MYTask
             this.PanelMessages.Controls.Add(this.LabelMessageLabel);
             this.PanelMessages.Controls.Add(this.MessList);
             this.PanelMessages.Controls.Add(this.AnnList);
-            this.PanelMessages.Location = new System.Drawing.Point(48, 32);
+            this.PanelMessages.Location = new System.Drawing.Point(48, 510);
             this.PanelMessages.Name = "PanelMessages";
             this.PanelMessages.Size = new System.Drawing.Size(652, 478);
             this.PanelMessages.TabIndex = 10;
@@ -876,37 +808,12 @@ namespace MYTask
             // 
             this.LabelMessageLabel.AutoSize = true;
             this.LabelMessageLabel.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LabelMessageLabel.ForeColor = System.Drawing.Color.White;
+            this.LabelMessageLabel.ForeColor = System.Drawing.Color.Black;
             this.LabelMessageLabel.Location = new System.Drawing.Point(3, 135);
             this.LabelMessageLabel.Name = "LabelMessageLabel";
             this.LabelMessageLabel.Size = new System.Drawing.Size(50, 26);
             this.LabelMessageLabel.TabIndex = 2;
             this.LabelMessageLabel.Text = "消息";
-            // 
-            // MessList
-            // 
-            this.MessList.BackColor = System.Drawing.Color.White;
-            this.MessList.FullRowSelect = true;
-            this.MessList.GridLines = true;
-            this.MessList.Location = new System.Drawing.Point(3, 164);
-            this.MessList.Name = "MessList";
-            this.MessList.Size = new System.Drawing.Size(646, 309);
-            this.MessList.TabIndex = 1;
-            this.MessList.UseCompatibleStateImageBehavior = false;
-            this.MessList.View = System.Windows.Forms.View.Details;
-            // 
-            // AnnList
-            // 
-            this.AnnList.BackColor = System.Drawing.Color.White;
-            this.AnnList.FullRowSelect = true;
-            this.AnnList.GridLines = true;
-            this.AnnList.Location = new System.Drawing.Point(3, 3);
-            this.AnnList.Name = "AnnList";
-            this.AnnList.Size = new System.Drawing.Size(646, 129);
-            this.AnnList.TabIndex = 0;
-            this.AnnList.UseCompatibleStateImageBehavior = false;
-            this.AnnList.View = System.Windows.Forms.View.Details;
-            this.AnnList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.announceList1_ColumnClick);
             // 
             // TimerLogin
             // 
@@ -966,27 +873,123 @@ namespace MYTask
             this.BtnClose.UseVisualStyleBackColor = true;
             this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
-            // PanelProfile
+            // TimerUser
             // 
-            this.PanelProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.TimerUser.Interval = 15;
+            this.TimerUser.Tick += new System.EventHandler(this.TimerUser_Tick);
+            // 
+            // PLogin_TextPsw
+            // 
+            this.PLogin_TextPsw.Location = new System.Drawing.Point(400, 211);
+            this.PLogin_TextPsw.Name = "PLogin_TextPsw";
+            this.PLogin_TextPsw.Size = new System.Drawing.Size(215, 29);
+            this.PLogin_TextPsw.TabIndex = 10;
+            this.PLogin_TextPsw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextLogin_Psw_Keypress);
+            // 
+            // PLogin_TextUID
+            // 
+            this.PLogin_TextUID.Location = new System.Drawing.Point(400, 176);
+            this.PLogin_TextUID.Name = "PLogin_TextUID";
+            this.PLogin_TextUID.Size = new System.Drawing.Size(215, 29);
+            this.PLogin_TextUID.TabIndex = 9;
+            // 
+            // PanelUser
+            // 
+            this.PanelUser.BackColor = System.Drawing.Color.Gainsboro;
+            this.PanelUser.Location = new System.Drawing.Point(315, 32);
+            this.PanelUser.Margin = new System.Windows.Forms.Padding(0);
+            this.PanelUser.Name = "PanelUser";
+            this.PanelUser.Size = new System.Drawing.Size(385, 478);
+            this.PanelUser.TabIndex = 7;
+            // 
+            // TaskListMy
+            // 
+            this.TaskListMy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelProfile.BackColor = System.Drawing.Color.Gainsboro;
-            this.PanelProfile.Controls.Add(this.pictureBox1);
-            this.PanelProfile.Location = new System.Drawing.Point(48, 532);
-            this.PanelProfile.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelProfile.Name = "PanelProfile";
-            this.PanelProfile.Size = new System.Drawing.Size(652, 510);
-            this.PanelProfile.TabIndex = 7;
+            this.TaskListMy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListMy.Location = new System.Drawing.Point(0, 0);
+            this.TaskListMy.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListMy.Name = "TaskListMy";
+            this.TaskListMy.Size = new System.Drawing.Size(644, 0);
+            this.TaskListMy.TabIndex = 0;
             // 
-            // pictureBox1
+            // TaskListPub
             // 
-            this.pictureBox1.Image = global::MYTask.Properties.Resources.Profile_120;
-            this.pictureBox1.Location = new System.Drawing.Point(16, 16);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(120, 120);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.TaskListPub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskListPub.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListPub.Location = new System.Drawing.Point(0, 0);
+            this.TaskListPub.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListPub.Name = "TaskListPub";
+            this.TaskListPub.Size = new System.Drawing.Size(644, 0);
+            this.TaskListPub.TabIndex = 0;
+            // 
+            // TaskListAll
+            // 
+            this.TaskListAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListAll.Location = new System.Drawing.Point(0, 0);
+            this.TaskListAll.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListAll.Name = "TaskListAll";
+            this.TaskListAll.Size = new System.Drawing.Size(644, 0);
+            this.TaskListAll.TabIndex = 0;
+            // 
+            // ProjListMy
+            // 
+            this.ProjListMy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ProjListMy.Location = new System.Drawing.Point(0, 0);
+            this.ProjListMy.Name = "ProjListMy";
+            this.ProjListMy.Size = new System.Drawing.Size(643, 447);
+            this.ProjListMy.TabIndex = 0;
+            // 
+            // ProjListAll
+            // 
+            this.ProjListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ProjListAll.Location = new System.Drawing.Point(0, 0);
+            this.ProjListAll.Name = "ProjListAll";
+            this.ProjListAll.Size = new System.Drawing.Size(643, 447);
+            this.ProjListAll.TabIndex = 1;
+            // 
+            // ContactList
+            // 
+            this.ContactList.BackColor = System.Drawing.Color.White;
+            this.ContactList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContactList.FullRowSelect = true;
+            this.ContactList.GridLines = true;
+            this.ContactList.Location = new System.Drawing.Point(0, 0);
+            this.ContactList.Name = "ContactList";
+            this.ContactList.Size = new System.Drawing.Size(652, 478);
+            this.ContactList.TabIndex = 0;
+            this.ContactList.UseCompatibleStateImageBehavior = false;
+            this.ContactList.View = System.Windows.Forms.View.Details;
+            this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
+            this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
+            // 
+            // MessList
+            // 
+            this.MessList.BackColor = System.Drawing.Color.White;
+            this.MessList.FullRowSelect = true;
+            this.MessList.GridLines = true;
+            this.MessList.Location = new System.Drawing.Point(3, 164);
+            this.MessList.Name = "MessList";
+            this.MessList.Size = new System.Drawing.Size(646, 309);
+            this.MessList.TabIndex = 1;
+            this.MessList.UseCompatibleStateImageBehavior = false;
+            this.MessList.View = System.Windows.Forms.View.Details;
+            // 
+            // AnnList
+            // 
+            this.AnnList.BackColor = System.Drawing.Color.White;
+            this.AnnList.FullRowSelect = true;
+            this.AnnList.GridLines = true;
+            this.AnnList.Location = new System.Drawing.Point(3, 3);
+            this.AnnList.Name = "AnnList";
+            this.AnnList.Size = new System.Drawing.Size(646, 129);
+            this.AnnList.TabIndex = 0;
+            this.AnnList.UseCompatibleStateImageBehavior = false;
+            this.AnnList.View = System.Windows.Forms.View.Details;
             // 
             // FormMain
             // 
@@ -998,7 +1001,7 @@ namespace MYTask
             this.Controls.Add(this.PanelLogin);
             this.Controls.Add(this.PanelGuide);
             this.Controls.Add(this.PanelGuideS);
-            this.Controls.Add(this.PanelProfile);
+            this.Controls.Add(this.PanelUser);
             this.Controls.Add(this.TabsTask);
             this.Controls.Add(this.TabsProject);
             this.Controls.Add(this.PanelContacts);
@@ -1021,7 +1024,8 @@ namespace MYTask
             this.TaskAll.ResumeLayout(false);
             this.PanelLogin.ResumeLayout(false);
             this.PanelLogin.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CloudStatusLogin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PLogin_PicLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PLogin_PicCloud)).EndInit();
             this.TabsProject.ResumeLayout(false);
             this.ProjMy.ResumeLayout(false);
             this.ProjAll.ResumeLayout(false);
@@ -1030,9 +1034,6 @@ namespace MYTask
             this.PanelMessages.PerformLayout();
             this.UI_Caption.ResumeLayout(false);
             this.UI_Caption.PerformLayout();
-            this.PanelProfile.ResumeLayout(false);
-            this.PanelProfile.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1040,8 +1041,8 @@ namespace MYTask
         #endregion
 
         private Panel PanelLogin;
-        private Button BtnLogin;
-        private Button BtnFindPsw;
+        private Button PLogin_BtnLogin;
+        private Button PLogin_BtnFindPsw;
 
         private Panel PanelGuide;
         private LinkLabel BtnProfile;
@@ -1070,15 +1071,14 @@ namespace MYTask
         private TabControl TabsProject;
         private TabPage ProjMy;
         private TabPage ProjAll;
-        private PictureBox pictureBox1;
 
         private Panel PanelContacts;
 
         private Panel PanelMessages;
 
         private Timer TimerSidebar;
-        private ProgressBar BarConnecting;
-        private PictureBox CloudStatusLogin;
+        private ProgressBar PLogin_BarConnecting;
+        private PictureBox PLogin_PicCloud;
         private Panel panel1;
         private Label LabelPI;
         private Label LabelPT;
@@ -1091,17 +1091,17 @@ namespace MYTask
         private Label LabelEndTime;
         private TaskPanelContainer TaskListMy;
         private Label label2;
-        private LoginTextbox TextLogin_Psw;
-        private LoginTextbox TextLogin_UID;
+        private LoginTextbox PLogin_TextPsw;
+        private LoginTextbox PLogin_TextUID;
         private LinkLabel linkLabel1;
         private LinkLabel LabelFromUserName;
-        private UserProfilePanel PanelProfile;
+        private UserProfilePanel PanelUser;
         private TaskPanelContainer TaskListPub;
         private TaskPanelContainer TaskListAll;
         private Button BtnLogout;
         private Timer TimerLogin;
         private UserList ContactList;
-        private Label LabelBlock;
+        private Label PLogin_LabelBlock;
         private Panel UI_Caption;
         private Button BtnClose;
         private Button BtnMin;
@@ -1115,5 +1115,7 @@ namespace MYTask
         private AnnounceList AnnList;
         private MessageList MessList;
         private Label LabelMessageLabel;
+        private PictureBox PLogin_PicLogo;
+        private Timer TimerUser;
     }
 }

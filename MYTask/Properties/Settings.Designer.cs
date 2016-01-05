@@ -25,19 +25,7 @@ namespace MYTask.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("OrangeRed")]
-        public global::System.Drawing.Color UIColor {
-            get {
-                return ((global::System.Drawing.Color)(this["UIColor"]));
-            }
-            set {
-                this["UIColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int UIColorType {
             get {
                 return ((int)(this["UIColorType"]));

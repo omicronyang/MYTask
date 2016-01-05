@@ -2,11 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MYTask.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="UIColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">OrangeRed</Value>
-    </Setting>
     <Setting Name="UIColorType" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -5,14 +5,17 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SQLite;
-using System.Runtime.InteropServices;
+using System.Resources;
 
 namespace MYTask
 {
     public partial class FormMain : Form
     {
+        ShadowForm SF;
+
         private int TimerSideStat;
         private int TimerLogStat;
+        private int TimerUserStat;
         private int LoginStat = 1;  // 0 正常登陆, 1 跳过验证
         private int DBaseStat = -1; // 0 离线数据, 1 在线数据
         private MyUser NowUser = new MyUser();
@@ -20,8 +23,10 @@ namespace MYTask
         private ListViewColumnSorter lvwColumnSorter;
         public MyDB DataBase = new MyDB();
         private object NowFocus;
+        private Button FocusBtn = new Button();
+        private Button FocusBtnS = new Button();
         private TabControl FocusTC;
-        private UIColor Theme = new UIColor();
+        public UIColor Theme = new UIColor();
 
         private delegate void BGAddTaskList(MyTask[] Tlist, int Mode);
         private delegate void BGAddProjList(MyProj[] Plist, int Mode);
@@ -30,69 +35,50 @@ namespace MYTask
         private delegate void BGAddMessList(MyMessage[] Mlist);
         private delegate void BGWorkComplete(object sender, DoWorkEventArgs e);
 
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        [DllImport("user32.dll")]
-        public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
-
-        [DllImport("user32.dll")]
-        public static extern int SetClassLong(IntPtr hwnd, int nIndex, int dwNewLong);
-
-        [DllImport("user32.dll")]
-        public static extern int GetClassLong(IntPtr hwnd, int nIndex);
         
-        [DllImportAttribute("user32.dll")]
-        public static extern bool AnimateWindow(IntPtr hWnd, int dwTime, int dwFlags);
 
-        //常数
-        public const int WM_SYSCOMMAND = 0x0112;
-        //窗体移动
-        public const int SC_MOVE = 0xF010;
-        public const int HTCAPTION = 0x0002;
-        //窗体最小化
-        public const int SC_MINIMIZE = 0xF020;
-        public const int WS_MINIMIZEBOX = 0x00020000;
-        //动画参数
-        public const int AW_HIDE = 0x00010000;   //隐藏
-        public const int AW_BLEND = 0x00080000;  //淡入淡出
+        
 
         public FormMain()
         {
             InitializeComponent();
 
-            Properties.Settings.Default.UIColor = Color.RoyalBlue;
-
             PanelGuide.Location = new Point(-175, 32);
             PanelGuideS.Location = new Point(0, 32);
             PanelLogin.Location = new Point(0, 32);
-            PanelProfile.Location = new Point(48, 32);
+            PanelUser.Location = new Point(700, 32);
             TabsTask.Location = new Point(48, 32);
             TabsProject.Location = new Point(48, 32);
             PanelContacts.Location = new Point(48, 32);
             PanelContacts.BackColor = Color.Gainsboro;
             PanelMessages.Location = new Point(48, 32);
 
+
+            SF = new ShadowForm(this);
+            SF.Show(this);
             SetStyles();
             UIColorUpdate(Properties.Settings.Default.UIColorType);
+            PanelUser.SetFatherForm(this);
 
             //dHeight = Height - PanelGuideS.Height;
             //dWidth = Width - PanelProfile.Width - 48;
 
             //跳过登陆面板
-            TextLogin_UID.RenewState(3);
-            TextLogin_UID.Enter += new EventHandler(LoginBoxGetFocus);
-            TextLogin_UID.Leave += new EventHandler(LoginBoxLostFocus);
+            PLogin_TextUID.RenewState(3);
+            PLogin_TextUID.Enter += new EventHandler(LoginBoxGetFocus);
+            PLogin_TextUID.Leave += new EventHandler(LoginBoxLostFocus);
 
-            TextLogin_Psw.RenewState(3);
-            TextLogin_Psw.Enter += new EventHandler(LoginBoxGetFocus);
-            TextLogin_Psw.Leave += new EventHandler(LoginBoxLostFocus);
+            PLogin_TextPsw.RenewState(3);
+            PLogin_TextPsw.Enter += new EventHandler(LoginBoxGetFocus);
+            PLogin_TextPsw.Leave += new EventHandler(LoginBoxLostFocus);
 
             lvwColumnSorter = new ListViewColumnSorter();
             ContactList.ListViewItemSorter = lvwColumnSorter;
 
             m_worker.WorkerReportsProgress = true;
             m_worker.WorkerSupportsCancellation = true;
+
+            
 
         }
 
@@ -112,7 +98,8 @@ namespace MYTask
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            AnimateWindow(this.Handle, 150, AW_BLEND | AW_HIDE);
+            Win32.AnimateWindow(SF.Handle, 150, Win32.AW_BLEND | Win32.AW_HIDE);
+            Win32.AnimateWindow(this.Handle, 150, Win32.AW_BLEND | Win32.AW_HIDE);
             base.OnClosing(e);
         }
 
@@ -121,21 +108,41 @@ namespace MYTask
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.Style = cp.Style | WS_MINIMIZEBOX;
+                cp.Style = cp.Style | Win32.WS_MINIMIZEBOX;
                 return cp;
             }
+        }
+
+        private void UI_Caption_MouseDown(object sender, MouseEventArgs e)
+        {
+            Win32.ReleaseCapture();
+            Win32.SendMessage(this.Handle, Win32.WM_SYSCOMMAND, Win32.SC_MOVE + Win32.HTCAPTION, 0);
+        }
+
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            //this.Close();
+            SF.Close();
+            Win32.AnimateWindow(this.Handle, 150, Win32.AW_BLEND | Win32.AW_HIDE);
+            Environment.Exit(0);
+        }
+
+        private void BtnMin_Click(object sender, EventArgs e)
+        {
+            Win32.ReleaseCapture();
+            Win32.SendMessage(this.Handle, Win32.WM_SYSCOMMAND, Win32.SC_MINIMIZE, 0);
         }
 
         #endregion
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            TextLogin_UID.RenewState(3);
-            TextLogin_Psw.RenewState(3);
+            PLogin_TextUID.RenewState(3);
+            PLogin_TextPsw.RenewState(3);
             CloudStatus.Image = Properties.Resources.Cloud_Connecting_32;
             CloudStatusS.Image = Properties.Resources.Cloud_Connecting_32;
-            CloudStatusLogin.Image = Properties.Resources.Cloud_Connecting_32;
-            BarConnecting.MarqueeAnimationSpeed = 5;
+            PLogin_PicCloud.Image = Properties.Resources.Cloud_Connecting_32;
+            PLogin_BarConnecting.MarqueeAnimationSpeed = 5;
             SnycProgress.Style = ProgressBarStyle.Marquee;
             SnycProgress.MarqueeAnimationSpeed = 10;
             LabelStatus.Text = "正在连接";
@@ -182,6 +189,20 @@ namespace MYTask
             BtnMin.BackColor = Theme.MainColor;
             BtnMin.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
             BtnMin.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
+
+            PLogin_BtnLogin.BackColor = Theme.MainColor;
+            PLogin_BtnLogin.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            PLogin_BtnLogin.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
+
+            FocusBtn.BackColor = Theme.MouseOverColor;
+            FocusBtn.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            FocusBtn.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
+
+            FocusBtnS.BackColor = Theme.MouseOverColor;
+            FocusBtnS.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            FocusBtnS.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
+
+            PanelUser.UpdateColor(Theme);
         }
 
         private void UIColorUpdate(Color UIC)
@@ -192,89 +213,14 @@ namespace MYTask
             else if (UIC == Color.Crimson) UIColorUpdate(4);
             else if (UIC == Color.OrangeRed) UIColorUpdate(5);
         }
-
-        private int[] HSLtoRGB(double H,double S, double L)
-        {
-            int[] rgb = new int[3];
-            double p1, p2;
-            double r, g, b;
-            if (L <= 0.5)
-                p2 = L * (1 + S);
-            else
-                p2 = L + S - (L * S);
-            p1 = 2 * L - p2;
-            if (S == 0)
-            {
-                r = L;
-                g = L;
-                b = L;
-            }
-            else
-            {
-                r = ToRGB(p1, p2, H + 120);
-                g = ToRGB(p1, p2, H);
-                b = ToRGB(p1, p2, H - 120);
-            }
-            rgb[0] = (int)Math.Round(r * 255);
-            rgb[1] = (int)Math.Round(g * 255);
-            rgb[2] = (int)Math.Round(b * 255);
-            return rgb;
-        }
-
-        private double[] RGBtoHSL(int R,int G,int B)
-        {
-            double r = R / 255.00;
-            double g = G / 255.00;
-            double b = B / 255.00;
-            double max, min, diff, r_dist, g_dist, b_dist;
-            double h, s, l;
-            double[] hsl = new double[3];
-
-            max = Math.Max(Math.Max(r, g), b);
-            min = Math.Min(Math.Min(r, g), b);
-            diff = max - min;
-            l = (max + min) / 2.00;
-            if (diff == 0) h = s = 0;
-            else
-            {
-                if (l < 50) s = diff / (max + min);
-                else s = diff / (2 - max - min);
-            }
-            r_dist = (max - r) / diff;
-            g_dist = (max - g) / diff;
-            b_dist = (max - b) / diff;
-            if (R == max) h = b_dist - g_dist;
-            else if (G == max) h = 2 + r_dist - b_dist;
-            else h = 4 + g_dist - r_dist;
-            h *= 60;
-            if (h < 0) h += 360;
-            if (h > 360) h -= 360;
-            hsl[0] = h;
-            hsl[1] = s;
-            hsl[2] = l;
-            return hsl;
-        }
-
-        private double ToRGB(double q1,double q2,double hue)
-        {
-            if (hue > 360) hue -= 360;
-            if (hue < 0) hue += 360;
-            if (hue < 60) return (q1 + (q2 - q1) * hue / 60);
-            if (hue < 180) return q2;
-            if (hue < 240) return (q1 + (q2 - q1) * (240 - hue) / 60);
-            return q1;
-        }
-
-
-
-
+        
         #endregion
 
         #region 数据库连接
         private void TestConnect(object sender, DoWorkEventArgs e)
         {
-            Action aDelegate = delegate { this.BarConnecting.MarqueeAnimationSpeed = 5; };
-            this.BarConnecting.Invoke(aDelegate);
+            Action aDelegate = delegate { this.PLogin_BarConnecting.MarqueeAnimationSpeed = 5; };
+            this.PLogin_BarConnecting.Invoke(aDelegate);
 
             if (DataBase.Connect())
             {
@@ -285,8 +231,8 @@ namespace MYTask
 
         private void RenewDBStat(object sender, RunWorkerCompletedEventArgs e)
         {
-            BarConnecting.MarqueeAnimationSpeed = 0;
-            BarConnecting.Visible = false;
+            PLogin_BarConnecting.MarqueeAnimationSpeed = 0;
+            PLogin_BarConnecting.Visible = false;
             m_worker.DoWork -= new DoWorkEventHandler(TestConnect);
             m_worker.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(RenewDBStat);
             m_worker.DoWork += new DoWorkEventHandler(InitList);
@@ -295,17 +241,17 @@ namespace MYTask
             {
                 CloudStatus.Image = Properties.Resources.Cloud_Online_32;
                 CloudStatusS.Image = Properties.Resources.Cloud_Online_32;
-                CloudStatusLogin.Image = Properties.Resources.Cloud_Online_32;
+                PLogin_PicCloud.Image = Properties.Resources.Cloud_Online_32;
                 LabelStatus.Text = "同步完成";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
                 SnycProgress.Visible = false;
-                BtnFindPsw.Visible = true;
+                PLogin_BtnFindPsw.Visible = true;
             }
             else if (DBaseStat == 0)
             {
                 CloudStatus.Image = Properties.Resources.Cloud_Offline_32;
                 CloudStatusS.Image = Properties.Resources.Cloud_Offline_32;
-                CloudStatusLogin.Image = Properties.Resources.Cloud_Offline_32;
+                PLogin_PicCloud.Image = Properties.Resources.Cloud_Offline_32;
                 LabelStatus.Text = "离线模式";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
                 SnycProgress.Visible = false;
@@ -314,7 +260,7 @@ namespace MYTask
             {
                 CloudStatus.Image = Properties.Resources.Cloud_Sync_32;
                 CloudStatusS.Image = Properties.Resources.Cloud_Sync_32;
-                CloudStatusLogin.Image = Properties.Resources.Cloud_Sync_32;
+                PLogin_PicCloud.Image = Properties.Resources.Cloud_Sync_32;
                 LabelStatus.Text = "正在同步";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y);
                 SnycProgress.Visible = true;
@@ -324,26 +270,8 @@ namespace MYTask
 
         }
         #endregion
-
-        private void InitList(object sender, DoWorkEventArgs e)
-        {
-            if (ContactList.InvokeRequired)
-            {
-                BGWorkComplete BGWC = new BGWorkComplete(InitList);
-                Invoke(BGWC, sender, e);
-                return;
-            }
-
-
-            AddTaskList(DataBase.GetTaskList(), 2);
-            AddProjList(DataBase.GetProjList(), 2);
-            AddUserList(DataBase.GetUserList());
-            AddAnnList(DataBase.GetAnnounceList());
-            LabelBlock.Visible = false;
-        }
-
-
-        //<Panel Functions>
+        
+        #region 面板显示控制
 
         private void TimerSidebar_Tick(object sender, EventArgs e)
         {
@@ -353,16 +281,25 @@ namespace MYTask
                     {
                         //PanelGuide shows from left
                         int x = PanelGuide.Location.X;
+                        if (PanelGuide.Location.X >= 0) {
+                            TimerSidebar.Stop();
+                            PanelGuide.Location = new Point(0, 32);
+                            return;
+                        }
                         PanelGuide.Location = new Point(x + 25, 32);
-                        if (PanelGuide.Location.X == 0) TimerSidebar.Stop();
                         break;
                     }
                 case 1:
                     {
                         //PanelGuide exit to left
                         int x = PanelGuide.Location.X;
+                        if (PanelGuide.Location.X <= -175)
+                        {
+                            TimerSidebar.Stop();
+                            PanelGuide.Location = new Point(-175, 32);
+                            return;
+                        }
                         PanelGuide.Location = new Point(x - 25, 32);
-                        if (PanelGuide.Location.X == -175) TimerSidebar.Stop();
                         break;
                     }
             }
@@ -376,30 +313,64 @@ namespace MYTask
                     {
                         //PanelLogin shows from bottom
                         int y = PanelLogin.Location.Y;
-                        PanelLogin.Location = new Point(0, y - 25);
                         if (PanelLogin.Location.Y <= 32)
                         {
                             TimerLogin.Stop();
                             PanelLogin.Location = new Point(0, 32);
+                            PanelUser.Location = new Point(700, 32);
                             TaskListMy.ClearTask();
                             TaskListPub.ClearTask();
                             ProjListMy.ClearProj();
                             MessList.Items.Clear();
+                            return;
                         }
+                        PanelLogin.Location = new Point(0, y - 25);
                         break;
                     }
                 case 1:
                     {
                         //PanelLogin exit to bottom
                         int y = PanelLogin.Location.Y;
-                        PanelLogin.Location = new Point(0, y + 25);
                         if (PanelLogin.Location.Y >= this.Height)
                         {
                             TimerLogin.Stop();
-                            PanelLogin.Location = new Point(0, this.Height);
                             PanelLogin.Visible = false;
-                            //Form_Unlock();
+                            return;
                         }
+                        PanelLogin.Location = new Point(0, y + 25);
+                        break;
+                    }
+            }
+        }
+
+        private void TimerUser_Tick(object sender, EventArgs e)
+        {
+            switch (TimerUserStat)
+            {
+                case 0:
+                    {
+                        //PanelUser shows from right
+                        int x = PanelUser.Location.X;
+                        if (PanelUser.Location.X == 315)
+                        {
+                            TimerUser.Stop();
+                            PanelUser.Location = new Point(315, 32);
+                            return;
+                        }
+                        PanelUser.Location = new Point(x - 55, 32);
+                        break;
+                    }
+                case 1:
+                    {
+                        //PanelUser exit to right
+                        int x = PanelUser.Location.X;
+                        if (PanelUser.Location.X == 700)
+                        {
+                            TimerUser.Stop();
+                            PanelUser.Location = new Point(700, 32);
+                            return;
+                        }
+                        PanelUser.Location = new Point(x + 55, 32);
                         break;
                     }
             }
@@ -414,30 +385,19 @@ namespace MYTask
             }
         }
 
-        public void SetProfilePanel(int uid)
+        
+        public void ShowPanelUser()
         {
-            MyUser tu = new MyUser();
-            tu = DataBase.GetUser(uid);
-            PanelProfile.SetProfileInfo(tu, (tu == NowUser || NowUser.Rank == 5) ? 1 : 0);
+            TimerUserStat = 0;
+            TimerUser.Start();
         }
 
-        public void ShowPanelProfile()
+        public void FoldPanelUser()
         {
-            Panel me = PanelProfile;
-
-            BtnPageUp.Visible = false;
-            BtnPageDown.Visible = false;
-            LabelPage.Visible = false;
-            FocusTC = null;
-            LabelTitle.Text = "WSS - 用户详情";
-
-            me.Visible = true;
-            TabsTask.Visible = false;
-            TabsProject.Visible = false;
-            PanelContacts.Visible = false;
-            PanelMessages.Visible = false;
-
+            TimerUserStat = 1;
+            TimerUser.Start();
         }
+        
 
         private void ShowTabsTask()
         {
@@ -455,11 +415,9 @@ namespace MYTask
 
             me.Visible = true;
             TabsProject.Visible = false;
-            PanelProfile.Visible = false;
             PanelContacts.Visible = false;
             PanelMessages.Visible = false;
         }
-
         private void ShowTabsProject()
         {
             TabControl me = TabsProject;
@@ -474,11 +432,9 @@ namespace MYTask
 
             me.Visible = true;
             TabsTask.Visible = false;
-            PanelProfile.Visible = false;
             PanelContacts.Visible = false;
             PanelMessages.Visible = false;
         }
-
         private void ShowPanelContacts()
         {
             Panel me = PanelContacts;
@@ -492,10 +448,8 @@ namespace MYTask
             me.Visible = true;
             TabsTask.Visible = false;
             TabsProject.Visible = false;
-            PanelProfile.Visible = false;
             PanelMessages.Visible = false;
         }
-
         private void ShowPanelMessages()
         {
             Panel me = PanelMessages;
@@ -510,20 +464,74 @@ namespace MYTask
             TabsTask.Visible = false;
             TabsProject.Visible = false;
             PanelContacts.Visible = false;
-            PanelProfile.Visible = false;
         }
-
         private void SelectPanel(int index)
         {
             switch (index)
             {
-                case 0: { ShowPanelProfile(); break; }
                 case 1: { ShowTabsTask(); break; }
                 case 2: { ShowTabsProject(); break; }
                 case 3: { ShowPanelContacts(); break; }
                 case 4: { ShowPanelMessages(); break; }
             }
+            RenewBtnStyle(index);
         }
+
+        private void RenewBtnStyle(int index)
+        {
+            FocusBtn.BackColor = Color.LightGray;
+            FocusBtn.FlatAppearance.MouseOverBackColor = Color.Silver;
+            FocusBtn.FlatAppearance.MouseDownBackColor = Color.Gray;
+            FocusBtnS.BackColor = Color.LightGray;
+            FocusBtnS.FlatAppearance.MouseOverBackColor = Color.Silver;
+            FocusBtnS.FlatAppearance.MouseDownBackColor = Color.Gray;
+
+            switch (index)
+            {
+                case 1: { FocusBtn = BtnTask; FocusBtnS = BtnTaskS; break; }
+                case 2: { FocusBtn = BtnProject; FocusBtnS = BtnProjectS; break; }
+                case 3: { FocusBtn = BtnContact; FocusBtnS = BtnContactS; break; }
+                case 4: { FocusBtn = BtnMessage; FocusBtnS = BtnMessageS; break; }
+            }
+            if (index > 0)
+            {
+                FocusBtn.BackColor = Theme.MouseOverColor;
+                FocusBtn.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+                FocusBtn.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
+                FocusBtnS.BackColor = Theme.MouseOverColor;
+                FocusBtnS.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+                FocusBtnS.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
+            }
+        }
+
+        #endregion
+
+        private void InitList(object sender, DoWorkEventArgs e)
+        {
+            if (ContactList.InvokeRequired)
+            {
+                BGWorkComplete BGWC = new BGWorkComplete(InitList);
+                Invoke(BGWC, sender, e);
+                return;
+            }
+
+
+            AddTaskList(DataBase.GetTaskList(), 2);
+            AddProjList(DataBase.GetProjList(), 2);
+            AddUserList(DataBase.GetUserList());
+            AddAnnList(DataBase.GetAnnounceList());
+            PLogin_LabelBlock.Visible = false;
+        }
+
+
+
+        public void SetProfilePanel(int uid)
+        {
+            MyUser tu = new MyUser();
+            tu = DataBase.GetUser(uid);
+            PanelUser.SetProfileInfo(tu, (tu == NowUser || NowUser.Rank == 5) ? 1 : 0);
+        }
+
 
         private void BtnCall_Click(object sender, EventArgs e)
         {
@@ -532,16 +540,16 @@ namespace MYTask
             TimerSidebar.Start();
         }
 
-        //<LoginBox Operations>
+        #region 登录文本框控制
 
         public void InitLoginBox(string uid)
         {
-            TextLogin_UID.RenewState(0);
-            TextLogin_Psw.RenewState(0);
-            if (uid == "") TextLogin_UID.Text = "用户名";
-            else TextLogin_UID.Text = uid;
-            TextLogin_Psw.UseSystemPasswordChar = false;
-            TextLogin_Psw.Text = "密码";
+            PLogin_TextUID.RenewState(0);
+            PLogin_TextPsw.RenewState(0);
+            if (uid == "") PLogin_TextUID.Text = "用户名";
+            else PLogin_TextUID.Text = uid;
+            PLogin_TextPsw.UseSystemPasswordChar = false;
+            PLogin_TextPsw.Text = "密码";
         }
 
         private void LoginBoxGetFocus(object sender, EventArgs e)
@@ -561,8 +569,9 @@ namespace MYTask
             else tbx.Text = "密码";
         }
 
-        //</LoginBox Operations>
+        #endregion
 
+        #region 导航栏按钮
         private void BtnTask_Click(object sender, EventArgs e)
         {
             FoldSideBar();
@@ -572,14 +581,15 @@ namespace MYTask
         private void BtnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             FoldSideBar();
-            PanelProfile.SetProfileInfo(NowUser,1);
-            SelectPanel(0);
+            PanelUser.SetProfileInfo(NowUser,1);
+            ShowPanelUser();
         }
 
         private void BtnProject_Click(object sender, EventArgs e)
         {
             FoldSideBar();
             SelectPanel(2);
+
         }
 
         private void BtnContact_Click(object sender, EventArgs e)
@@ -594,29 +604,32 @@ namespace MYTask
             SelectPanel(4);
         }
 
+        #endregion
+
+        #region 登录登出
         public void Login()
         {
             if (LoginStat == 1) goto Success;
 
             //检测用户是否输入完整信息
             bool flag = true;
-            if (TextLogin_UID.State != 1)
+            if (PLogin_TextUID.State != 1)
             {
-                TextLogin_UID.RenewState(2);
-                TextLogin_UID.Text = "请输入用户名";
+                PLogin_TextUID.RenewState(2);
+                PLogin_TextUID.Text = "请输入用户名";
                 flag = false;
             }
-            if (TextLogin_Psw.State != 1)
+            if (PLogin_TextPsw.State != 1)
             {
-                TextLogin_Psw.RenewState(2);
-                TextLogin_Psw.Text = "请输入密码";
+                PLogin_TextPsw.RenewState(2);
+                PLogin_TextPsw.Text = "请输入密码";
                 flag = false;
             }
             if (!flag) return;
 
             //获取字符串值进行比对
-            string UserID = TextLogin_UID.Text;
-            string UserP = TextLogin_Psw.Text;
+            string UserID = PLogin_TextUID.Text;
+            string UserP = PLogin_TextPsw.Text;
             PswString Psw = new PswString(UserP);
             string DBPsw = DataBase.GetUserPsw(UserID);
             //MessageBox.Show(DBPsw + "\n" + Psw.MD64);
@@ -624,27 +637,27 @@ namespace MYTask
             //数据库无用户名记录
             if (DBPsw == "@@@@")
             {
-                BtnLogin.Focus();
-                TextLogin_UID.RenewState(2);
-                TextLogin_UID.Text = "用户不存在";
-                TextLogin_Psw.RenewState(0);
-                TextLogin_Psw.Text = "密码";
+                PLogin_BtnLogin.Focus();
+                PLogin_TextUID.RenewState(2);
+                PLogin_TextUID.Text = "用户不存在";
+                PLogin_TextPsw.RenewState(0);
+                PLogin_TextPsw.Text = "密码";
                 return;
             }
 
             //密码不匹配
             if (DBPsw != Psw.MD64)
             {
-                BtnLogin.Focus();
-                TextLogin_Psw.RenewState(2);
-                TextLogin_Psw.Text = "密码错误";
+                PLogin_BtnLogin.Focus();
+                PLogin_TextPsw.RenewState(2);
+                PLogin_TextPsw.Text = "密码错误";
                 return;
             }
 
         Success:  //成功登陆
             ShowTabsTask();
-            if (LoginStat == 1 && TextLogin_UID.State == 0) TextLogin_UID.Text = "zxt_lyd";
-            NowUser = DataBase.GetUser(TextLogin_UID.Text);
+            if (LoginStat == 1 && PLogin_TextUID.State == 0) PLogin_TextUID.Text = "zxt_lyd";
+            NowUser = DataBase.GetUser(PLogin_TextUID.Text);
             //MessageBox.Show(NowUser.Name);
             BtnProfile.Text = NowUser.Name.Replace(' ', '\n');
 
@@ -657,6 +670,17 @@ namespace MYTask
             TaskListAll.RenewTaskPage(0);
             UpdatePageControl(TaskListMy);
             TabsTask.SelectedIndex = 0;
+
+            FocusBtnS = BtnTaskS;
+            BtnTaskS.BackColor = Theme.MouseOverColor;
+            BtnTaskS.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            BtnTaskS.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
+
+            FocusBtn = BtnTask;
+            BtnTask.BackColor = Theme.MouseOverColor;
+            BtnTask.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            BtnTask.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
+
             LabelTitle.Text = "WSS - 任务列表";
             TimerLogStat = 1;
             TimerLogin.Start();
@@ -673,8 +697,16 @@ namespace MYTask
 
         public void Logout()
         {
-            //Form_Lock();
-            PanelLogin.Location = new Point(0, this.Height);
+
+            FocusBtn.BackColor = Color.LightGray;
+            FocusBtn.FlatAppearance.MouseOverBackColor = Color.Silver;
+            FocusBtn.FlatAppearance.MouseDownBackColor = Color.Gray;
+            FocusBtn = null;
+            FocusBtnS.BackColor = Color.LightGray;
+            FocusBtnS.FlatAppearance.MouseOverBackColor = Color.Silver;
+            FocusBtnS.FlatAppearance.MouseDownBackColor = Color.Gray;
+            FocusBtnS = null;
+            
             PanelLogin.Visible = true;
             InitLoginBox("");
             LabelTitle.Text = "WSS - 登录";
@@ -687,6 +719,8 @@ namespace MYTask
             FoldSideBar();
             Logout();
         }
+
+        #endregion
 
         private void BtnFindPsw_Click(object sender, EventArgs e)
         {
@@ -810,28 +844,11 @@ namespace MYTask
             ListViewItem target = ContactList.SelectedItems[0];
             //MessageBox.Show(target.SubItems[4].Text);
             SetProfilePanel(Convert.ToInt32(target.SubItems[4].Text));
-            ShowPanelProfile();
+            ShowPanelUser();
         }
 
-        private void UI_Caption_MouseDown(object sender, MouseEventArgs e)
-        {
-            ReleaseCapture();
-            SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);
-        }
 
-        private void BtnClose_Click(object sender, EventArgs e)
-        {
-            //this.Close();
-            AnimateWindow(this.Handle, 150, AW_BLEND | AW_HIDE);
-            Environment.Exit(0);
-        }
-
-        private void BtnMin_Click(object sender, EventArgs e)
-        {
-            ReleaseCapture();
-            SendMessage(this.Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-        }
-
+        #region 翻页控制
         private void BtnPageUp_Click(object sender, EventArgs e)
         {
             if (NowFocus.GetType().ToString() == "MYTask.TaskPanelContainer")
@@ -932,9 +949,8 @@ namespace MYTask
             LabelPage.Visible = true;
         }
 
-        private void announceList1_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            MessageBox.Show(AnnList.Columns[0].Width.ToString());
-        }
+        #endregion
+
+        
     }
 }

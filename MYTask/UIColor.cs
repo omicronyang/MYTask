@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace MYTask
 {
-    class UIColor
+    public class UIColor
     {
         public Color MainColor;
         public Color MouseOverColor;
