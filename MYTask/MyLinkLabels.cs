@@ -30,7 +30,7 @@ namespace MYTask
         {
             FormMain formmain = (FormMain)Form.ActiveForm;
             formmain.SetProfilePanel(user.UID);
-            formmain.ShowPanelUser();
+            formmain.PanelUser_Show();
             base.OnClick(e);
         }
     }

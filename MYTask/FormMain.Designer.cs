@@ -31,6 +31,7 @@ namespace MYTask
         {
             this.components = new System.ComponentModel.Container();
             this.PanelGuide = new System.Windows.Forms.Panel();
+            this.PGuide_Side = new System.Windows.Forms.Label();
             this.BtnSettings = new System.Windows.Forms.Button();
             this.BtnLogout = new System.Windows.Forms.Button();
             this.BtnCallback = new System.Windows.Forms.Button();
@@ -43,20 +44,22 @@ namespace MYTask
             this.BtnProject = new System.Windows.Forms.Button();
             this.BtnTask = new System.Windows.Forms.Button();
             this.PanelGuideS = new System.Windows.Forms.Panel();
-            this.LabelPage = new System.Windows.Forms.Label();
-            this.BtnPageDown = new System.Windows.Forms.Button();
-            this.BtnPageUp = new System.Windows.Forms.Button();
-            this.BtnMessageS = new System.Windows.Forms.Button();
-            this.CloudStatusS = new System.Windows.Forms.PictureBox();
-            this.BtnCall = new System.Windows.Forms.Button();
-            this.BtnContactS = new System.Windows.Forms.Button();
-            this.BtnProjectS = new System.Windows.Forms.Button();
-            this.BtnTaskS = new System.Windows.Forms.Button();
-            this.TimerSidebar = new System.Windows.Forms.Timer(this.components);
+            this.PGuideS_LabelPage = new System.Windows.Forms.Label();
+            this.PGuideS_BtnPageDown = new System.Windows.Forms.Button();
+            this.PGuideS_BtnPageUp = new System.Windows.Forms.Button();
+            this.PGuideS_BtnMessage = new System.Windows.Forms.Button();
+            this.PGuideS_CloudStat = new System.Windows.Forms.PictureBox();
+            this.PGuideS_BtnCall = new System.Windows.Forms.Button();
+            this.PGuideS_BtnContact = new System.Windows.Forms.Button();
+            this.PGuideS_BtnProject = new System.Windows.Forms.Button();
+            this.PGuideS_BtnTask = new System.Windows.Forms.Button();
             this.TabsTask = new System.Windows.Forms.TabControl();
             this.TaskMy = new System.Windows.Forms.TabPage();
+            this.TaskListMy = new MYTask.TaskPanelContainer();
             this.TaskPub = new System.Windows.Forms.TabPage();
+            this.TaskListPub = new MYTask.TaskPanelContainer();
             this.TaskAll = new System.Windows.Forms.TabPage();
+            this.TaskListAll = new MYTask.TaskPanelContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LabelFromUserName = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -73,37 +76,40 @@ namespace MYTask
             this.PanelLogin = new System.Windows.Forms.Panel();
             this.PLogin_LabelBlock = new System.Windows.Forms.Label();
             this.PLogin_PicLogo = new System.Windows.Forms.PictureBox();
+            this.PLogin_TextPsw = new MYTask.LoginTextbox();
+            this.PLogin_TextUID = new MYTask.LoginTextbox();
             this.PLogin_PicCloud = new System.Windows.Forms.PictureBox();
             this.PLogin_BarConnecting = new System.Windows.Forms.ProgressBar();
             this.PLogin_BtnFindPsw = new System.Windows.Forms.Button();
             this.PLogin_BtnLogin = new System.Windows.Forms.Button();
             this.TabsProject = new System.Windows.Forms.TabControl();
             this.ProjMy = new System.Windows.Forms.TabPage();
+            this.ProjListMy = new MYTask.ProjPanelContainer();
             this.ProjAll = new System.Windows.Forms.TabPage();
+            this.ProjListAll = new MYTask.ProjPanelContainer();
             this.PanelContacts = new System.Windows.Forms.Panel();
+            this.ContactList = new MYTask.UserList();
             this.PanelMessages = new System.Windows.Forms.Panel();
             this.LabelMessageLabel = new System.Windows.Forms.Label();
-            this.TimerLogin = new System.Windows.Forms.Timer(this.components);
+            this.MessList = new MYTask.MessageList();
+            this.AnnList = new MYTask.AnnounceList();
             this.UI_Caption = new System.Windows.Forms.Panel();
             this.LabelTitle = new System.Windows.Forms.Label();
             this.BtnMin = new System.Windows.Forms.Button();
             this.BtnClose = new System.Windows.Forms.Button();
-            this.TimerUser = new System.Windows.Forms.Timer(this.components);
-            this.PLogin_TextPsw = new MYTask.LoginTextbox();
-            this.PLogin_TextUID = new MYTask.LoginTextbox();
+            this.PanelSettings = new System.Windows.Forms.Panel();
+            this.PSet_BtnClr5 = new System.Windows.Forms.Button();
+            this.PSet_BtnClr4 = new System.Windows.Forms.Button();
+            this.PSet_BtnClr3 = new System.Windows.Forms.Button();
+            this.PSet_BtnClr2 = new System.Windows.Forms.Button();
+            this.PSet_BtnClr1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.PUser_Anim = new System.Windows.Forms.Timer(this.components);
             this.PanelUser = new MYTask.UserProfilePanel();
-            this.TaskListMy = new MYTask.TaskPanelContainer();
-            this.TaskListPub = new MYTask.TaskPanelContainer();
-            this.TaskListAll = new MYTask.TaskPanelContainer();
-            this.ProjListMy = new MYTask.ProjPanelContainer();
-            this.ProjListAll = new MYTask.ProjPanelContainer();
-            this.ContactList = new MYTask.UserList();
-            this.MessList = new MYTask.MessageList();
-            this.AnnList = new MYTask.AnnounceList();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
             this.PanelGuideS.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CloudStatusS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PGuideS_CloudStat)).BeginInit();
             this.TabsTask.SuspendLayout();
             this.TaskMy.SuspendLayout();
             this.TaskPub.SuspendLayout();
@@ -117,11 +123,13 @@ namespace MYTask
             this.PanelContacts.SuspendLayout();
             this.PanelMessages.SuspendLayout();
             this.UI_Caption.SuspendLayout();
+            this.PanelSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelGuide
             // 
             this.PanelGuide.BackColor = System.Drawing.Color.LightGray;
+            this.PanelGuide.Controls.Add(this.PGuide_Side);
             this.PanelGuide.Controls.Add(this.BtnSettings);
             this.PanelGuide.Controls.Add(this.BtnLogout);
             this.PanelGuide.Controls.Add(this.BtnCallback);
@@ -139,6 +147,14 @@ namespace MYTask
             this.PanelGuide.Size = new System.Drawing.Size(175, 478);
             this.PanelGuide.TabIndex = 0;
             // 
+            // PGuide_Side
+            // 
+            this.PGuide_Side.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PGuide_Side.Location = new System.Drawing.Point(174, 48);
+            this.PGuide_Side.Name = "PGuide_Side";
+            this.PGuide_Side.Size = new System.Drawing.Size(1, 430);
+            this.PGuide_Side.TabIndex = 13;
+            // 
             // BtnSettings
             // 
             this.BtnSettings.FlatAppearance.BorderSize = 0;
@@ -153,6 +169,7 @@ namespace MYTask
             this.BtnSettings.TabIndex = 12;
             this.BtnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnSettings.UseVisualStyleBackColor = true;
+            this.BtnSettings.Click += new System.EventHandler(this.BtnSettings_Click);
             // 
             // BtnLogout
             // 
@@ -205,7 +222,7 @@ namespace MYTask
             this.BtnContact.Location = new System.Drawing.Point(0, 144);
             this.BtnContact.Margin = new System.Windows.Forms.Padding(0);
             this.BtnContact.Name = "BtnContact";
-            this.BtnContact.Size = new System.Drawing.Size(175, 48);
+            this.BtnContact.Size = new System.Drawing.Size(174, 48);
             this.BtnContact.TabIndex = 8;
             this.BtnContact.Text = "通讯录";
             this.BtnContact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -233,7 +250,7 @@ namespace MYTask
             // 
             this.CloudStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CloudStatus.Image = global::MYTask.Properties.Resources.Cloud_Sync_32;
-            this.CloudStatus.Location = new System.Drawing.Point(127, 430);
+            this.CloudStatus.Location = new System.Drawing.Point(126, 430);
             this.CloudStatus.Margin = new System.Windows.Forms.Padding(0);
             this.CloudStatus.Name = "CloudStatus";
             this.CloudStatus.Padding = new System.Windows.Forms.Padding(8);
@@ -261,7 +278,7 @@ namespace MYTask
             this.BtnMessage.Location = new System.Drawing.Point(0, 192);
             this.BtnMessage.Margin = new System.Windows.Forms.Padding(0);
             this.BtnMessage.Name = "BtnMessage";
-            this.BtnMessage.Size = new System.Drawing.Size(175, 48);
+            this.BtnMessage.Size = new System.Drawing.Size(174, 48);
             this.BtnMessage.TabIndex = 3;
             this.BtnMessage.Text = "消息";
             this.BtnMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -278,7 +295,7 @@ namespace MYTask
             this.BtnProject.Location = new System.Drawing.Point(0, 96);
             this.BtnProject.Margin = new System.Windows.Forms.Padding(0);
             this.BtnProject.Name = "BtnProject";
-            this.BtnProject.Size = new System.Drawing.Size(175, 48);
+            this.BtnProject.Size = new System.Drawing.Size(174, 48);
             this.BtnProject.TabIndex = 2;
             this.BtnProject.Text = "我的项目";
             this.BtnProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -295,7 +312,7 @@ namespace MYTask
             this.BtnTask.Location = new System.Drawing.Point(0, 48);
             this.BtnTask.Margin = new System.Windows.Forms.Padding(0);
             this.BtnTask.Name = "BtnTask";
-            this.BtnTask.Size = new System.Drawing.Size(175, 48);
+            this.BtnTask.Size = new System.Drawing.Size(174, 48);
             this.BtnTask.TabIndex = 1;
             this.BtnTask.Text = "我的任务";
             this.BtnTask.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -305,164 +322,159 @@ namespace MYTask
             // PanelGuideS
             // 
             this.PanelGuideS.BackColor = System.Drawing.Color.LightGray;
-            this.PanelGuideS.Controls.Add(this.LabelPage);
-            this.PanelGuideS.Controls.Add(this.BtnPageDown);
-            this.PanelGuideS.Controls.Add(this.BtnPageUp);
-            this.PanelGuideS.Controls.Add(this.BtnMessageS);
-            this.PanelGuideS.Controls.Add(this.CloudStatusS);
-            this.PanelGuideS.Controls.Add(this.BtnCall);
-            this.PanelGuideS.Controls.Add(this.BtnContactS);
-            this.PanelGuideS.Controls.Add(this.BtnProjectS);
-            this.PanelGuideS.Controls.Add(this.BtnTaskS);
+            this.PanelGuideS.Controls.Add(this.PGuideS_LabelPage);
+            this.PanelGuideS.Controls.Add(this.PGuideS_BtnPageDown);
+            this.PanelGuideS.Controls.Add(this.PGuideS_BtnPageUp);
+            this.PanelGuideS.Controls.Add(this.PGuideS_BtnMessage);
+            this.PanelGuideS.Controls.Add(this.PGuideS_CloudStat);
+            this.PanelGuideS.Controls.Add(this.PGuideS_BtnCall);
+            this.PanelGuideS.Controls.Add(this.PGuideS_BtnContact);
+            this.PanelGuideS.Controls.Add(this.PGuideS_BtnProject);
+            this.PanelGuideS.Controls.Add(this.PGuideS_BtnTask);
             this.PanelGuideS.Location = new System.Drawing.Point(0, 32);
             this.PanelGuideS.Margin = new System.Windows.Forms.Padding(0);
             this.PanelGuideS.Name = "PanelGuideS";
             this.PanelGuideS.Size = new System.Drawing.Size(48, 478);
             this.PanelGuideS.TabIndex = 4;
             // 
-            // LabelPage
+            // PGuideS_LabelPage
             // 
-            this.LabelPage.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LabelPage.Location = new System.Drawing.Point(0, 361);
-            this.LabelPage.Margin = new System.Windows.Forms.Padding(0);
-            this.LabelPage.Name = "LabelPage";
-            this.LabelPage.Size = new System.Drawing.Size(48, 21);
-            this.LabelPage.TabIndex = 9;
-            this.LabelPage.Text = "99/99";
-            this.LabelPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.PGuideS_LabelPage.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PGuideS_LabelPage.Location = new System.Drawing.Point(0, 361);
+            this.PGuideS_LabelPage.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_LabelPage.Name = "PGuideS_LabelPage";
+            this.PGuideS_LabelPage.Size = new System.Drawing.Size(48, 21);
+            this.PGuideS_LabelPage.TabIndex = 9;
+            this.PGuideS_LabelPage.Text = "99/99";
+            this.PGuideS_LabelPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // BtnPageDown
+            // PGuideS_BtnPageDown
             // 
-            this.BtnPageDown.BackColor = System.Drawing.Color.Transparent;
-            this.BtnPageDown.FlatAppearance.BorderSize = 0;
-            this.BtnPageDown.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.BtnPageDown.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.BtnPageDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnPageDown.Image = global::MYTask.Properties.Resources.Pagedown_32;
-            this.BtnPageDown.Location = new System.Drawing.Point(0, 382);
-            this.BtnPageDown.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnPageDown.Name = "BtnPageDown";
-            this.BtnPageDown.Size = new System.Drawing.Size(48, 48);
-            this.BtnPageDown.TabIndex = 8;
-            this.BtnPageDown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnPageDown.UseVisualStyleBackColor = false;
-            this.BtnPageDown.Click += new System.EventHandler(this.BtnPageDown_Click);
+            this.PGuideS_BtnPageDown.BackColor = System.Drawing.Color.Transparent;
+            this.PGuideS_BtnPageDown.FlatAppearance.BorderSize = 0;
+            this.PGuideS_BtnPageDown.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.PGuideS_BtnPageDown.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.PGuideS_BtnPageDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PGuideS_BtnPageDown.Image = global::MYTask.Properties.Resources.Pagedown_32;
+            this.PGuideS_BtnPageDown.Location = new System.Drawing.Point(0, 382);
+            this.PGuideS_BtnPageDown.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_BtnPageDown.Name = "PGuideS_BtnPageDown";
+            this.PGuideS_BtnPageDown.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_BtnPageDown.TabIndex = 8;
+            this.PGuideS_BtnPageDown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PGuideS_BtnPageDown.UseVisualStyleBackColor = false;
+            this.PGuideS_BtnPageDown.Click += new System.EventHandler(this.BtnPageDown_Click);
             // 
-            // BtnPageUp
+            // PGuideS_BtnPageUp
             // 
-            this.BtnPageUp.BackColor = System.Drawing.Color.Transparent;
-            this.BtnPageUp.FlatAppearance.BorderSize = 0;
-            this.BtnPageUp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.BtnPageUp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.BtnPageUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnPageUp.Image = global::MYTask.Properties.Resources.Pageup_32;
-            this.BtnPageUp.Location = new System.Drawing.Point(0, 313);
-            this.BtnPageUp.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnPageUp.Name = "BtnPageUp";
-            this.BtnPageUp.Size = new System.Drawing.Size(48, 48);
-            this.BtnPageUp.TabIndex = 7;
-            this.BtnPageUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnPageUp.UseVisualStyleBackColor = false;
-            this.BtnPageUp.Click += new System.EventHandler(this.BtnPageUp_Click);
+            this.PGuideS_BtnPageUp.BackColor = System.Drawing.Color.Transparent;
+            this.PGuideS_BtnPageUp.FlatAppearance.BorderSize = 0;
+            this.PGuideS_BtnPageUp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.PGuideS_BtnPageUp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.PGuideS_BtnPageUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PGuideS_BtnPageUp.Image = global::MYTask.Properties.Resources.Pageup_32;
+            this.PGuideS_BtnPageUp.Location = new System.Drawing.Point(0, 313);
+            this.PGuideS_BtnPageUp.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_BtnPageUp.Name = "PGuideS_BtnPageUp";
+            this.PGuideS_BtnPageUp.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_BtnPageUp.TabIndex = 7;
+            this.PGuideS_BtnPageUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PGuideS_BtnPageUp.UseVisualStyleBackColor = false;
+            this.PGuideS_BtnPageUp.Click += new System.EventHandler(this.BtnPageUp_Click);
             // 
-            // BtnMessageS
+            // PGuideS_BtnMessage
             // 
-            this.BtnMessageS.FlatAppearance.BorderSize = 0;
-            this.BtnMessageS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.BtnMessageS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.BtnMessageS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnMessageS.Image = global::MYTask.Properties.Resources.Message_32;
-            this.BtnMessageS.Location = new System.Drawing.Point(0, 192);
-            this.BtnMessageS.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnMessageS.Name = "BtnMessageS";
-            this.BtnMessageS.Size = new System.Drawing.Size(48, 48);
-            this.BtnMessageS.TabIndex = 6;
-            this.BtnMessageS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnMessageS.UseVisualStyleBackColor = true;
-            this.BtnMessageS.Click += new System.EventHandler(this.BtnMessage_Click);
+            this.PGuideS_BtnMessage.FlatAppearance.BorderSize = 0;
+            this.PGuideS_BtnMessage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.PGuideS_BtnMessage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.PGuideS_BtnMessage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PGuideS_BtnMessage.Image = global::MYTask.Properties.Resources.Message_32;
+            this.PGuideS_BtnMessage.Location = new System.Drawing.Point(0, 192);
+            this.PGuideS_BtnMessage.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_BtnMessage.Name = "PGuideS_BtnMessage";
+            this.PGuideS_BtnMessage.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_BtnMessage.TabIndex = 6;
+            this.PGuideS_BtnMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PGuideS_BtnMessage.UseVisualStyleBackColor = true;
+            this.PGuideS_BtnMessage.Click += new System.EventHandler(this.BtnMessage_Click);
             // 
-            // CloudStatusS
+            // PGuideS_CloudStat
             // 
-            this.CloudStatusS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloudStatusS.Image = global::MYTask.Properties.Resources.Cloud_Sync_32;
-            this.CloudStatusS.Location = new System.Drawing.Point(0, 430);
-            this.CloudStatusS.Margin = new System.Windows.Forms.Padding(0);
-            this.CloudStatusS.Name = "CloudStatusS";
-            this.CloudStatusS.Padding = new System.Windows.Forms.Padding(8);
-            this.CloudStatusS.Size = new System.Drawing.Size(48, 48);
-            this.CloudStatusS.TabIndex = 5;
-            this.CloudStatusS.TabStop = false;
+            this.PGuideS_CloudStat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.PGuideS_CloudStat.Image = global::MYTask.Properties.Resources.Cloud_Sync_32;
+            this.PGuideS_CloudStat.Location = new System.Drawing.Point(0, 430);
+            this.PGuideS_CloudStat.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_CloudStat.Name = "PGuideS_CloudStat";
+            this.PGuideS_CloudStat.Padding = new System.Windows.Forms.Padding(8);
+            this.PGuideS_CloudStat.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_CloudStat.TabIndex = 5;
+            this.PGuideS_CloudStat.TabStop = false;
             // 
-            // BtnCall
+            // PGuideS_BtnCall
             // 
-            this.BtnCall.BackColor = System.Drawing.Color.RoyalBlue;
-            this.BtnCall.FlatAppearance.BorderSize = 0;
-            this.BtnCall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MidnightBlue;
-            this.BtnCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
-            this.BtnCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCall.Image = global::MYTask.Properties.Resources.List_32;
-            this.BtnCall.Location = new System.Drawing.Point(0, 0);
-            this.BtnCall.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnCall.Name = "BtnCall";
-            this.BtnCall.Size = new System.Drawing.Size(48, 48);
-            this.BtnCall.TabIndex = 4;
-            this.BtnCall.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnCall.UseVisualStyleBackColor = false;
-            this.BtnCall.Click += new System.EventHandler(this.BtnCall_Click);
+            this.PGuideS_BtnCall.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PGuideS_BtnCall.FlatAppearance.BorderSize = 0;
+            this.PGuideS_BtnCall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MidnightBlue;
+            this.PGuideS_BtnCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
+            this.PGuideS_BtnCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PGuideS_BtnCall.Image = global::MYTask.Properties.Resources.List_32;
+            this.PGuideS_BtnCall.Location = new System.Drawing.Point(0, 0);
+            this.PGuideS_BtnCall.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_BtnCall.Name = "PGuideS_BtnCall";
+            this.PGuideS_BtnCall.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_BtnCall.TabIndex = 4;
+            this.PGuideS_BtnCall.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PGuideS_BtnCall.UseVisualStyleBackColor = false;
+            this.PGuideS_BtnCall.Click += new System.EventHandler(this.BtnCall_Click);
             // 
-            // BtnContactS
+            // PGuideS_BtnContact
             // 
-            this.BtnContactS.FlatAppearance.BorderSize = 0;
-            this.BtnContactS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.BtnContactS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.BtnContactS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnContactS.Image = global::MYTask.Properties.Resources.Contacts_32;
-            this.BtnContactS.Location = new System.Drawing.Point(0, 144);
-            this.BtnContactS.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnContactS.Name = "BtnContactS";
-            this.BtnContactS.Size = new System.Drawing.Size(48, 48);
-            this.BtnContactS.TabIndex = 3;
-            this.BtnContactS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnContactS.UseVisualStyleBackColor = true;
-            this.BtnContactS.Click += new System.EventHandler(this.BtnContact_Click);
+            this.PGuideS_BtnContact.FlatAppearance.BorderSize = 0;
+            this.PGuideS_BtnContact.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.PGuideS_BtnContact.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.PGuideS_BtnContact.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PGuideS_BtnContact.Image = global::MYTask.Properties.Resources.Contacts_32;
+            this.PGuideS_BtnContact.Location = new System.Drawing.Point(0, 144);
+            this.PGuideS_BtnContact.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_BtnContact.Name = "PGuideS_BtnContact";
+            this.PGuideS_BtnContact.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_BtnContact.TabIndex = 3;
+            this.PGuideS_BtnContact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PGuideS_BtnContact.UseVisualStyleBackColor = true;
+            this.PGuideS_BtnContact.Click += new System.EventHandler(this.BtnContact_Click);
             // 
-            // BtnProjectS
+            // PGuideS_BtnProject
             // 
-            this.BtnProjectS.BackColor = System.Drawing.Color.LightGray;
-            this.BtnProjectS.FlatAppearance.BorderSize = 0;
-            this.BtnProjectS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.BtnProjectS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.BtnProjectS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnProjectS.Image = global::MYTask.Properties.Resources.Project_32;
-            this.BtnProjectS.Location = new System.Drawing.Point(0, 96);
-            this.BtnProjectS.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnProjectS.Name = "BtnProjectS";
-            this.BtnProjectS.Size = new System.Drawing.Size(48, 48);
-            this.BtnProjectS.TabIndex = 2;
-            this.BtnProjectS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnProjectS.UseVisualStyleBackColor = false;
-            this.BtnProjectS.Click += new System.EventHandler(this.BtnProject_Click);
+            this.PGuideS_BtnProject.BackColor = System.Drawing.Color.LightGray;
+            this.PGuideS_BtnProject.FlatAppearance.BorderSize = 0;
+            this.PGuideS_BtnProject.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.PGuideS_BtnProject.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.PGuideS_BtnProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PGuideS_BtnProject.Image = global::MYTask.Properties.Resources.Project_32;
+            this.PGuideS_BtnProject.Location = new System.Drawing.Point(0, 96);
+            this.PGuideS_BtnProject.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_BtnProject.Name = "PGuideS_BtnProject";
+            this.PGuideS_BtnProject.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_BtnProject.TabIndex = 2;
+            this.PGuideS_BtnProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PGuideS_BtnProject.UseVisualStyleBackColor = false;
+            this.PGuideS_BtnProject.Click += new System.EventHandler(this.BtnProject_Click);
             // 
-            // BtnTaskS
+            // PGuideS_BtnTask
             // 
-            this.BtnTaskS.FlatAppearance.BorderSize = 0;
-            this.BtnTaskS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.BtnTaskS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.BtnTaskS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnTaskS.Image = global::MYTask.Properties.Resources.Task_32;
-            this.BtnTaskS.Location = new System.Drawing.Point(0, 48);
-            this.BtnTaskS.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnTaskS.Name = "BtnTaskS";
-            this.BtnTaskS.Size = new System.Drawing.Size(48, 48);
-            this.BtnTaskS.TabIndex = 1;
-            this.BtnTaskS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnTaskS.UseVisualStyleBackColor = true;
-            this.BtnTaskS.Click += new System.EventHandler(this.BtnTask_Click);
-            // 
-            // TimerSidebar
-            // 
-            this.TimerSidebar.Interval = 15;
-            this.TimerSidebar.Tick += new System.EventHandler(this.TimerSidebar_Tick);
+            this.PGuideS_BtnTask.FlatAppearance.BorderSize = 0;
+            this.PGuideS_BtnTask.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.PGuideS_BtnTask.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.PGuideS_BtnTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PGuideS_BtnTask.Image = global::MYTask.Properties.Resources.Task_32;
+            this.PGuideS_BtnTask.Location = new System.Drawing.Point(0, 48);
+            this.PGuideS_BtnTask.Margin = new System.Windows.Forms.Padding(0);
+            this.PGuideS_BtnTask.Name = "PGuideS_BtnTask";
+            this.PGuideS_BtnTask.Size = new System.Drawing.Size(48, 48);
+            this.PGuideS_BtnTask.TabIndex = 1;
+            this.PGuideS_BtnTask.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PGuideS_BtnTask.UseVisualStyleBackColor = true;
+            this.PGuideS_BtnTask.Click += new System.EventHandler(this.BtnTask_Click);
             // 
             // TabsTask
             // 
@@ -472,7 +484,7 @@ namespace MYTask
             this.TabsTask.Controls.Add(this.TaskMy);
             this.TabsTask.Controls.Add(this.TaskPub);
             this.TabsTask.Controls.Add(this.TaskAll);
-            this.TabsTask.Location = new System.Drawing.Point(48, 532);
+            this.TabsTask.Location = new System.Drawing.Point(48, 510);
             this.TabsTask.Name = "TabsTask";
             this.TabsTask.SelectedIndex = 0;
             this.TabsTask.Size = new System.Drawing.Size(652, 510);
@@ -491,6 +503,17 @@ namespace MYTask
             this.TaskMy.Text = "负责的任务";
             this.TaskMy.UseVisualStyleBackColor = true;
             // 
+            // TaskListMy
+            // 
+            this.TaskListMy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskListMy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListMy.Location = new System.Drawing.Point(0, 0);
+            this.TaskListMy.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListMy.Name = "TaskListMy";
+            this.TaskListMy.Size = new System.Drawing.Size(644, 0);
+            this.TaskListMy.TabIndex = 0;
+            // 
             // TaskPub
             // 
             this.TaskPub.Controls.Add(this.TaskListPub);
@@ -502,6 +525,17 @@ namespace MYTask
             this.TaskPub.Text = "发布的任务";
             this.TaskPub.UseVisualStyleBackColor = true;
             // 
+            // TaskListPub
+            // 
+            this.TaskListPub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskListPub.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListPub.Location = new System.Drawing.Point(0, 0);
+            this.TaskListPub.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListPub.Name = "TaskListPub";
+            this.TaskListPub.Size = new System.Drawing.Size(644, 0);
+            this.TaskListPub.TabIndex = 0;
+            // 
             // TaskAll
             // 
             this.TaskAll.Controls.Add(this.TaskListAll);
@@ -511,6 +545,17 @@ namespace MYTask
             this.TaskAll.TabIndex = 2;
             this.TaskAll.Text = "所有任务";
             this.TaskAll.UseVisualStyleBackColor = true;
+            // 
+            // TaskListAll
+            // 
+            this.TaskListAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TaskListAll.Location = new System.Drawing.Point(0, 0);
+            this.TaskListAll.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.TaskListAll.Name = "TaskListAll";
+            this.TaskListAll.Size = new System.Drawing.Size(644, 0);
+            this.TaskListAll.TabIndex = 0;
             // 
             // panel1
             // 
@@ -695,6 +740,21 @@ namespace MYTask
             this.PLogin_PicLogo.TabStop = false;
             this.PLogin_PicLogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UI_Caption_MouseDown);
             // 
+            // PLogin_TextPsw
+            // 
+            this.PLogin_TextPsw.Location = new System.Drawing.Point(400, 211);
+            this.PLogin_TextPsw.Name = "PLogin_TextPsw";
+            this.PLogin_TextPsw.Size = new System.Drawing.Size(215, 29);
+            this.PLogin_TextPsw.TabIndex = 10;
+            this.PLogin_TextPsw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextLogin_Psw_Keypress);
+            // 
+            // PLogin_TextUID
+            // 
+            this.PLogin_TextUID.Location = new System.Drawing.Point(400, 176);
+            this.PLogin_TextUID.Name = "PLogin_TextUID";
+            this.PLogin_TextUID.Size = new System.Drawing.Size(215, 29);
+            this.PLogin_TextUID.TabIndex = 9;
+            // 
             // PLogin_PicCloud
             // 
             this.PLogin_PicCloud.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -768,6 +828,14 @@ namespace MYTask
             this.ProjMy.Text = "负责的项目";
             this.ProjMy.UseVisualStyleBackColor = true;
             // 
+            // ProjListMy
+            // 
+            this.ProjListMy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ProjListMy.Location = new System.Drawing.Point(0, 0);
+            this.ProjListMy.Name = "ProjListMy";
+            this.ProjListMy.Size = new System.Drawing.Size(643, 447);
+            this.ProjListMy.TabIndex = 0;
+            // 
             // ProjAll
             // 
             this.ProjAll.Controls.Add(this.ProjListAll);
@@ -777,6 +845,14 @@ namespace MYTask
             this.ProjAll.TabIndex = 2;
             this.ProjAll.Text = "所有项目";
             this.ProjAll.UseVisualStyleBackColor = true;
+            // 
+            // ProjListAll
+            // 
+            this.ProjListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ProjListAll.Location = new System.Drawing.Point(0, 0);
+            this.ProjListAll.Name = "ProjListAll";
+            this.ProjListAll.Size = new System.Drawing.Size(643, 447);
+            this.ProjListAll.TabIndex = 1;
             // 
             // PanelContacts
             // 
@@ -789,6 +865,22 @@ namespace MYTask
             this.PanelContacts.Name = "PanelContacts";
             this.PanelContacts.Size = new System.Drawing.Size(652, 478);
             this.PanelContacts.TabIndex = 9;
+            // 
+            // ContactList
+            // 
+            this.ContactList.BackColor = System.Drawing.Color.White;
+            this.ContactList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContactList.FullRowSelect = true;
+            this.ContactList.GridLines = true;
+            this.ContactList.Location = new System.Drawing.Point(0, 0);
+            this.ContactList.Name = "ContactList";
+            this.ContactList.Size = new System.Drawing.Size(652, 478);
+            this.ContactList.TabIndex = 0;
+            this.ContactList.UseCompatibleStateImageBehavior = false;
+            this.ContactList.View = System.Windows.Forms.View.Details;
+            this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
+            this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
             // 
             // PanelMessages
             // 
@@ -815,10 +907,29 @@ namespace MYTask
             this.LabelMessageLabel.TabIndex = 2;
             this.LabelMessageLabel.Text = "消息";
             // 
-            // TimerLogin
+            // MessList
             // 
-            this.TimerLogin.Interval = 15;
-            this.TimerLogin.Tick += new System.EventHandler(this.TimerLogin_Tick);
+            this.MessList.BackColor = System.Drawing.Color.White;
+            this.MessList.FullRowSelect = true;
+            this.MessList.GridLines = true;
+            this.MessList.Location = new System.Drawing.Point(3, 164);
+            this.MessList.Name = "MessList";
+            this.MessList.Size = new System.Drawing.Size(646, 309);
+            this.MessList.TabIndex = 1;
+            this.MessList.UseCompatibleStateImageBehavior = false;
+            this.MessList.View = System.Windows.Forms.View.Details;
+            // 
+            // AnnList
+            // 
+            this.AnnList.BackColor = System.Drawing.Color.White;
+            this.AnnList.FullRowSelect = true;
+            this.AnnList.GridLines = true;
+            this.AnnList.Location = new System.Drawing.Point(3, 3);
+            this.AnnList.Name = "AnnList";
+            this.AnnList.Size = new System.Drawing.Size(646, 129);
+            this.AnnList.TabIndex = 0;
+            this.AnnList.UseCompatibleStateImageBehavior = false;
+            this.AnnList.View = System.Windows.Forms.View.Details;
             // 
             // UI_Caption
             // 
@@ -873,123 +984,118 @@ namespace MYTask
             this.BtnClose.UseVisualStyleBackColor = true;
             this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
-            // TimerUser
+            // PanelSettings
             // 
-            this.TimerUser.Interval = 15;
-            this.TimerUser.Tick += new System.EventHandler(this.TimerUser_Tick);
+            this.PanelSettings.BackColor = System.Drawing.Color.Gainsboro;
+            this.PanelSettings.Controls.Add(this.PSet_BtnClr5);
+            this.PanelSettings.Controls.Add(this.PSet_BtnClr4);
+            this.PanelSettings.Controls.Add(this.PSet_BtnClr3);
+            this.PanelSettings.Controls.Add(this.PSet_BtnClr2);
+            this.PanelSettings.Controls.Add(this.PSet_BtnClr1);
+            this.PanelSettings.Controls.Add(this.label1);
+            this.PanelSettings.Location = new System.Drawing.Point(48, 32);
+            this.PanelSettings.Margin = new System.Windows.Forms.Padding(0);
+            this.PanelSettings.Name = "PanelSettings";
+            this.PanelSettings.Size = new System.Drawing.Size(652, 478);
+            this.PanelSettings.TabIndex = 12;
             // 
-            // PLogin_TextPsw
+            // PSet_BtnClr5
             // 
-            this.PLogin_TextPsw.Location = new System.Drawing.Point(400, 211);
-            this.PLogin_TextPsw.Name = "PLogin_TextPsw";
-            this.PLogin_TextPsw.Size = new System.Drawing.Size(215, 29);
-            this.PLogin_TextPsw.TabIndex = 10;
-            this.PLogin_TextPsw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextLogin_Psw_Keypress);
+            this.PSet_BtnClr5.BackColor = System.Drawing.Color.OrangeRed;
+            this.PSet_BtnClr5.FlatAppearance.BorderSize = 0;
+            this.PSet_BtnClr5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Brown;
+            this.PSet_BtnClr5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Coral;
+            this.PSet_BtnClr5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PSet_BtnClr5.Location = new System.Drawing.Point(304, 30);
+            this.PSet_BtnClr5.Margin = new System.Windows.Forms.Padding(0);
+            this.PSet_BtnClr5.Name = "PSet_BtnClr5";
+            this.PSet_BtnClr5.Size = new System.Drawing.Size(75, 18);
+            this.PSet_BtnClr5.TabIndex = 5;
+            this.PSet_BtnClr5.UseVisualStyleBackColor = false;
+            this.PSet_BtnClr5.Click += new System.EventHandler(this.PSet_BtnClr_Click);
             // 
-            // PLogin_TextUID
+            // PSet_BtnClr4
             // 
-            this.PLogin_TextUID.Location = new System.Drawing.Point(400, 176);
-            this.PLogin_TextUID.Name = "PLogin_TextUID";
-            this.PLogin_TextUID.Size = new System.Drawing.Size(215, 29);
-            this.PLogin_TextUID.TabIndex = 9;
+            this.PSet_BtnClr4.BackColor = System.Drawing.Color.Crimson;
+            this.PSet_BtnClr4.FlatAppearance.BorderSize = 0;
+            this.PSet_BtnClr4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Brown;
+            this.PSet_BtnClr4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightCoral;
+            this.PSet_BtnClr4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PSet_BtnClr4.Location = new System.Drawing.Point(229, 30);
+            this.PSet_BtnClr4.Margin = new System.Windows.Forms.Padding(0);
+            this.PSet_BtnClr4.Name = "PSet_BtnClr4";
+            this.PSet_BtnClr4.Size = new System.Drawing.Size(75, 18);
+            this.PSet_BtnClr4.TabIndex = 4;
+            this.PSet_BtnClr4.UseVisualStyleBackColor = false;
+            this.PSet_BtnClr4.Click += new System.EventHandler(this.PSet_BtnClr_Click);
+            // 
+            // PSet_BtnClr3
+            // 
+            this.PSet_BtnClr3.BackColor = System.Drawing.Color.DarkMagenta;
+            this.PSet_BtnClr3.FlatAppearance.BorderSize = 0;
+            this.PSet_BtnClr3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Purple;
+            this.PSet_BtnClr3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.MediumOrchid;
+            this.PSet_BtnClr3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PSet_BtnClr3.Location = new System.Drawing.Point(154, 30);
+            this.PSet_BtnClr3.Margin = new System.Windows.Forms.Padding(0);
+            this.PSet_BtnClr3.Name = "PSet_BtnClr3";
+            this.PSet_BtnClr3.Size = new System.Drawing.Size(75, 18);
+            this.PSet_BtnClr3.TabIndex = 3;
+            this.PSet_BtnClr3.UseVisualStyleBackColor = false;
+            this.PSet_BtnClr3.Click += new System.EventHandler(this.PSet_BtnClr_Click);
+            // 
+            // PSet_BtnClr2
+            // 
+            this.PSet_BtnClr2.BackColor = System.Drawing.Color.SeaGreen;
+            this.PSet_BtnClr2.FlatAppearance.BorderSize = 0;
+            this.PSet_BtnClr2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGreen;
+            this.PSet_BtnClr2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.MediumSeaGreen;
+            this.PSet_BtnClr2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PSet_BtnClr2.Location = new System.Drawing.Point(79, 30);
+            this.PSet_BtnClr2.Margin = new System.Windows.Forms.Padding(0);
+            this.PSet_BtnClr2.Name = "PSet_BtnClr2";
+            this.PSet_BtnClr2.Size = new System.Drawing.Size(75, 18);
+            this.PSet_BtnClr2.TabIndex = 2;
+            this.PSet_BtnClr2.UseVisualStyleBackColor = false;
+            this.PSet_BtnClr2.Click += new System.EventHandler(this.PSet_BtnClr_Click);
+            // 
+            // PSet_BtnClr1
+            // 
+            this.PSet_BtnClr1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PSet_BtnClr1.FlatAppearance.BorderSize = 0;
+            this.PSet_BtnClr1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MidnightBlue;
+            this.PSet_BtnClr1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
+            this.PSet_BtnClr1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PSet_BtnClr1.Location = new System.Drawing.Point(4, 30);
+            this.PSet_BtnClr1.Margin = new System.Windows.Forms.Padding(0);
+            this.PSet_BtnClr1.Name = "PSet_BtnClr1";
+            this.PSet_BtnClr1.Size = new System.Drawing.Size(75, 18);
+            this.PSet_BtnClr1.TabIndex = 1;
+            this.PSet_BtnClr1.UseVisualStyleBackColor = false;
+            this.PSet_BtnClr1.Click += new System.EventHandler(this.PSet_BtnClr_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 21);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "主题颜色";
+            // 
+            // PUser_Anim
+            // 
+            this.PUser_Anim.Interval = 15;
+            this.PUser_Anim.Tick += new System.EventHandler(this.PUser_Anim_Tick);
             // 
             // PanelUser
             // 
             this.PanelUser.BackColor = System.Drawing.Color.Gainsboro;
-            this.PanelUser.Location = new System.Drawing.Point(315, 32);
+            this.PanelUser.Location = new System.Drawing.Point(700, 32);
             this.PanelUser.Margin = new System.Windows.Forms.Padding(0);
             this.PanelUser.Name = "PanelUser";
             this.PanelUser.Size = new System.Drawing.Size(385, 478);
             this.PanelUser.TabIndex = 7;
-            // 
-            // TaskListMy
-            // 
-            this.TaskListMy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskListMy.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TaskListMy.Location = new System.Drawing.Point(0, 0);
-            this.TaskListMy.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.TaskListMy.Name = "TaskListMy";
-            this.TaskListMy.Size = new System.Drawing.Size(644, 0);
-            this.TaskListMy.TabIndex = 0;
-            // 
-            // TaskListPub
-            // 
-            this.TaskListPub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskListPub.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TaskListPub.Location = new System.Drawing.Point(0, 0);
-            this.TaskListPub.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.TaskListPub.Name = "TaskListPub";
-            this.TaskListPub.Size = new System.Drawing.Size(644, 0);
-            this.TaskListPub.TabIndex = 0;
-            // 
-            // TaskListAll
-            // 
-            this.TaskListAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskListAll.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TaskListAll.Location = new System.Drawing.Point(0, 0);
-            this.TaskListAll.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.TaskListAll.Name = "TaskListAll";
-            this.TaskListAll.Size = new System.Drawing.Size(644, 0);
-            this.TaskListAll.TabIndex = 0;
-            // 
-            // ProjListMy
-            // 
-            this.ProjListMy.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ProjListMy.Location = new System.Drawing.Point(0, 0);
-            this.ProjListMy.Name = "ProjListMy";
-            this.ProjListMy.Size = new System.Drawing.Size(643, 447);
-            this.ProjListMy.TabIndex = 0;
-            // 
-            // ProjListAll
-            // 
-            this.ProjListAll.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ProjListAll.Location = new System.Drawing.Point(0, 0);
-            this.ProjListAll.Name = "ProjListAll";
-            this.ProjListAll.Size = new System.Drawing.Size(643, 447);
-            this.ProjListAll.TabIndex = 1;
-            // 
-            // ContactList
-            // 
-            this.ContactList.BackColor = System.Drawing.Color.White;
-            this.ContactList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContactList.FullRowSelect = true;
-            this.ContactList.GridLines = true;
-            this.ContactList.Location = new System.Drawing.Point(0, 0);
-            this.ContactList.Name = "ContactList";
-            this.ContactList.Size = new System.Drawing.Size(652, 478);
-            this.ContactList.TabIndex = 0;
-            this.ContactList.UseCompatibleStateImageBehavior = false;
-            this.ContactList.View = System.Windows.Forms.View.Details;
-            this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
-            this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
-            // 
-            // MessList
-            // 
-            this.MessList.BackColor = System.Drawing.Color.White;
-            this.MessList.FullRowSelect = true;
-            this.MessList.GridLines = true;
-            this.MessList.Location = new System.Drawing.Point(3, 164);
-            this.MessList.Name = "MessList";
-            this.MessList.Size = new System.Drawing.Size(646, 309);
-            this.MessList.TabIndex = 1;
-            this.MessList.UseCompatibleStateImageBehavior = false;
-            this.MessList.View = System.Windows.Forms.View.Details;
-            // 
-            // AnnList
-            // 
-            this.AnnList.BackColor = System.Drawing.Color.White;
-            this.AnnList.FullRowSelect = true;
-            this.AnnList.GridLines = true;
-            this.AnnList.Location = new System.Drawing.Point(3, 3);
-            this.AnnList.Name = "AnnList";
-            this.AnnList.Size = new System.Drawing.Size(646, 129);
-            this.AnnList.TabIndex = 0;
-            this.AnnList.UseCompatibleStateImageBehavior = false;
-            this.AnnList.View = System.Windows.Forms.View.Details;
             // 
             // FormMain
             // 
@@ -997,11 +1103,12 @@ namespace MYTask
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(700, 510);
+            this.Controls.Add(this.PanelUser);
             this.Controls.Add(this.UI_Caption);
             this.Controls.Add(this.PanelLogin);
             this.Controls.Add(this.PanelGuide);
             this.Controls.Add(this.PanelGuideS);
-            this.Controls.Add(this.PanelUser);
+            this.Controls.Add(this.PanelSettings);
             this.Controls.Add(this.TabsTask);
             this.Controls.Add(this.TabsProject);
             this.Controls.Add(this.PanelContacts);
@@ -1011,13 +1118,11 @@ namespace MYTask
             this.Margin = new System.Windows.Forms.Padding(5);
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "FormMain";
-            this.Text = "SSERSay - Main";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Unload);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.PanelGuide.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).EndInit();
             this.PanelGuideS.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.CloudStatusS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PGuideS_CloudStat)).EndInit();
             this.TabsTask.ResumeLayout(false);
             this.TaskMy.ResumeLayout(false);
             this.TaskPub.ResumeLayout(false);
@@ -1034,6 +1139,8 @@ namespace MYTask
             this.PanelMessages.PerformLayout();
             this.UI_Caption.ResumeLayout(false);
             this.UI_Caption.PerformLayout();
+            this.PanelSettings.ResumeLayout(false);
+            this.PanelSettings.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1056,12 +1163,12 @@ namespace MYTask
         private ProgressBar SnycProgress;
 
         private Panel PanelGuideS;
-        private Button BtnCall;
-        private Button BtnTaskS;
-        private Button BtnProjectS;
-        private Button BtnContactS;
-        private Button BtnMessageS;
-        private PictureBox CloudStatusS;
+        private Button PGuideS_BtnCall;
+        private Button PGuideS_BtnTask;
+        private Button PGuideS_BtnProject;
+        private Button PGuideS_BtnContact;
+        private Button PGuideS_BtnMessage;
+        private PictureBox PGuideS_CloudStat;
 
         private TabControl TabsTask;
         private TabPage TaskMy;
@@ -1075,8 +1182,6 @@ namespace MYTask
         private Panel PanelContacts;
 
         private Panel PanelMessages;
-
-        private Timer TimerSidebar;
         private ProgressBar PLogin_BarConnecting;
         private PictureBox PLogin_PicCloud;
         private Panel panel1;
@@ -1099,15 +1204,14 @@ namespace MYTask
         private TaskPanelContainer TaskListPub;
         private TaskPanelContainer TaskListAll;
         private Button BtnLogout;
-        private Timer TimerLogin;
         private UserList ContactList;
         private Label PLogin_LabelBlock;
         private Panel UI_Caption;
         private Button BtnClose;
         private Button BtnMin;
-        private Button BtnPageDown;
-        private Button BtnPageUp;
-        private Label LabelPage;
+        private Button PGuideS_BtnPageDown;
+        private Button PGuideS_BtnPageUp;
+        private Label PGuideS_LabelPage;
         private Button BtnSettings;
         private ProjPanelContainer ProjListMy;
         private ProjPanelContainer ProjListAll;
@@ -1116,6 +1220,14 @@ namespace MYTask
         private MessageList MessList;
         private Label LabelMessageLabel;
         private PictureBox PLogin_PicLogo;
-        private Timer TimerUser;
+        private Panel PanelSettings;
+        private Label label1;
+        private Button PSet_BtnClr1;
+        private Button PSet_BtnClr5;
+        private Button PSet_BtnClr4;
+        private Button PSet_BtnClr3;
+        private Button PSet_BtnClr2;
+        private Timer PUser_Anim;
+        private Label PGuide_Side;
     }
 }

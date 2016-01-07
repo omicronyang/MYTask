@@ -11,20 +11,23 @@ namespace MYTask
         public Color MainColor;
         public Color MouseOverColor;
         public Color MouseDownColor;
+        public int ColorType;
 
         public UIColor()
         {
             MainColor = Color.RoyalBlue;
             MouseOverColor = Color.CornflowerBlue;
             MouseDownColor = Color.MidnightBlue;
+            ColorType = 1;
         }
 
         /// <summary>
         /// 设置颜色
         /// </summary>
         /// <param name="ColorType"></param>
-        public void UpdateColor(int ColorType)
+        public void UpdateColor(int NewColorType)
         {
+            ColorType = NewColorType;
             switch (ColorType)
             {
                 case 1:
@@ -64,5 +67,15 @@ namespace MYTask
                     }
             }
         }
+
+        public void UpdateColor(Color NewMainColor)
+        {
+            if (NewMainColor == Color.RoyalBlue) UpdateColor(1);
+            else if (NewMainColor == Color.SeaGreen) UpdateColor(2);
+            else if (NewMainColor == Color.DarkMagenta) UpdateColor(3);
+            else if (NewMainColor == Color.Crimson) UpdateColor(4);
+            else if (NewMainColor == Color.OrangeRed) UpdateColor(5);
+        }
+
     }
 }

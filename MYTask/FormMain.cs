@@ -11,11 +11,9 @@ namespace MYTask
 {
     public partial class FormMain : Form
     {
-        ShadowForm SF;
 
-        private int TimerSideStat;
-        private int TimerLogStat;
-        private int TimerUserStat;
+        
+
         private int LoginStat = 1;  // 0 正常登陆, 1 跳过验证
         private int DBaseStat = -1; // 0 离线数据, 1 在线数据
         private MyUser NowUser = new MyUser();
@@ -35,29 +33,29 @@ namespace MYTask
         private delegate void BGAddMessList(MyMessage[] Mlist);
         private delegate void BGWorkComplete(object sender, DoWorkEventArgs e);
 
-        
-
-        
 
         public FormMain()
         {
             InitializeComponent();
 
-            PanelGuide.Location = new Point(-175, 32);
+            PanelGuide.Location = new Point(0, 32);
+            PanelGuide.Hide();
             PanelGuideS.Location = new Point(0, 32);
             PanelLogin.Location = new Point(0, 32);
             PanelUser.Location = new Point(700, 32);
+            PanelUser.Visible = false;
             TabsTask.Location = new Point(48, 32);
             TabsProject.Location = new Point(48, 32);
             PanelContacts.Location = new Point(48, 32);
             PanelContacts.BackColor = Color.Gainsboro;
             PanelMessages.Location = new Point(48, 32);
-
+            PanelSettings.Location = new Point(48, 32);
+            PanelSettings.Hide();
 
             SF = new ShadowForm(this);
             SF.Show(this);
-            SetStyles();
-            UIColorUpdate(Properties.Settings.Default.UIColorType);
+            //SetStyles();
+            UIColor_Update(Properties.Settings.Default.UIColorType);
             PanelUser.SetFatherForm(this);
 
             //dHeight = Height - PanelGuideS.Height;
@@ -83,6 +81,9 @@ namespace MYTask
         }
 
         #region 优化窗体显示
+
+        ShadowForm SF;
+
         private void SetStyles()
         {
             SetStyle(
@@ -122,6 +123,9 @@ namespace MYTask
         private void BtnClose_Click(object sender, EventArgs e)
         {
             //this.Close();
+
+            if (DBaseStat == 1) DataBase.Close();
+            UIColor_Save();
             SF.Close();
             Win32.AnimateWindow(this.Handle, 150, Win32.AW_BLEND | Win32.AW_HIDE);
             Environment.Exit(0);
@@ -140,7 +144,7 @@ namespace MYTask
             PLogin_TextUID.RenewState(3);
             PLogin_TextPsw.RenewState(3);
             CloudStatus.Image = Properties.Resources.Cloud_Connecting_32;
-            CloudStatusS.Image = Properties.Resources.Cloud_Connecting_32;
+            PGuideS_CloudStat.Image = Properties.Resources.Cloud_Connecting_32;
             PLogin_PicCloud.Image = Properties.Resources.Cloud_Connecting_32;
             PLogin_BarConnecting.MarqueeAnimationSpeed = 5;
             SnycProgress.Style = ProgressBarStyle.Marquee;
@@ -154,17 +158,14 @@ namespace MYTask
             InitLoginBox("");
             
         }
-
-        private void FormMain_Unload(object sender, EventArgs e)
-        {
-            if (DBaseStat == 1) DataBase.Close();
-        }
+        
 
         #region 颜色设置
 
-        private void UIColorUpdate(int ColorType)
+        private void UIColor_Update(int ColorType)
         {
-            Theme.UpdateColor(ColorType);
+            if (ColorType != Theme.ColorType)
+                Theme.UpdateColor(ColorType);
 
             PanelLogin.BackColor = Theme.MainColor;
             UI_Caption.BackColor = Theme.MainColor;
@@ -178,9 +179,9 @@ namespace MYTask
             ProjListMy.BackColor = Theme.MainColor;
             ProjListAll.BackColor = Theme.MainColor;
 
-            BtnCall.BackColor = Theme.MainColor;
-            BtnCall.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
-            BtnCall.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
+            PGuideS_BtnCall.BackColor = Theme.MainColor;
+            PGuideS_BtnCall.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            PGuideS_BtnCall.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
 
             BtnCallback.BackColor = Theme.MainColor;
             BtnCallback.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
@@ -194,6 +195,8 @@ namespace MYTask
             PLogin_BtnLogin.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
             PLogin_BtnLogin.FlatAppearance.MouseDownBackColor = Theme.MouseDownColor;
 
+            PGuide_Side.BackColor = Theme.MainColor;
+
             FocusBtn.BackColor = Theme.MouseOverColor;
             FocusBtn.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
             FocusBtn.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
@@ -205,13 +208,16 @@ namespace MYTask
             PanelUser.UpdateColor(Theme);
         }
 
-        private void UIColorUpdate(Color UIC)
+        private void UIColor_Update(Color UIC)
         {
-            if (UIC == Color.RoyalBlue) UIColorUpdate(1);
-            else if (UIC == Color.SeaGreen) UIColorUpdate(2);
-            else if (UIC == Color.DarkMagenta) UIColorUpdate(3);
-            else if (UIC == Color.Crimson) UIColorUpdate(4);
-            else if (UIC == Color.OrangeRed) UIColorUpdate(5);
+            Theme.UpdateColor(UIC);
+            UIColor_Update(Theme.ColorType);
+        }
+
+        private void UIColor_Save()
+        {
+            Properties.Settings.Default.UIColorType = Theme.ColorType;
+            Properties.Settings.Default.Save();
         }
         
         #endregion
@@ -240,7 +246,7 @@ namespace MYTask
             if (DBaseStat == 1)
             {
                 CloudStatus.Image = Properties.Resources.Cloud_Online_32;
-                CloudStatusS.Image = Properties.Resources.Cloud_Online_32;
+                PGuideS_CloudStat.Image = Properties.Resources.Cloud_Online_32;
                 PLogin_PicCloud.Image = Properties.Resources.Cloud_Online_32;
                 LabelStatus.Text = "同步完成";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
@@ -250,7 +256,7 @@ namespace MYTask
             else if (DBaseStat == 0)
             {
                 CloudStatus.Image = Properties.Resources.Cloud_Offline_32;
-                CloudStatusS.Image = Properties.Resources.Cloud_Offline_32;
+                PGuideS_CloudStat.Image = Properties.Resources.Cloud_Offline_32;
                 PLogin_PicCloud.Image = Properties.Resources.Cloud_Offline_32;
                 LabelStatus.Text = "离线模式";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
@@ -259,7 +265,7 @@ namespace MYTask
             else
             {
                 CloudStatus.Image = Properties.Resources.Cloud_Sync_32;
-                CloudStatusS.Image = Properties.Resources.Cloud_Sync_32;
+                PGuideS_CloudStat.Image = Properties.Resources.Cloud_Sync_32;
                 PLogin_PicCloud.Image = Properties.Resources.Cloud_Sync_32;
                 LabelStatus.Text = "正在同步";
                 LabelStatus.Location = new Point(3, CloudStatus.Location.Y);
@@ -270,135 +276,136 @@ namespace MYTask
 
         }
         #endregion
-        
+
+        #region 动画
+        private void AsShowFromLeft(Panel Target)
+        {
+            if (!Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_SLIDE |
+                    Animate.AW_HOR_POSITIVE);
+                Target.Show();
+            }
+        }
+        private void AsHideToLeft(Panel Target)
+        {
+            if (Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_SLIDE |
+                    Animate.AW_HOR_NEGATIVE |
+                    Animate.AW_HIDE);
+                Target.Hide();
+            }
+        }
+        public void AsShowFromBottom(Panel Target)
+        {
+            if (!Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_SLIDE |
+                    Animate.AW_VER_NEGATIVE);
+                Target.Show();
+            }
+        }
+        public void AsHideToBottom(Panel Target)
+        {
+            if (Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_SLIDE |
+                    Animate.AW_VER_POSITIVE |
+                    Animate.AW_HIDE);
+                Target.Hide();
+            }
+        }
+        public void AsShowFromRight(Panel Target)
+        {
+            if (!Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_SLIDE |
+                    Animate.AW_HOR_NEGATIVE);
+                Target.Show();
+            }
+        }
+        public void AsHideToRight(Panel Target)
+        {
+            if (Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_SLIDE |
+                    Animate.AW_HOR_POSITIVE |
+                    Animate.AW_HIDE);
+                Target.Hide();
+            }
+        }
+
+        public void AsShowFromNone(Panel Target)
+        {
+            if (!Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_BLEND);
+                Target.Show();
+            }
+        }
+        public void AsShowFromNone(TabControl Target)
+        {
+            if (!Target.Visible)
+            {
+                Animate.AnimateWindow(Target.Handle, 150,
+                    Animate.AW_BLEND);
+                Target.Show();
+            }
+        }
+
+        private void PUser_Anim_Tick(object sender, EventArgs e)
+        {
+            if (!PanelUser.Hidden)
+            {
+                int x = PanelUser.Location.X;
+                if (x <= PanelUser.TargetX)
+                {
+                    PUser_Anim.Stop();
+                    PanelUser.Location = new Point(PanelUser.TargetX, 32);
+                    return;
+                }
+                PanelUser.Location = new Point(x - 55, 32);
+            }
+            else
+            {
+                int x = PanelUser.Location.X;
+                if (x >= PanelUser.TargetX)
+                {
+                    PUser_Anim.Stop();
+                    PanelUser.Location = new Point(PanelUser.TargetX, 32);
+                    PanelUser.Visible = false;
+                    return;
+                }
+                PanelUser.Location = new Point(x + 55, 32);
+            }
+        }
+
+        public void PanelUser_Show()
+        {
+            if (PanelUser.Visible) return;
+            PanelUser.Hidden = false;
+            PanelUser.Visible = true;
+            PanelUser.TargetX = PanelUser.Location.X - PanelUser.Width;
+            PUser_Anim.Start();
+        }
+        public void PanelUser_Fold()
+        {
+            if (!PanelUser.Visible) return;
+            PanelUser.Hidden = true;
+            PanelUser.TargetX = PanelUser.Location.X + PanelUser.Width;
+            PUser_Anim.Start();
+        }
+        #endregion
+
         #region 面板显示控制
-
-        private void TimerSidebar_Tick(object sender, EventArgs e)
-        {
-            switch (TimerSideStat)
-            {
-                case 0:
-                    {
-                        //PanelGuide shows from left
-                        int x = PanelGuide.Location.X;
-                        if (PanelGuide.Location.X >= 0) {
-                            TimerSidebar.Stop();
-                            PanelGuide.Location = new Point(0, 32);
-                            return;
-                        }
-                        PanelGuide.Location = new Point(x + 25, 32);
-                        break;
-                    }
-                case 1:
-                    {
-                        //PanelGuide exit to left
-                        int x = PanelGuide.Location.X;
-                        if (PanelGuide.Location.X <= -175)
-                        {
-                            TimerSidebar.Stop();
-                            PanelGuide.Location = new Point(-175, 32);
-                            return;
-                        }
-                        PanelGuide.Location = new Point(x - 25, 32);
-                        break;
-                    }
-            }
-        }
-
-        private void TimerLogin_Tick(object sender, EventArgs e)
-        {
-            switch (TimerLogStat)
-            {
-                case 0:
-                    {
-                        //PanelLogin shows from bottom
-                        int y = PanelLogin.Location.Y;
-                        if (PanelLogin.Location.Y <= 32)
-                        {
-                            TimerLogin.Stop();
-                            PanelLogin.Location = new Point(0, 32);
-                            PanelUser.Location = new Point(700, 32);
-                            TaskListMy.ClearTask();
-                            TaskListPub.ClearTask();
-                            ProjListMy.ClearProj();
-                            MessList.Items.Clear();
-                            return;
-                        }
-                        PanelLogin.Location = new Point(0, y - 25);
-                        break;
-                    }
-                case 1:
-                    {
-                        //PanelLogin exit to bottom
-                        int y = PanelLogin.Location.Y;
-                        if (PanelLogin.Location.Y >= this.Height)
-                        {
-                            TimerLogin.Stop();
-                            PanelLogin.Visible = false;
-                            return;
-                        }
-                        PanelLogin.Location = new Point(0, y + 25);
-                        break;
-                    }
-            }
-        }
-
-        private void TimerUser_Tick(object sender, EventArgs e)
-        {
-            switch (TimerUserStat)
-            {
-                case 0:
-                    {
-                        //PanelUser shows from right
-                        int x = PanelUser.Location.X;
-                        if (PanelUser.Location.X == 315)
-                        {
-                            TimerUser.Stop();
-                            PanelUser.Location = new Point(315, 32);
-                            return;
-                        }
-                        PanelUser.Location = new Point(x - 55, 32);
-                        break;
-                    }
-                case 1:
-                    {
-                        //PanelUser exit to right
-                        int x = PanelUser.Location.X;
-                        if (PanelUser.Location.X == 700)
-                        {
-                            TimerUser.Stop();
-                            PanelUser.Location = new Point(700, 32);
-                            return;
-                        }
-                        PanelUser.Location = new Point(x + 55, 32);
-                        break;
-                    }
-            }
-        }
-
-        private void FoldSideBar()
-        {
-            if (PanelGuide.Location.X == 0)
-            {
-                TimerSideStat = 1;
-                TimerSidebar.Start();
-            }
-        }
-
-        
-        public void ShowPanelUser()
-        {
-            TimerUserStat = 0;
-            TimerUser.Start();
-        }
-
-        public void FoldPanelUser()
-        {
-            TimerUserStat = 1;
-            TimerUser.Start();
-        }
-        
-
         private void ShowTabsTask()
         {
             TabControl me = TabsTask;
@@ -413,10 +420,11 @@ namespace MYTask
             }
             LabelTitle.Text = "WSS - 任务列表";
 
-            me.Visible = true;
-            TabsProject.Visible = false;
-            PanelContacts.Visible = false;
-            PanelMessages.Visible = false;
+            me.Show();
+            TabsProject.Hide();
+            PanelContacts.Hide();
+            PanelMessages.Hide();
+            PanelSettings.Hide();
         }
         private void ShowTabsProject()
         {
@@ -430,49 +438,71 @@ namespace MYTask
             }
             LabelTitle.Text = "WSS - 项目列表";
 
-            me.Visible = true;
-            TabsTask.Visible = false;
-            PanelContacts.Visible = false;
-            PanelMessages.Visible = false;
+            me.Show();
+            TabsTask.Hide();
+            PanelContacts.Hide();
+            PanelMessages.Hide();
+            PanelSettings.Hide();
         }
         private void ShowPanelContacts()
         {
             Panel me = PanelContacts;
 
-            BtnPageUp.Visible = false;
-            BtnPageDown.Visible = false;
-            LabelPage.Visible = false;
+            PGuideS_BtnPageUp.Visible = false;
+            PGuideS_BtnPageDown.Visible = false;
+            PGuideS_LabelPage.Visible = false;
             FocusTC = null;
             LabelTitle.Text = "WSS - 联系人列表";
 
-            me.Visible = true;
-            TabsTask.Visible = false;
-            TabsProject.Visible = false;
-            PanelMessages.Visible = false;
+            me.Show();
+            TabsTask.Hide();
+            TabsProject.Hide();
+            PanelMessages.Hide();
+            PanelSettings.Hide();
         }
         private void ShowPanelMessages()
         {
             Panel me = PanelMessages;
 
-            BtnPageUp.Visible = false;
-            BtnPageDown.Visible = false;
-            LabelPage.Visible = false;
+            PGuideS_BtnPageUp.Visible = false;
+            PGuideS_BtnPageDown.Visible = false;
+            PGuideS_LabelPage.Visible = false;
             FocusTC = null;
             LabelTitle.Text = "WSS - 消息中心";
 
-            me.Visible = true;
-            TabsTask.Visible = false;
-            TabsProject.Visible = false;
-            PanelContacts.Visible = false;
+            me.Show();
+            TabsTask.Hide();
+            TabsProject.Hide();
+            PanelContacts.Hide();
+            PanelSettings.Hide();
         }
+        private void ShowPanelSettings()
+        {
+            Panel me = PanelSettings;
+
+            PGuideS_BtnPageUp.Visible = false;
+            PGuideS_BtnPageDown.Visible = false;
+            PGuideS_LabelPage.Visible = false;
+            FocusTC = null;
+            LabelTitle.Text = "WSS - 设置中心";
+
+            me.Show();
+            TabsTask.Hide();
+            TabsProject.Hide();
+            PanelContacts.Hide();
+            PanelMessages.Hide();
+        }
+
         private void SelectPanel(int index)
         {
+            PanelUser_Fold();
             switch (index)
             {
                 case 1: { ShowTabsTask(); break; }
                 case 2: { ShowTabsProject(); break; }
                 case 3: { ShowPanelContacts(); break; }
                 case 4: { ShowPanelMessages(); break; }
+                case 5: { ShowPanelSettings(); break; }
             }
             RenewBtnStyle(index);
         }
@@ -488,10 +518,11 @@ namespace MYTask
 
             switch (index)
             {
-                case 1: { FocusBtn = BtnTask; FocusBtnS = BtnTaskS; break; }
-                case 2: { FocusBtn = BtnProject; FocusBtnS = BtnProjectS; break; }
-                case 3: { FocusBtn = BtnContact; FocusBtnS = BtnContactS; break; }
-                case 4: { FocusBtn = BtnMessage; FocusBtnS = BtnMessageS; break; }
+                case 1: { FocusBtn = BtnTask; FocusBtnS = PGuideS_BtnTask; break; }
+                case 2: { FocusBtn = BtnProject; FocusBtnS = PGuideS_BtnProject; break; }
+                case 3: { FocusBtn = BtnContact; FocusBtnS = PGuideS_BtnContact; break; }
+                case 4: { FocusBtn = BtnMessage; FocusBtnS = PGuideS_BtnMessage; break; }
+                case 5: { FocusBtn = BtnSettings; FocusBtnS = BtnSettings; break; }
             }
             if (index > 0)
             {
@@ -522,9 +553,7 @@ namespace MYTask
             AddAnnList(DataBase.GetAnnounceList());
             PLogin_LabelBlock.Visible = false;
         }
-
-
-
+        
         public void SetProfilePanel(int uid)
         {
             MyUser tu = new MyUser();
@@ -533,12 +562,6 @@ namespace MYTask
         }
 
 
-        private void BtnCall_Click(object sender, EventArgs e)
-        {
-            if (PanelGuide.Location.X < 0) TimerSideStat = 0;
-            else TimerSideStat = 1;
-            TimerSidebar.Start();
-        }
 
         #region 登录文本框控制
 
@@ -570,38 +593,55 @@ namespace MYTask
         }
 
         #endregion
-
+        
         #region 导航栏按钮
-        private void BtnTask_Click(object sender, EventArgs e)
+        
+        private void BtnCall_Click(object sender, EventArgs e)
         {
-            FoldSideBar();
-            SelectPanel(1);
+            if (PanelGuide.Visible)
+                AsHideToLeft(PanelGuide);
+            else
+                AsShowFromLeft(PanelGuide);
         }
-
         private void BtnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            FoldSideBar();
-            PanelUser.SetProfileInfo(NowUser,1);
-            ShowPanelUser();
+            AsHideToLeft(PanelGuide);
+            PanelUser.SetProfileInfo(NowUser, 1);
+            PanelUser_Show();
         }
-
+        private void BtnTask_Click(object sender, EventArgs e)
+        {
+            AsHideToLeft(PanelGuide);
+            SelectPanel(1);
+        }
         private void BtnProject_Click(object sender, EventArgs e)
         {
-            FoldSideBar();
+            AsHideToLeft(PanelGuide);
             SelectPanel(2);
-
         }
 
         private void BtnContact_Click(object sender, EventArgs e)
         {
-            FoldSideBar();
+            AsHideToLeft(PanelGuide);
             SelectPanel(3);
         }
 
         private void BtnMessage_Click(object sender, EventArgs e)
         {
-            FoldSideBar();
+            AsHideToLeft(PanelGuide);
             SelectPanel(4);
+        }
+
+        private void BtnSettings_Click(object sender, EventArgs e)
+        {
+            AsHideToLeft(PanelGuide);
+            SelectPanel(5);
+        }
+
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            AsHideToLeft(PanelGuide);
+            Logout();
         }
 
         #endregion
@@ -671,10 +711,10 @@ namespace MYTask
             UpdatePageControl(TaskListMy);
             TabsTask.SelectedIndex = 0;
 
-            FocusBtnS = BtnTaskS;
-            BtnTaskS.BackColor = Theme.MouseOverColor;
-            BtnTaskS.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
-            BtnTaskS.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
+            FocusBtnS = PGuideS_BtnTask;
+            PGuideS_BtnTask.BackColor = Theme.MouseOverColor;
+            PGuideS_BtnTask.FlatAppearance.MouseOverBackColor = Theme.MouseOverColor;
+            PGuideS_BtnTask.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
 
             FocusBtn = BtnTask;
             BtnTask.BackColor = Theme.MouseOverColor;
@@ -682,8 +722,7 @@ namespace MYTask
             BtnTask.FlatAppearance.MouseDownBackColor = Theme.MouseOverColor;
 
             LabelTitle.Text = "WSS - 任务列表";
-            TimerLogStat = 1;
-            TimerLogin.Start();
+            AsHideToBottom(PanelLogin);
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -707,19 +746,11 @@ namespace MYTask
             FocusBtnS.FlatAppearance.MouseDownBackColor = Color.Gray;
             FocusBtnS = null;
             
-            PanelLogin.Visible = true;
             InitLoginBox("");
             LabelTitle.Text = "WSS - 登录";
-            TimerLogStat = 0;
-            TimerLogin.Start();
+            AsShowFromBottom(PanelLogin);
         }
-
-        private void BtnLogout_Click(object sender, EventArgs e)
-        {
-            FoldSideBar();
-            Logout();
-        }
-
+        
         #endregion
 
         private void BtnFindPsw_Click(object sender, EventArgs e)
@@ -844,7 +875,7 @@ namespace MYTask
             ListViewItem target = ContactList.SelectedItems[0];
             //MessageBox.Show(target.SubItems[4].Text);
             SetProfilePanel(Convert.ToInt32(target.SubItems[4].Text));
-            ShowPanelUser();
+            PanelUser_Show();
         }
 
 
@@ -856,10 +887,10 @@ namespace MYTask
                 TaskPanelContainer Target = (TaskPanelContainer)NowFocus;
                 Target.PageUp();
                 if (Target.NowIndex <= 0)
-                    BtnPageUp.Visible = false;
-                if (!BtnPageDown.Visible)
-                    BtnPageDown.Visible = true;
-                LabelPage.Text = string.Format("{0}/{1}",
+                    PGuideS_BtnPageUp.Visible = false;
+                if (!PGuideS_BtnPageDown.Visible)
+                    PGuideS_BtnPageDown.Visible = true;
+                PGuideS_LabelPage.Text = string.Format("{0}/{1}",
                 (Target.NowIndex / 4 + 1).ToString(),
                 (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
@@ -868,10 +899,10 @@ namespace MYTask
                 ProjPanelContainer Target = (ProjPanelContainer)NowFocus;
                 Target.PageUp();
                 if (Target.NowIndex <= 0)
-                    BtnPageUp.Visible = false;
-                if (!BtnPageDown.Visible)
-                    BtnPageDown.Visible = true;
-                LabelPage.Text = string.Format("{0}/{1}",
+                    PGuideS_BtnPageUp.Visible = false;
+                if (!PGuideS_BtnPageDown.Visible)
+                    PGuideS_BtnPageDown.Visible = true;
+                PGuideS_LabelPage.Text = string.Format("{0}/{1}",
                 (Target.NowIndex / 12 + 1).ToString(),
                 (Target.ProjNum % 12 == 0) ? (Target.ProjNum / 12).ToString() : (Target.ProjNum / 12 + 1).ToString());
             }
@@ -885,10 +916,10 @@ namespace MYTask
                 TaskPanelContainer Target = (TaskPanelContainer)NowFocus;
                 Target.PageDown();
                 if (Target.NowIndex + 4 > Target.TaskNum - 1)
-                    BtnPageDown.Visible = false;
-                if (!BtnPageUp.Visible)
-                    BtnPageUp.Visible = true;
-                LabelPage.Text = string.Format("{0}/{1}",
+                    PGuideS_BtnPageDown.Visible = false;
+                if (!PGuideS_BtnPageUp.Visible)
+                    PGuideS_BtnPageUp.Visible = true;
+                PGuideS_LabelPage.Text = string.Format("{0}/{1}",
                 (Target.NowIndex / 4 + 1).ToString(),
                 (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
@@ -897,10 +928,10 @@ namespace MYTask
                 ProjPanelContainer Target = (ProjPanelContainer)NowFocus;
                 Target.PageDown();
                 if (Target.NowIndex + 12 > Target.ProjNum - 1)
-                    BtnPageDown.Visible = false;
-                if (!BtnPageUp.Visible)
-                    BtnPageUp.Visible = true;
-                LabelPage.Text = string.Format("{0}/{1}",
+                    PGuideS_BtnPageDown.Visible = false;
+                if (!PGuideS_BtnPageUp.Visible)
+                    PGuideS_BtnPageUp.Visible = true;
+                PGuideS_LabelPage.Text = string.Format("{0}/{1}",
                 (Target.NowIndex / 12 + 1).ToString(),
                 (Target.ProjNum % 12 == 0) ? (Target.ProjNum / 12).ToString() : (Target.ProjNum / 12 + 1).ToString());
             }
@@ -930,26 +961,39 @@ namespace MYTask
         private void UpdatePageControl(TaskPanelContainer Target)
         {
             NowFocus = Target;
-            BtnPageUp.Visible = (Target.NowIndex <= 0) ? false : true;
-            BtnPageDown.Visible = (Target.NowIndex + 4 > Target.TaskNum - 1) ? false : true;
-            LabelPage.Text = string.Format("{0}/{1}",
+            PGuideS_BtnPageUp.Visible = (Target.NowIndex <= 0) ? false : true;
+            PGuideS_BtnPageDown.Visible = (Target.NowIndex + 4 > Target.TaskNum - 1) ? false : true;
+            PGuideS_LabelPage.Text = string.Format("{0}/{1}",
                 (Target.NowIndex / 4 + 1).ToString(),
                 (Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
-            LabelPage.Visible = true;
+            PGuideS_LabelPage.Visible = true;
         }
 
         private void UpdatePageControl(ProjPanelContainer Target)
         {
             NowFocus = Target;
-            BtnPageUp.Visible = (Target.NowIndex <= 0) ? false : true;
-            BtnPageDown.Visible = (Target.NowIndex + 12 > Target.ProjNum - 1) ? false : true;
-            LabelPage.Text = string.Format("{0}/{1}",
+            PGuideS_BtnPageUp.Visible = (Target.NowIndex <= 0) ? false : true;
+            PGuideS_BtnPageDown.Visible = (Target.NowIndex + 12 > Target.ProjNum - 1) ? false : true;
+            PGuideS_LabelPage.Text = string.Format("{0}/{1}",
                 (Target.NowIndex / 12 + 1).ToString(),
                 (Target.ProjNum % 12 == 0) ? (Target.ProjNum / 12).ToString() : (Target.ProjNum / 12 + 1).ToString());
-            LabelPage.Visible = true;
+            PGuideS_LabelPage.Visible = true;
         }
 
+
+
+
         #endregion
+
+        private void PSet_BtnClr_Click(object sender, EventArgs e)
+        {
+            Button Res = (Button)sender;
+            if (Res.Name == "PSet_BtnClr1") UIColor_Update(1);
+            else if (Res.Name == "PSet_BtnClr2") UIColor_Update(2);
+            else if (Res.Name == "PSet_BtnClr3") UIColor_Update(3);
+            else if (Res.Name == "PSet_BtnClr4") UIColor_Update(4);
+            else if (Res.Name == "PSet_BtnClr5") UIColor_Update(5);
+        }
 
         
     }

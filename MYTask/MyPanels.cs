@@ -234,10 +234,17 @@ namespace MYTask
         public ActiveTextbox ProfileRemark = new ActiveTextbox();
         private Label ProfileEmailLabel = new Label();
         private Label ProfileTelLabel = new Label();
+        private Label SideColor = new Label();
         private FormMain formmain;
+        public bool Hidden = true;
+        public int TargetX;
 
         public UserProfilePanel()
         {
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw | ControlStyles.SupportsTransparentBackColor, true);
+
+            BtnOK.BackColor = Color.RoyalBlue;
             BtnOK.FlatAppearance.BorderSize = 0;
             BtnOK.FlatStyle = FlatStyle.Flat;
             BtnOK.Image = global::MYTask.Properties.Resources.Tick_32;
@@ -249,7 +256,8 @@ namespace MYTask
             BtnOK.UseVisualStyleBackColor = true;
             BtnOK.Visible = false;
             BtnOK.Click += new EventHandler(ProfileBtnOK_Click);
-            
+
+            BtnCancel.BackColor = Color.RoyalBlue;
             BtnCancel.FlatAppearance.BorderSize = 0;
             BtnCancel.FlatStyle = FlatStyle.Flat;
             BtnCancel.Image = global::MYTask.Properties.Resources.Cross_32;
@@ -261,7 +269,8 @@ namespace MYTask
             BtnCancel.UseVisualStyleBackColor = true;
             BtnCancel.Visible = false;
             BtnCancel.Click += new EventHandler(ProfileBtnCancel_Click);
-            
+
+            BtnEdit.BackColor = Color.RoyalBlue;
             BtnEdit.FlatAppearance.BorderSize = 0;
             BtnEdit.FlatStyle = FlatStyle.Flat;
             BtnEdit.Image = global::MYTask.Properties.Resources.Edit_32;
@@ -274,6 +283,7 @@ namespace MYTask
             BtnEdit.Visible = true;
             BtnEdit.Click += new EventHandler(ProfileBtnEdit_Click);
 
+            BtnClose.BackColor = Color.RoyalBlue;
             BtnClose.FlatAppearance.BorderSize = 0;
             BtnClose.FlatStyle = FlatStyle.Flat;
             BtnClose.Image = global::MYTask.Properties.Resources.Back_right_32;
@@ -343,6 +353,11 @@ namespace MYTask
             ProfileRemark.Enabled = false;
             ProfileRemark.ScrollBars = ScrollBars.Vertical;
 
+            SideColor.BackColor = Color.RoyalBlue;
+            SideColor.Text = "";
+            SideColor.Location = new Point(0, 48);
+            SideColor.Size = new Size(1, 430);
+
             Controls.Add(BtnClose);
             Controls.Add(BtnOK);
             Controls.Add(BtnCancel);
@@ -353,6 +368,7 @@ namespace MYTask
             Controls.Add(ProfileTel);
             Controls.Add(ProfileTelLabel);
             Controls.Add(ProfileRemark);
+            Controls.Add(SideColor);
         }
 
         public void SetFatherForm(FormMain x)
@@ -396,7 +412,7 @@ namespace MYTask
 
         private void ProfileBtnClose_Click(object sender,EventArgs e)
         {
-            formmain.FoldPanelUser();
+            formmain.PanelUser_Fold();
         }
 
         public void SetProfileInfo(MyUser U, int Mode)
@@ -428,7 +444,24 @@ namespace MYTask
 
             ProfileUserName.BackColor = NewTheme.MainColor;
 
+            SideColor.BackColor = NewTheme.MainColor;
+
         }
+
+        public void Expand()
+        {
+            Hidden = false;
+            Visible = true;
+            TargetX = Location.X - Width;
+        }
+
+        public void Fold()
+        {
+            Hidden = true;
+            TargetX = Location.X + Width;
+            Visible = false;
+        }
+
 
     }
 
