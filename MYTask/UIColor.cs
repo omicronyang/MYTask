@@ -65,6 +65,13 @@ namespace MYTask
                         MouseDownColor = Color.Brown;
                         break;
                     }
+                case 6:
+                    {
+                        MainColor = Color.DimGray;
+                        MouseOverColor = Color.Gray;
+                        MouseDownColor = Color.Black;
+                        break;
+                    }
             }
         }
 

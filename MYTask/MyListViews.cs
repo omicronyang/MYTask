@@ -69,6 +69,7 @@ namespace MYTask
             LabelEdit = false;
             FullRowSelect = true;
             GridLines = true;
+            HeaderStyle = ColumnHeaderStyle.None;
             Columns.Add("公告", 624, HorizontalAlignment.Left);
         }
 
@@ -86,12 +87,7 @@ namespace MYTask
             }
             EndUpdate();
         }
-
-        protected override void OnColumnWidthChanging(ColumnWidthChangingEventArgs e)
-        {
-            e.Cancel = true;
-            e.NewWidth = this.Columns[e.ColumnIndex].Width;
-        }
+        
     }
 
     class MessageList: ListView
@@ -102,8 +98,8 @@ namespace MYTask
             LabelEdit = false;
             FullRowSelect = true;
             GridLines = true;
-            Columns.Add("来自", 175, HorizontalAlignment.Left);
-            Columns.Add("内容", 449, HorizontalAlignment.Left);
+            HeaderStyle = ColumnHeaderStyle.None;
+            Columns.Add("消息", 624, HorizontalAlignment.Left);
         }
 
         public void AddMessList(MyMessage[] MList)
@@ -113,18 +109,12 @@ namespace MYTask
             for (int i = 0; i < len; i++)
             {
                 ListViewItem I = new ListViewItem();
-                I.Text = MList[i].FromUser.Name;
-                I.SubItems.Add(MList[i].ShowText);    
-                I.SubItems.Add(MList[i].MID.ToString());
+                I.Text = MList[i].FromUser.Name + " " + MList[i].ShowText;
+                I.SubItems.Add(MList[i].MessageTask.TID.ToString());
                 I.BackColor = (MList[i].Stat == 0) ? Color.LightPink : Color.White;
                 Items.Add(I);
             }
             EndUpdate();
-        }
-        protected override void OnColumnWidthChanging(ColumnWidthChangingEventArgs e)
-        {
-            e.Cancel = true;
-            e.NewWidth = this.Columns[e.ColumnIndex].Width;
         }
 
         public void ClearMessList(MyMessage[] MList)

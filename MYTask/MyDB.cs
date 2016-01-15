@@ -12,7 +12,7 @@ namespace MYTask
 {
     public class MyDB
     {
-
+        private FormMain Form;
         private MySqlConnection OnlineDBase;
         private SQLiteConnection LocalDBase;
         private string OnlineConnectCommand;
@@ -26,8 +26,9 @@ namespace MYTask
         /// <summary>
         /// 数据库配置
         /// </summary>
-        public MyDB()
+        public MyDB(FormMain frm)
         {
+            Form = frm;
             string server = "qdm183517592.my3w.com";
             string uid = "qdm183517592";
             string upw = "sssuittest";
@@ -41,6 +42,7 @@ namespace MYTask
                 DataBase.Tables.Add(TabelList[i]);
 
         }
+        
 
         #region DatabaseConnection
         public bool Connect()
@@ -239,6 +241,19 @@ namespace MYTask
             Result.UpdateTime = Convert.ToDateTime(Source["csa_tb_lastupdate"]);
             return Result;
         }
+        /// <summary>
+        /// 获取指定的任务
+        /// </summary>
+        /// <param name="TID">任务ID</param>
+        /// <returns></returns>
+        public MyTask GetTask(int TID)
+        {
+            MyTask Result = new MyTask();
+            DataRow[] Matches = DataBase.Tables["tk_task"].Select("tid='" + TID.ToString() + "'");
+            if (Matches.Length == 0) return Result;
+            Result = GetTaskFromRow(Matches[0]);
+            return Result;
+        }
 
         /// <summary>
         /// 获取所有任务列表
@@ -284,11 +299,11 @@ namespace MYTask
         /// <summary>
         /// 获取任务相关的日历信息
         /// </summary>
-        /// <param name="TaskID">任务ID</param>
+        /// <param name="TID">任务ID</param>
         /// <returns></returns>
-        public MyTaskByDay[] GetTBDList(int TaskID)
+        public MyTaskByDay[] GetTBDList(int TID)
         {
-            string FilterStr = "csa_tb_backup1='" + TaskID.ToString() + "'";
+            string FilterStr = "csa_tb_backup1='" + TID.ToString() + "'";
             DataRow[] Matches = DataBase.Tables["tk_task_byday"].Select(FilterStr);
             int Cnt = Matches.Count();
             MyTaskByDay[] Result = new MyTaskByDay[Cnt];
@@ -441,7 +456,7 @@ namespace MYTask
             Result.MID = Convert.ToInt32(Source["meid"]);
             Result.ToUser = GetUser(Convert.ToInt32(Source["tk_mess_touser"]));
             Result.FromUser = GetUser(Convert.ToInt32(Source["tk_mess_fromuser"]));
-            Result.UpdateText(Convert.ToString(Source["tk_mess_title"]));
+            Result.UpdateText(Form,Convert.ToString(Source["tk_mess_title"]));
             Result.Stat = Convert.ToInt32(Source["tk_mess_status"]);
             Result.UpdateTime = Convert.ToDateTime(Source["tk_mess_time"]);
             return Result;

@@ -234,6 +234,7 @@ namespace MYTask
         public ActiveTextbox ProfileRemark = new ActiveTextbox();
         private Label ProfileEmailLabel = new Label();
         private Label ProfileTelLabel = new Label();
+        private Label ProfileRemarkLabel = new Label();
         private Label SideColor = new Label();
         private FormMain formmain;
         public bool Hidden = true;
@@ -304,8 +305,7 @@ namespace MYTask
             ProfileUserName.Size = new Size(385, 48);
             ProfileUserName.Text = "名称";
             ProfileUserName.TextAlign = ContentAlignment.MiddleLeft;
-
-            ProfileEmailLabel.AutoSize = true;
+            
             ProfileEmailLabel.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             ProfileEmailLabel.Location = new Point(3, 53);
             ProfileEmailLabel.Name = "ProfileEmailLabel";
@@ -323,12 +323,11 @@ namespace MYTask
             ProfileEmail.Size = new Size(311, 36);
             ProfileEmail.Text = "a@a.com";
             ProfileEmail.Enabled = false;
-
-            ProfileTelLabel.AutoSize = true;
+            
             ProfileTelLabel.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             ProfileTelLabel.Location = new Point(3, 89);
             ProfileTelLabel.Name = "ProfileTELLabel";
-            ProfileTelLabel.Size = new Size(54, 30);
+            ProfileTelLabel.Size = new Size(75, 30);
             ProfileTelLabel.Text = "TEL:";
 
             ProfileTel.BackColor = Color.Gainsboro;
@@ -345,13 +344,19 @@ namespace MYTask
             ProfileRemark.BackColor = Color.Gainsboro;
             ProfileRemark.BorderColor = Color.Gainsboro;
             ProfileRemark.BorderStyle = BorderStyle.FixedSingle;
-            ProfileRemark.Location = new Point(3, 140);
+            ProfileRemark.Location = new Point(71, 140);
             ProfileRemark.Multiline = true;
             ProfileRemark.Name = "ProfileRemark";
             ProfileRemark.ReadOnly = true;
-            ProfileRemark.Size = new Size(379, 123);
+            ProfileRemark.Size = new Size(311, 123);
             ProfileRemark.Enabled = false;
             ProfileRemark.ScrollBars = ScrollBars.Vertical;
+            
+            ProfileRemarkLabel.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
+            ProfileRemarkLabel.Location = new Point(3, 140);
+            ProfileRemarkLabel.Name = "ProfileRemarkLabel";
+            ProfileRemarkLabel.Size = new Size(75, 30);
+            ProfileRemarkLabel.Text = "简介:";
 
             SideColor.BackColor = Color.RoyalBlue;
             SideColor.Text = "";
@@ -368,6 +373,7 @@ namespace MYTask
             Controls.Add(ProfileTel);
             Controls.Add(ProfileTelLabel);
             Controls.Add(ProfileRemark);
+            Controls.Add(ProfileRemarkLabel);
             Controls.Add(SideColor);
         }
 

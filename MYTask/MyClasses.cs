@@ -128,16 +128,23 @@ namespace MYTask
         public string Text;
         public string ShowText;
         public int Stat;
+        public MyTask MessageTask;
         public DateTime UpdateTime;
 
-        public void UpdateText(string Origin)
+        public void UpdateText(FormMain Form, string Origin)
         {
-            string tmp;
-            tmp = Text = Origin;
+            string tmp, inttmp;
+            int l, r;
+            inttmp = tmp = Text = Origin;
+            l = inttmp.IndexOf("editID=") + 7;
+            r = inttmp.IndexOf("&");
+            inttmp = inttmp.Remove(r);
+            inttmp = inttmp.Remove(0, l);
+            MessageTask = Form.DataBase.GetTask(Convert.ToInt32(inttmp));
             while (tmp.IndexOf('<') != -1)
             {
-                int l = tmp.IndexOf('<');
-                int r = tmp.IndexOf('>');
+                l = tmp.IndexOf('<');
+                r = tmp.IndexOf('>');
                 tmp = tmp.Remove(l, r - l + 1);
             }
             ShowText = tmp;

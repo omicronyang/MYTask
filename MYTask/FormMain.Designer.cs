@@ -30,6 +30,7 @@ namespace MYTask
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.PanelGuide = new System.Windows.Forms.Panel();
             this.PGuide_Side = new System.Windows.Forms.Label();
             this.BtnSettings = new System.Windows.Forms.Button();
@@ -44,6 +45,7 @@ namespace MYTask
             this.BtnProject = new System.Windows.Forms.Button();
             this.BtnTask = new System.Windows.Forms.Button();
             this.PanelGuideS = new System.Windows.Forms.Panel();
+            this.PGuideS_SideRight = new System.Windows.Forms.Label();
             this.PGuideS_LabelPage = new System.Windows.Forms.Label();
             this.PGuideS_BtnPageDown = new System.Windows.Forms.Button();
             this.PGuideS_BtnPageUp = new System.Windows.Forms.Button();
@@ -62,7 +64,6 @@ namespace MYTask
             this.TaskListAll = new MYTask.TaskPanelContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LabelFromUserName = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.LabelUpdateTime = new System.Windows.Forms.Label();
             this.LabelEndTime = new System.Windows.Forms.Label();
@@ -90,21 +91,29 @@ namespace MYTask
             this.PanelContacts = new System.Windows.Forms.Panel();
             this.ContactList = new MYTask.UserList();
             this.PanelMessages = new System.Windows.Forms.Panel();
-            this.LabelMessageLabel = new System.Windows.Forms.Label();
+            this.PMess_Label1 = new System.Windows.Forms.Label();
+            this.PMess_Label2 = new System.Windows.Forms.Label();
             this.MessList = new MYTask.MessageList();
             this.AnnList = new MYTask.AnnounceList();
             this.UI_Caption = new System.Windows.Forms.Panel();
             this.LabelTitle = new System.Windows.Forms.Label();
             this.BtnMin = new System.Windows.Forms.Button();
             this.BtnClose = new System.Windows.Forms.Button();
-            this.PanelSettings = new System.Windows.Forms.Panel();
+            this.PSettings = new System.Windows.Forms.Panel();
+            this.PSet_Label2 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.PSet_BtnClr6 = new System.Windows.Forms.Button();
             this.PSet_BtnClr5 = new System.Windows.Forms.Button();
             this.PSet_BtnClr4 = new System.Windows.Forms.Button();
             this.PSet_BtnClr3 = new System.Windows.Forms.Button();
             this.PSet_BtnClr2 = new System.Windows.Forms.Button();
             this.PSet_BtnClr1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.PSet_Label1 = new System.Windows.Forms.Label();
             this.PUser_Anim = new System.Windows.Forms.Timer(this.components);
+            this.UI_SideLeft = new System.Windows.Forms.Label();
+            this.UI_SideRight = new System.Windows.Forms.Label();
+            this.UI_SideBottom = new System.Windows.Forms.Label();
+            this.Tips = new System.Windows.Forms.ToolTip(this.components);
             this.PanelUser = new MYTask.UserProfilePanel();
             this.PanelGuide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CloudStatus)).BeginInit();
@@ -123,7 +132,7 @@ namespace MYTask
             this.PanelContacts.SuspendLayout();
             this.PanelMessages.SuspendLayout();
             this.UI_Caption.SuspendLayout();
-            this.PanelSettings.SuspendLayout();
+            this.PSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelGuide
@@ -322,6 +331,7 @@ namespace MYTask
             // PanelGuideS
             // 
             this.PanelGuideS.BackColor = System.Drawing.Color.LightGray;
+            this.PanelGuideS.Controls.Add(this.PGuideS_SideRight);
             this.PanelGuideS.Controls.Add(this.PGuideS_LabelPage);
             this.PanelGuideS.Controls.Add(this.PGuideS_BtnPageDown);
             this.PanelGuideS.Controls.Add(this.PGuideS_BtnPageUp);
@@ -336,6 +346,14 @@ namespace MYTask
             this.PanelGuideS.Name = "PanelGuideS";
             this.PanelGuideS.Size = new System.Drawing.Size(48, 478);
             this.PanelGuideS.TabIndex = 4;
+            // 
+            // PGuideS_SideRight
+            // 
+            this.PGuideS_SideRight.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PGuideS_SideRight.Location = new System.Drawing.Point(47, 0);
+            this.PGuideS_SideRight.Name = "PGuideS_SideRight";
+            this.PGuideS_SideRight.Size = new System.Drawing.Size(1, 478);
+            this.PGuideS_SideRight.TabIndex = 15;
             // 
             // PGuideS_LabelPage
             // 
@@ -362,6 +380,7 @@ namespace MYTask
             this.PGuideS_BtnPageDown.Size = new System.Drawing.Size(48, 48);
             this.PGuideS_BtnPageDown.TabIndex = 8;
             this.PGuideS_BtnPageDown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Tips.SetToolTip(this.PGuideS_BtnPageDown, "下一页");
             this.PGuideS_BtnPageDown.UseVisualStyleBackColor = false;
             this.PGuideS_BtnPageDown.Click += new System.EventHandler(this.BtnPageDown_Click);
             // 
@@ -379,6 +398,7 @@ namespace MYTask
             this.PGuideS_BtnPageUp.Size = new System.Drawing.Size(48, 48);
             this.PGuideS_BtnPageUp.TabIndex = 7;
             this.PGuideS_BtnPageUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Tips.SetToolTip(this.PGuideS_BtnPageUp, "上一页");
             this.PGuideS_BtnPageUp.UseVisualStyleBackColor = false;
             this.PGuideS_BtnPageUp.Click += new System.EventHandler(this.BtnPageUp_Click);
             // 
@@ -395,6 +415,7 @@ namespace MYTask
             this.PGuideS_BtnMessage.Size = new System.Drawing.Size(48, 48);
             this.PGuideS_BtnMessage.TabIndex = 6;
             this.PGuideS_BtnMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Tips.SetToolTip(this.PGuideS_BtnMessage, "通知中心");
             this.PGuideS_BtnMessage.UseVisualStyleBackColor = true;
             this.PGuideS_BtnMessage.Click += new System.EventHandler(this.BtnMessage_Click);
             // 
@@ -424,6 +445,7 @@ namespace MYTask
             this.PGuideS_BtnCall.Size = new System.Drawing.Size(48, 48);
             this.PGuideS_BtnCall.TabIndex = 4;
             this.PGuideS_BtnCall.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Tips.SetToolTip(this.PGuideS_BtnCall, "菜单");
             this.PGuideS_BtnCall.UseVisualStyleBackColor = false;
             this.PGuideS_BtnCall.Click += new System.EventHandler(this.BtnCall_Click);
             // 
@@ -440,6 +462,7 @@ namespace MYTask
             this.PGuideS_BtnContact.Size = new System.Drawing.Size(48, 48);
             this.PGuideS_BtnContact.TabIndex = 3;
             this.PGuideS_BtnContact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Tips.SetToolTip(this.PGuideS_BtnContact, "通讯录");
             this.PGuideS_BtnContact.UseVisualStyleBackColor = true;
             this.PGuideS_BtnContact.Click += new System.EventHandler(this.BtnContact_Click);
             // 
@@ -457,6 +480,7 @@ namespace MYTask
             this.PGuideS_BtnProject.Size = new System.Drawing.Size(48, 48);
             this.PGuideS_BtnProject.TabIndex = 2;
             this.PGuideS_BtnProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Tips.SetToolTip(this.PGuideS_BtnProject, "项目列表");
             this.PGuideS_BtnProject.UseVisualStyleBackColor = false;
             this.PGuideS_BtnProject.Click += new System.EventHandler(this.BtnProject_Click);
             // 
@@ -473,6 +497,7 @@ namespace MYTask
             this.PGuideS_BtnTask.Size = new System.Drawing.Size(48, 48);
             this.PGuideS_BtnTask.TabIndex = 1;
             this.PGuideS_BtnTask.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Tips.SetToolTip(this.PGuideS_BtnTask, "任务列表");
             this.PGuideS_BtnTask.UseVisualStyleBackColor = true;
             this.PGuideS_BtnTask.Click += new System.EventHandler(this.BtnTask_Click);
             // 
@@ -578,21 +603,6 @@ namespace MYTask
             this.LabelFromUserName.TabStop = true;
             this.LabelFromUserName.Text = "学生会信息部 开发人员";
             this.LabelFromUserName.VisitedLinkColor = System.Drawing.Color.Black;
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.RoyalBlue;
-            this.linkLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel1.Location = new System.Drawing.Point(432, 3);
-            this.linkLabel1.Margin = new System.Windows.Forms.Padding(0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(182, 24);
-            this.linkLabel1.TabIndex = 11;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "label2";
-            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Black;
             // 
             // label2
             // 
@@ -888,7 +898,8 @@ namespace MYTask
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelMessages.BackColor = System.Drawing.Color.Gainsboro;
-            this.PanelMessages.Controls.Add(this.LabelMessageLabel);
+            this.PanelMessages.Controls.Add(this.PMess_Label1);
+            this.PanelMessages.Controls.Add(this.PMess_Label2);
             this.PanelMessages.Controls.Add(this.MessList);
             this.PanelMessages.Controls.Add(this.AnnList);
             this.PanelMessages.Location = new System.Drawing.Point(48, 510);
@@ -896,37 +907,53 @@ namespace MYTask
             this.PanelMessages.Size = new System.Drawing.Size(652, 478);
             this.PanelMessages.TabIndex = 10;
             // 
-            // LabelMessageLabel
+            // PMess_Label1
             // 
-            this.LabelMessageLabel.AutoSize = true;
-            this.LabelMessageLabel.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LabelMessageLabel.ForeColor = System.Drawing.Color.Black;
-            this.LabelMessageLabel.Location = new System.Drawing.Point(3, 135);
-            this.LabelMessageLabel.Name = "LabelMessageLabel";
-            this.LabelMessageLabel.Size = new System.Drawing.Size(50, 26);
-            this.LabelMessageLabel.TabIndex = 2;
-            this.LabelMessageLabel.Text = "消息";
+            this.PMess_Label1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PMess_Label1.ForeColor = System.Drawing.Color.Black;
+            this.PMess_Label1.Location = new System.Drawing.Point(3, 22);
+            this.PMess_Label1.Name = "PMess_Label1";
+            this.PMess_Label1.Size = new System.Drawing.Size(76, 26);
+            this.PMess_Label1.TabIndex = 3;
+            this.PMess_Label1.Text = "公告";
+            this.PMess_Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PMess_Label2
+            // 
+            this.PMess_Label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PMess_Label2.ForeColor = System.Drawing.Color.Black;
+            this.PMess_Label2.Location = new System.Drawing.Point(3, 165);
+            this.PMess_Label2.Name = "PMess_Label2";
+            this.PMess_Label2.Size = new System.Drawing.Size(76, 26);
+            this.PMess_Label2.TabIndex = 2;
+            this.PMess_Label2.Text = "消息";
+            this.PMess_Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MessList
             // 
             this.MessList.BackColor = System.Drawing.Color.White;
+            this.MessList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.MessList.FullRowSelect = true;
             this.MessList.GridLines = true;
-            this.MessList.Location = new System.Drawing.Point(3, 164);
+            this.MessList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.MessList.Location = new System.Drawing.Point(3, 194);
             this.MessList.Name = "MessList";
-            this.MessList.Size = new System.Drawing.Size(646, 309);
+            this.MessList.Size = new System.Drawing.Size(646, 281);
             this.MessList.TabIndex = 1;
             this.MessList.UseCompatibleStateImageBehavior = false;
             this.MessList.View = System.Windows.Forms.View.Details;
+            this.MessList.DoubleClick += new System.EventHandler(this.MessList_DoubleClick);
             // 
             // AnnList
             // 
             this.AnnList.BackColor = System.Drawing.Color.White;
+            this.AnnList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.AnnList.FullRowSelect = true;
             this.AnnList.GridLines = true;
-            this.AnnList.Location = new System.Drawing.Point(3, 3);
+            this.AnnList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.AnnList.Location = new System.Drawing.Point(3, 51);
             this.AnnList.Name = "AnnList";
-            this.AnnList.Size = new System.Drawing.Size(646, 129);
+            this.AnnList.Size = new System.Drawing.Size(646, 102);
             this.AnnList.TabIndex = 0;
             this.AnnList.UseCompatibleStateImageBehavior = false;
             this.AnnList.View = System.Windows.Forms.View.Details;
@@ -984,20 +1011,58 @@ namespace MYTask
             this.BtnClose.UseVisualStyleBackColor = true;
             this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
-            // PanelSettings
+            // PSettings
             // 
-            this.PanelSettings.BackColor = System.Drawing.Color.Gainsboro;
-            this.PanelSettings.Controls.Add(this.PSet_BtnClr5);
-            this.PanelSettings.Controls.Add(this.PSet_BtnClr4);
-            this.PanelSettings.Controls.Add(this.PSet_BtnClr3);
-            this.PanelSettings.Controls.Add(this.PSet_BtnClr2);
-            this.PanelSettings.Controls.Add(this.PSet_BtnClr1);
-            this.PanelSettings.Controls.Add(this.label1);
-            this.PanelSettings.Location = new System.Drawing.Point(48, 32);
-            this.PanelSettings.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelSettings.Name = "PanelSettings";
-            this.PanelSettings.Size = new System.Drawing.Size(652, 478);
-            this.PanelSettings.TabIndex = 12;
+            this.PSettings.BackColor = System.Drawing.Color.Gainsboro;
+            this.PSettings.Controls.Add(this.PSet_Label2);
+            this.PSettings.Controls.Add(this.checkBox1);
+            this.PSettings.Controls.Add(this.PSet_BtnClr6);
+            this.PSettings.Controls.Add(this.PSet_BtnClr5);
+            this.PSettings.Controls.Add(this.PSet_BtnClr4);
+            this.PSettings.Controls.Add(this.PSet_BtnClr3);
+            this.PSettings.Controls.Add(this.PSet_BtnClr2);
+            this.PSettings.Controls.Add(this.PSet_BtnClr1);
+            this.PSettings.Controls.Add(this.PSet_Label1);
+            this.PSettings.Location = new System.Drawing.Point(48, 510);
+            this.PSettings.Margin = new System.Windows.Forms.Padding(0);
+            this.PSettings.Name = "PSettings";
+            this.PSettings.Size = new System.Drawing.Size(652, 478);
+            this.PSettings.TabIndex = 12;
+            // 
+            // PSet_Label2
+            // 
+            this.PSet_Label2.AutoSize = true;
+            this.PSet_Label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PSet_Label2.Location = new System.Drawing.Point(5, 68);
+            this.PSet_Label2.Name = "PSet_Label2";
+            this.PSet_Label2.Size = new System.Drawing.Size(88, 26);
+            this.PSet_Label2.TabIndex = 9;
+            this.PSet_Label2.Text = "任务列表";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(10, 97);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(173, 25);
+            this.checkBox1.TabIndex = 8;
+            this.checkBox1.Text = "隐藏完成验收的任务";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // PSet_BtnClr6
+            // 
+            this.PSet_BtnClr6.BackColor = System.Drawing.Color.DimGray;
+            this.PSet_BtnClr6.FlatAppearance.BorderSize = 0;
+            this.PSet_BtnClr6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.PSet_BtnClr6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.PSet_BtnClr6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PSet_BtnClr6.Location = new System.Drawing.Point(385, 37);
+            this.PSet_BtnClr6.Margin = new System.Windows.Forms.Padding(0);
+            this.PSet_BtnClr6.Name = "PSet_BtnClr6";
+            this.PSet_BtnClr6.Size = new System.Drawing.Size(75, 18);
+            this.PSet_BtnClr6.TabIndex = 6;
+            this.PSet_BtnClr6.UseVisualStyleBackColor = false;
+            this.PSet_BtnClr6.Click += new System.EventHandler(this.PSet_BtnClr_Click);
             // 
             // PSet_BtnClr5
             // 
@@ -1006,7 +1071,7 @@ namespace MYTask
             this.PSet_BtnClr5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Brown;
             this.PSet_BtnClr5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Coral;
             this.PSet_BtnClr5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PSet_BtnClr5.Location = new System.Drawing.Point(304, 30);
+            this.PSet_BtnClr5.Location = new System.Drawing.Point(310, 37);
             this.PSet_BtnClr5.Margin = new System.Windows.Forms.Padding(0);
             this.PSet_BtnClr5.Name = "PSet_BtnClr5";
             this.PSet_BtnClr5.Size = new System.Drawing.Size(75, 18);
@@ -1021,7 +1086,7 @@ namespace MYTask
             this.PSet_BtnClr4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Brown;
             this.PSet_BtnClr4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightCoral;
             this.PSet_BtnClr4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PSet_BtnClr4.Location = new System.Drawing.Point(229, 30);
+            this.PSet_BtnClr4.Location = new System.Drawing.Point(235, 37);
             this.PSet_BtnClr4.Margin = new System.Windows.Forms.Padding(0);
             this.PSet_BtnClr4.Name = "PSet_BtnClr4";
             this.PSet_BtnClr4.Size = new System.Drawing.Size(75, 18);
@@ -1036,7 +1101,7 @@ namespace MYTask
             this.PSet_BtnClr3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Purple;
             this.PSet_BtnClr3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.MediumOrchid;
             this.PSet_BtnClr3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PSet_BtnClr3.Location = new System.Drawing.Point(154, 30);
+            this.PSet_BtnClr3.Location = new System.Drawing.Point(160, 37);
             this.PSet_BtnClr3.Margin = new System.Windows.Forms.Padding(0);
             this.PSet_BtnClr3.Name = "PSet_BtnClr3";
             this.PSet_BtnClr3.Size = new System.Drawing.Size(75, 18);
@@ -1051,7 +1116,7 @@ namespace MYTask
             this.PSet_BtnClr2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGreen;
             this.PSet_BtnClr2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.MediumSeaGreen;
             this.PSet_BtnClr2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PSet_BtnClr2.Location = new System.Drawing.Point(79, 30);
+            this.PSet_BtnClr2.Location = new System.Drawing.Point(85, 37);
             this.PSet_BtnClr2.Margin = new System.Windows.Forms.Padding(0);
             this.PSet_BtnClr2.Name = "PSet_BtnClr2";
             this.PSet_BtnClr2.Size = new System.Drawing.Size(75, 18);
@@ -1066,7 +1131,7 @@ namespace MYTask
             this.PSet_BtnClr1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MidnightBlue;
             this.PSet_BtnClr1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this.PSet_BtnClr1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PSet_BtnClr1.Location = new System.Drawing.Point(4, 30);
+            this.PSet_BtnClr1.Location = new System.Drawing.Point(10, 37);
             this.PSet_BtnClr1.Margin = new System.Windows.Forms.Padding(0);
             this.PSet_BtnClr1.Name = "PSet_BtnClr1";
             this.PSet_BtnClr1.Size = new System.Drawing.Size(75, 18);
@@ -1074,19 +1139,48 @@ namespace MYTask
             this.PSet_BtnClr1.UseVisualStyleBackColor = false;
             this.PSet_BtnClr1.Click += new System.EventHandler(this.PSet_BtnClr_Click);
             // 
-            // label1
+            // PSet_Label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "主题颜色";
+            this.PSet_Label1.AutoSize = true;
+            this.PSet_Label1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PSet_Label1.Location = new System.Drawing.Point(5, 6);
+            this.PSet_Label1.Name = "PSet_Label1";
+            this.PSet_Label1.Size = new System.Drawing.Size(88, 26);
+            this.PSet_Label1.TabIndex = 0;
+            this.PSet_Label1.Text = "主题颜色";
             // 
             // PUser_Anim
             // 
             this.PUser_Anim.Interval = 15;
             this.PUser_Anim.Tick += new System.EventHandler(this.PUser_Anim_Tick);
+            // 
+            // UI_SideLeft
+            // 
+            this.UI_SideLeft.BackColor = System.Drawing.Color.RoyalBlue;
+            this.UI_SideLeft.Location = new System.Drawing.Point(0, 32);
+            this.UI_SideLeft.Name = "UI_SideLeft";
+            this.UI_SideLeft.Size = new System.Drawing.Size(1, 478);
+            this.UI_SideLeft.TabIndex = 13;
+            // 
+            // UI_SideRight
+            // 
+            this.UI_SideRight.BackColor = System.Drawing.Color.RoyalBlue;
+            this.UI_SideRight.Location = new System.Drawing.Point(699, 32);
+            this.UI_SideRight.Name = "UI_SideRight";
+            this.UI_SideRight.Size = new System.Drawing.Size(1, 478);
+            this.UI_SideRight.TabIndex = 14;
+            // 
+            // UI_SideBottom
+            // 
+            this.UI_SideBottom.BackColor = System.Drawing.Color.RoyalBlue;
+            this.UI_SideBottom.Location = new System.Drawing.Point(1, 509);
+            this.UI_SideBottom.Name = "UI_SideBottom";
+            this.UI_SideBottom.Size = new System.Drawing.Size(698, 1);
+            this.UI_SideBottom.TabIndex = 15;
+            // 
+            // Tips
+            // 
+            this.Tips.ShowAlways = true;
             // 
             // PanelUser
             // 
@@ -1103,18 +1197,22 @@ namespace MYTask
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(700, 510);
+            this.Controls.Add(this.UI_SideBottom);
+            this.Controls.Add(this.UI_SideRight);
+            this.Controls.Add(this.UI_SideLeft);
             this.Controls.Add(this.PanelUser);
             this.Controls.Add(this.UI_Caption);
             this.Controls.Add(this.PanelLogin);
             this.Controls.Add(this.PanelGuide);
             this.Controls.Add(this.PanelGuideS);
-            this.Controls.Add(this.PanelSettings);
+            this.Controls.Add(this.PSettings);
             this.Controls.Add(this.TabsTask);
             this.Controls.Add(this.TabsProject);
             this.Controls.Add(this.PanelContacts);
             this.Controls.Add(this.PanelMessages);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "FormMain";
@@ -1136,11 +1234,10 @@ namespace MYTask
             this.ProjAll.ResumeLayout(false);
             this.PanelContacts.ResumeLayout(false);
             this.PanelMessages.ResumeLayout(false);
-            this.PanelMessages.PerformLayout();
             this.UI_Caption.ResumeLayout(false);
             this.UI_Caption.PerformLayout();
-            this.PanelSettings.ResumeLayout(false);
-            this.PanelSettings.PerformLayout();
+            this.PSettings.ResumeLayout(false);
+            this.PSettings.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1198,7 +1295,6 @@ namespace MYTask
         private Label label2;
         private LoginTextbox PLogin_TextPsw;
         private LoginTextbox PLogin_TextUID;
-        private LinkLabel linkLabel1;
         private LinkLabel LabelFromUserName;
         private UserProfilePanel PanelUser;
         private TaskPanelContainer TaskListPub;
@@ -1218,10 +1314,10 @@ namespace MYTask
         private Label LabelTitle;
         private AnnounceList AnnList;
         private MessageList MessList;
-        private Label LabelMessageLabel;
+        private Label PMess_Label2;
         private PictureBox PLogin_PicLogo;
-        private Panel PanelSettings;
-        private Label label1;
+        private Panel PSettings;
+        private Label PSet_Label1;
         private Button PSet_BtnClr1;
         private Button PSet_BtnClr5;
         private Button PSet_BtnClr4;
@@ -1229,5 +1325,14 @@ namespace MYTask
         private Button PSet_BtnClr2;
         private Timer PUser_Anim;
         private Label PGuide_Side;
+        private Label PMess_Label1;
+        private Button PSet_BtnClr6;
+        private Label UI_SideLeft;
+        private Label UI_SideRight;
+        private Label UI_SideBottom;
+        private Label PGuideS_SideRight;
+        private ToolTip Tips;
+        private Label PSet_Label2;
+        private CheckBox checkBox1;
     }
 }
