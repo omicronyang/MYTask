@@ -206,6 +206,7 @@ namespace MYTask
             Result.TaskPriority = Convert.ToInt32(Source["csa_priority"]);
             Result.TaskImportance = Convert.ToInt32(Source["csa_temp"]);
             Result.TaskEndTime = Convert.ToDateTime(Source["csa_plan_et"]);
+            Result.TaskRemark = Convert.ToString(Source["csa_remark1"]);
             Result.UpdateTime = Convert.ToDateTime(Source["csa_last_update"]);
             Result.TaskU = GetUser(Convert.ToInt32(Source["csa_to_user"]));
             Result.TaskFU = GetUser(Convert.ToInt32(Source["csa_from_user"]));
@@ -234,11 +235,18 @@ namespace MYTask
             Result.TBUserID = Convert.ToInt32(Source["csa_tb_backup2"]);
             Result.TBProjID = Convert.ToInt32(Source["csa_tb_backup3"]);
             Result.TBTaskType = Convert.ToInt32(Source["csa_tb_backup4"]);
-            Result.TBStatus = Convert.ToInt32(Source["csa_tb_status"]);
+            Result.TBStat = Convert.ToInt32(Source["csa_tb_status"]);
             Result.TBComment = Convert.ToInt32(Source["csa_tb_comment"]);
             Result.TBManhour = Convert.ToDouble(Source["csa_tb_manhour"]);
             Result.TBText = Convert.ToString(Source["csa_tb_text"]);
             Result.UpdateTime = Convert.ToDateTime(Source["csa_tb_lastupdate"]);
+
+            string yearstr = Convert.ToString(Source["csa_tb_year"]);
+            int year = Convert.ToInt32(yearstr.Substring(0, 4));
+            int month = Convert.ToInt32(yearstr.Substring(4, 2));
+            int day = Convert.ToInt32(yearstr.Substring(6, 2));
+            Result.DayTime = new DateTime(year, month, day);
+
             return Result;
         }
         /// <summary>

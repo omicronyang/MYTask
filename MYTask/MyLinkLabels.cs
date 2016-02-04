@@ -10,6 +10,7 @@ namespace MYTask
     class LinkUserLabel : LinkLabel
     {
         public MyUser user = new MyUser();
+        private FormMain mainfrm;
 
         public LinkUserLabel()
         {
@@ -26,17 +27,20 @@ namespace MYTask
             Text = user.Name;
         }
 
+        public void SetMainForm(FormMain frm)
+        {
+            mainfrm = frm;
+        }
+
         protected override void OnClick(EventArgs e)
         {
-            FormMain formmain = (FormMain)Form.ActiveForm;
-            formmain.SetProfilePanel(user.UID);
-            formmain.PanelUser_Show();
+            mainfrm.SetProfilePanel(user.UID);
+            mainfrm.PanelUser_Show();
             base.OnClick(e);
         }
     }
 
     class LinkTaskLabel : LinkLabel
     {
-        public MyTask task;
     }
 }

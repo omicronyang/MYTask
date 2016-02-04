@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace MYTask
         public string TaskName;
         public int TaskPriority;
         public int TaskImportance;
+        public string TaskRemark;
         public string TaskProject;
         //public MyProj TaskProject;
         public DateTime TaskEndTime;
@@ -65,16 +67,26 @@ namespace MYTask
     }
     public class MyTaskByDay
     {
-        public int TBStatus;
+        public int TBStat;
         public double TBManhour;
         public string TBText;
         public int TBComment;
         public DateTime UpdateTime;
+        public DateTime DayTime;
         public int TBUserID;
         public int TBTaskID;
         public int TBProjID;
         public int TBTaskType;
+
+        public MyTaskByDay()
+        {
+            TBTaskID = 0;
+            TBStat = 0;
+        }
+
     }
+    
+
     public class MyProj
     {
         public int PID;

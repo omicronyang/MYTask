@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>生成\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -145,6 +145,15 @@
     <Compile Include="BorderLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="BtnCalendar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormAudit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAudit.Designer.cs">
+      <DependentUpon>FormAudit.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,20 +176,29 @@
     <Compile Include="MyPanels.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="ShadowForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UIColor.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="ShadowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIColor.cs" />
     <Compile Include="PswString.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl1.Designer.cs">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Win32.cs" />
+    <EmbeddedResource Include="FormAudit.resx">
+      <DependentUpon>FormAudit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -188,6 +206,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl1.resx">
+      <DependentUpon>UserControl1.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -245,6 +266,19 @@
     <None Include="Resources\main_light_bkg_top123.png" />
     <None Include="Resources\Setting_32.png" />
     <None Include="Resources\Back_right_32.png" />
+    <None Include="Resources\Audit_32.png" />
+    <None Include="Resources\Comment_32.png" />
+    <None Include="Resources\Split_32.png" />
+    <None Include="Resources\TreeView_32.png" />
+    <None Include="Resources\Delete_32.png" />
+    <None Include="Resources\Back_right_white_32.png" />
+    <None Include="Resources\Back_white_32.png" />
+    <None Include="Resources\ArrowDown_32.png" />
+    <None Include="Resources\ArrowLeft_32.png" />
+    <None Include="Resources\ArrowLeft_White_32.png" />
+    <None Include="Resources\ArrowRight_32.png" />
+    <None Include="Resources\ArrowRight_White_32.png" />
+    <None Include="Resources\ArrowUp_32.png" />
     <Content Include="__TemplateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

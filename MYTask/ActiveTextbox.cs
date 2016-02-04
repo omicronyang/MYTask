@@ -101,6 +101,7 @@ namespace MYTask
                 this.Invalidate();
             }
         }
+       
         #endregion 属性
 
         /// <summary> 
@@ -115,6 +116,7 @@ namespace MYTask
             BackColor = Color.Gainsboro;
         }
 
+        #region 事件
         /// <summary> 
         /// 鼠标移动到该控件上时 
         /// </summary> 
@@ -178,7 +180,6 @@ namespace MYTask
             }
             base.OnLostFocus(e);
         }
-
 
         /// <summary> 
         /// 获得操作系统消息 
@@ -245,12 +246,13 @@ namespace MYTask
                 ReleaseDC(m.HWnd, hDC);
             }
         }
+        #endregion
 
         public void SetActive()
         {
             Active = true;
             ReadOnly = false;
-            Enabled = true;
+            //Enabled = true;
             BorderColor = Color.Black;
             BackColor = Color.White;
         }
@@ -259,7 +261,7 @@ namespace MYTask
         {
             Active = false;
             ReadOnly = true;
-            Enabled = false;
+            //Enabled = false;
             BorderColor = Color.Gainsboro;
             BackColor = Color.Gainsboro;
         }

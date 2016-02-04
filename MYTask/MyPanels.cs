@@ -9,10 +9,12 @@ namespace MYTask
 {
     class ProjPanel : Panel
     {
-        MyProj MyProjInf = new MyProj();
-        LinkLabel LabelProjName = new LinkLabel();
-        Label LabelStat = new Label();
-        LinkUserLabel LabelUserName = new LinkUserLabel();
+        private MyProj MyProjInf = new MyProj();
+        private LinkLabel LabelProjName = new LinkLabel();
+        private Label LabelStat = new Label();
+        private LinkUserLabel LabelUserName = new LinkUserLabel();
+
+        private FormMain mainfrm;
 
         public ProjPanel()
         {
@@ -95,7 +97,14 @@ namespace MYTask
                 case 22: { me.Text = "推迟"; me.BackColor = Color.FromArgb(255, 204, 0); break; }
                 case 24: { me.Text = "执行"; me.BackColor = Color.FromArgb(51, 102, 153); break; }
                 case 25: { me.Text = "后期整理"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                default: { me.Text = "";me.BackColor = Color.Gainsboro;break; }
             }
+        }
+
+        public void SetMainForm(FormMain frm)
+        {
+            mainfrm = frm;
+            LabelUserName.SetMainForm(frm);
         }
 
     }
@@ -106,6 +115,7 @@ namespace MYTask
         public int NowIndex = -1;
         public ProjPanel[] Pp = new ProjPanel[12];
         public List<MyProj> ProjList = new List<MyProj>();
+        private FormMain mainfrm;
         // ProjPanel size = 157,145
 
 
@@ -119,14 +129,20 @@ namespace MYTask
             Visible = true;
             for (int i = 0; i < 12; i++)
             {
-                Pp[i] = new ProjPanel(3 + i % 4 * 160, 3 + i / 4 * 148);
+                Pp[i] = new ProjPanel(6 + i % 4 * 160, 3 + i / 4 * 148);
                 Pp[i].Visible = false;
                 Controls.Add(Pp[i]);
                 Controls.SetChildIndex(Pp[i], 0);
             }
         }
 
-
+        public void SetMainForm(FormMain frm)
+        {
+            mainfrm = frm;
+            for (int i=0;i<12;i++)
+                Pp[i].SetMainForm(mainfrm);
+        }
+        /*
         public void AddProj(MyProj NewProj)
         {
             ProjList.Add(NewProj);
@@ -138,9 +154,10 @@ namespace MYTask
             }
             else ProjNum++;
         }
-
+        */
         public void AddProj(MyProj[] NewProjList)
         {
+            if (NewProjList.Length == 0) return;
             int oldnum = ProjNum;
             ProjNum += NewProjList.Length;
             ProjList.AddRange(NewProjList);
@@ -287,7 +304,7 @@ namespace MYTask
             BtnClose.BackColor = Color.RoyalBlue;
             BtnClose.FlatAppearance.BorderSize = 0;
             BtnClose.FlatStyle = FlatStyle.Flat;
-            BtnClose.Image = global::MYTask.Properties.Resources.Back_right_32;
+            BtnClose.Image = global::MYTask.Properties.Resources.ArrowRight_White_32;
             BtnClose.Location = new Point(337, 0);
             BtnClose.Margin = new Padding(0);
             BtnClose.Name = "BtnClose";
@@ -322,8 +339,9 @@ namespace MYTask
             ProfileEmail.ReadOnly = true;
             ProfileEmail.Size = new Size(311, 36);
             ProfileEmail.Text = "a@a.com";
-            ProfileEmail.Enabled = false;
-            
+            ProfileEmail.Enter += new EventHandler(LockStyle);
+
+
             ProfileTelLabel.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             ProfileTelLabel.Location = new Point(3, 89);
             ProfileTelLabel.Name = "ProfileTELLabel";
@@ -339,7 +357,7 @@ namespace MYTask
             ProfileTel.ReadOnly = true;
             ProfileTel.Size = new Size(311, 36);
             ProfileTel.Text = "00000000000";
-            ProfileTel.Enabled = false;
+            ProfileTel.Enter += new EventHandler(LockStyle);
 
             ProfileRemark.BackColor = Color.Gainsboro;
             ProfileRemark.BorderColor = Color.Gainsboro;
@@ -349,7 +367,7 @@ namespace MYTask
             ProfileRemark.Name = "ProfileRemark";
             ProfileRemark.ReadOnly = true;
             ProfileRemark.Size = new Size(311, 123);
-            ProfileRemark.Enabled = false;
+            ProfileRemark.Enter += new EventHandler(LockStyle);
             ProfileRemark.ScrollBars = ScrollBars.Vertical;
             
             ProfileRemarkLabel.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
@@ -376,7 +394,6 @@ namespace MYTask
             Controls.Add(ProfileRemarkLabel);
             Controls.Add(SideColor);
         }
-
         public void SetFatherForm(FormMain x)
         {
             formmain = x;
@@ -433,25 +450,31 @@ namespace MYTask
         public void UpdateColor(UIColor NewTheme)
         {
             BtnClose.BackColor = NewTheme.MainColor;
-            BtnClose.FlatAppearance.MouseOverBackColor = NewTheme.MouseOverColor;
-            BtnClose.FlatAppearance.MouseDownBackColor = NewTheme.MouseDownColor;
+            BtnClose.FlatAppearance.MouseOverBackColor = NewTheme.MOC;
+            BtnClose.FlatAppearance.MouseDownBackColor = NewTheme.MDC;
 
             BtnOK.BackColor = NewTheme.MainColor;
-            BtnOK.FlatAppearance.MouseOverBackColor = NewTheme.MouseOverColor;
-            BtnOK.FlatAppearance.MouseDownBackColor = NewTheme.MouseDownColor;
+            BtnOK.FlatAppearance.MouseOverBackColor = NewTheme.MOC;
+            BtnOK.FlatAppearance.MouseDownBackColor = NewTheme.MDC;
 
             BtnEdit.BackColor = NewTheme.MainColor;
-            BtnEdit.FlatAppearance.MouseOverBackColor = NewTheme.MouseOverColor;
-            BtnEdit.FlatAppearance.MouseDownBackColor = NewTheme.MouseDownColor;
+            BtnEdit.FlatAppearance.MouseOverBackColor = NewTheme.MOC;
+            BtnEdit.FlatAppearance.MouseDownBackColor = NewTheme.MDC;
 
             BtnCancel.BackColor = NewTheme.MainColor;
-            BtnCancel.FlatAppearance.MouseOverBackColor = NewTheme.MouseOverColor;
-            BtnCancel.FlatAppearance.MouseDownBackColor = NewTheme.MouseDownColor;
+            BtnCancel.FlatAppearance.MouseOverBackColor = NewTheme.MOC;
+            BtnCancel.FlatAppearance.MouseDownBackColor = NewTheme.MDC;
 
             ProfileUserName.BackColor = NewTheme.MainColor;
 
             SideColor.BackColor = NewTheme.MainColor;
 
+        }
+
+        private void LockStyle(object sender, EventArgs e)
+        {
+            ActiveTextbox Obj = (ActiveTextbox)sender;
+            if (Obj.ReadOnly) BtnEdit.Focus();
         }
 
         public void Expand()
@@ -473,22 +496,22 @@ namespace MYTask
 
     class TaskPanel : Panel
     {
-        MyTask MyTaskInf = new MyTask();
-        Label LabelPP = new Label();
-        Label LabelPI = new Label();
-        LinkLabel LabelTaskName = new LinkLabel();
-        Label Label1 = new Label();
-        LinkLabel LabelProjName = new LinkLabel();
-        Label LabelStat = new Label();
-        Label Label2 = new Label();
-        Label Label3 = new Label();
-        LinkUserLabel LabelUserName = new LinkUserLabel();
-        LinkUserLabel LabelFromUserName = new LinkUserLabel();
-        Label LabelEndTime = new Label();
-        Label LabelUpdateTime = new Label();
-        Label LabelUsedTime = new Label();
-        BorderLabel LabelPlanTime = new BorderLabel();
-
+        private MyTask MyTaskInf = new MyTask();
+        private Label LabelPP = new Label();
+        private Label LabelPI = new Label();
+        private LinkLabel LabelTaskName = new LinkLabel();
+        private Label Label1 = new Label();
+        private LinkLabel LabelProjName = new LinkLabel();
+        private Label LabelStat = new Label();
+        private Label Label2 = new Label();
+        private Label Label3 = new Label();
+        private LinkUserLabel LabelUserName = new LinkUserLabel();
+        private LinkUserLabel LabelFromUserName = new LinkUserLabel();
+        private Label LabelEndTime = new Label();
+        private Label LabelUpdateTime = new Label();
+        private Label LabelUsedTime = new Label();
+        private BorderLabel LabelPlanTime = new BorderLabel();
+        private FormMain mainfrm;
 
         public TaskPanel()
         {
@@ -504,6 +527,12 @@ namespace MYTask
             InitCompenent();
         }
 
+        public void SetMainForm(FormMain frm)
+        {
+            mainfrm = frm;
+            LabelUserName.SetMainForm(mainfrm);
+            LabelFromUserName.SetMainForm(mainfrm);
+        }
 
         private void InitCompenent()
         {
@@ -519,6 +548,7 @@ namespace MYTask
             LabelTaskName.Size = new Size(609, 21);
             LabelTaskName.TabStop = true;
             LabelTaskName.Text = "任务名称";
+            LabelTaskName.Click += new EventHandler(LabelTaskName_Clicked);
 
             Label1.Location = new Point(361, 30);
             Label1.Size = new Size(58, 21);
@@ -662,7 +692,7 @@ namespace MYTask
             switch (stat)
             {
                 case 2: { me.Text = "未开始"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
-                case 4: { me.Text = "计划"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
+                case 4: { me.Text = "策划中"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
                 case 5: { me.Text = "进行  0%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
                 case 6: { me.Text = "进行 20%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
                 case 7: { me.Text = "进行 40%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
@@ -760,6 +790,11 @@ namespace MYTask
 
         }
 
+        private void LabelTaskName_Clicked(object sender, EventArgs e)
+        {
+            mainfrm.SetPanelTP(this.MyTaskInf);
+        }
+
 
     }
 
@@ -769,6 +804,7 @@ namespace MYTask
         public int NowIndex = -1;
         public TaskPanel[] Tp = new TaskPanel[4];
         public List<MyTask> TaskList = new List<MyTask>();
+        private FormMain mainfrm;
 
         public TaskPanelContainer()
         {
@@ -785,6 +821,13 @@ namespace MYTask
             }
         }
 
+        public void SetMainForm(FormMain frm)
+        {
+            for (int i = 0; i < 4; i++)
+                Tp[i].SetMainForm(frm);
+        }
+
+        /*
         public void AddTask(MyTask Newtask)
         {
             TaskList.Add(Newtask);
@@ -796,9 +839,10 @@ namespace MYTask
             }
             else TaskNum++;
         }
-
+        */
         public void AddTask(MyTask[] NewTaskList)
         {
+            if (NewTaskList.Length == 0) return;
             int oldnum = TaskNum;
             TaskNum += NewTaskList.Length;
             TaskList.AddRange(NewTaskList);
@@ -868,6 +912,735 @@ namespace MYTask
         {
             NowIndex = Index;
             RenewTaskPage();
+        }
+
+    }
+
+    class TaskProfilePanel : Panel
+    {
+        public MyTask TaskInf;
+        private int Calendar_StBtn;
+        private int Calendar_EdBtn;
+        private DateTime Calendar_Date;
+        private FormMain mainfrm;
+        private UIColor Theme;
+        private MyTaskByDay MTBD = new MyTaskByDay();
+
+        #region 控件声明初始化
+
+        private Label LblTaskName = new Label();
+        private Button BtnSplit = new Button();
+        private Button BtnAudit = new Button();
+        private Button BtnComment = new Button();
+        private Button BtnEdit = new Button();
+        private Button BtnDelete = new Button();
+        private Button BtnTreeView = new Button();
+        //private Button BtnOK = new Button();
+        ///private Button BtnCancel = new Button();
+        private Label LblPri = new Label();
+        private Label LblImp = new Label();
+        private Label LblStat = new Label();
+        private Label LblUsedTime = new Label();
+        private BorderLabel LblPlanTime = new BorderLabel();
+        private Label labeltext1 = new Label();
+        private Label labeltext2 = new Label();
+        private LinkUserLabel LblFromUser = new LinkUserLabel();
+        private LinkUserLabel LblToUser = new LinkUserLabel();
+        private Label LblEndTime = new Label();
+        private Label labeltext3 = new Label();
+        public WebBrowser TbxRemark = new WebBrowser();
+        private Label labeltext4 = new Label();
+        private Button BtnPrev = new Button();
+        private Button BtnNext = new Button();
+        private DateTimePicker DTP = new DateTimePicker();
+        private BtnCalendar[] BtnDays = new BtnCalendar[37];
+
+        public TaskProfilePanel()
+        {
+            SetStyle(ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.SupportsTransparentBackColor, true);
+            InitComponent();
+        }
+        private void InitComponent()
+        {
+            this.BackColor = Color.Gainsboro;
+            this.Size = new Size(652, 478);
+
+            this.LblTaskName.BackColor = Color.RoyalBlue;
+            this.LblTaskName.Font = new Font("微软雅黑", 18F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
+            this.LblTaskName.ForeColor = Color.White;
+            this.LblTaskName.Location = new Point(0, 0);
+            this.LblTaskName.Name = "LblTaskName";
+            this.LblTaskName.Size = new Size(364, 48);
+            this.LblTaskName.Text = "[执行]UI界面设计";
+            this.LblTaskName.TextAlign = ContentAlignment.MiddleLeft;
+
+            this.LblPri.BackColor = Color.Gold;
+            this.LblPri.ForeColor = Color.Black;
+            this.LblPri.Location = new Point(0, 48);
+            this.LblPri.Name = "LblPri";
+            this.LblPri.Size = new Size(80, 21);
+            this.LblPri.Text = "中度优先";
+            this.LblPri.TextAlign = ContentAlignment.TopCenter;
+
+            this.LblImp.BackColor = Color.SandyBrown;
+            this.LblImp.ForeColor = Color.Black;
+            this.LblImp.Location = new Point(80, 48);
+            this.LblImp.Name = "LblImp";
+            this.LblImp.Size = new Size(80, 21);
+            this.LblImp.Text = "中度严重";
+            this.LblImp.TextAlign = ContentAlignment.TopCenter;
+
+            this.LblStat.BackColor = Color.GreenYellow;
+            this.LblStat.ForeColor = Color.Black;
+            this.LblStat.Location = new Point(160, 48);
+            this.LblStat.Name = "LblStat";
+            this.LblStat.Size = new Size(100, 21);
+            this.LblStat.Text = "完成100%";
+            this.LblStat.TextAlign = ContentAlignment.TopCenter;
+
+            this.LblUsedTime.BackColor = Color.Green;
+            this.LblUsedTime.ForeColor = Color.Black;
+            this.LblUsedTime.Location = new Point(260, 48);
+            this.LblUsedTime.Name = "LblUsedTime";
+            this.LblUsedTime.Size = new Size(100, 21);
+            this.LblUsedTime.Text = "0.5";
+
+            this.labeltext1.BackColor = Color.RoyalBlue;
+            this.labeltext1.ForeColor = Color.White;
+            this.labeltext1.Location = new Point(0, 69);
+            this.labeltext1.Name = "labeltext1";
+            this.labeltext1.Size = new Size(26, 27);
+            this.labeltext1.Text = "由";
+            this.labeltext1.TextAlign = ContentAlignment.MiddleLeft;
+
+            this.labeltext2.BackColor = Color.RoyalBlue;
+            this.labeltext2.ForeColor = Color.White;
+            this.labeltext2.Location = new Point(201, 69);
+            this.labeltext2.Name = "labeltext2";
+            this.labeltext2.Size = new Size(59, 27);
+            this.labeltext2.Text = "指派给";
+            this.labeltext2.TextAlign = ContentAlignment.MiddleLeft;
+
+            this.LblEndTime.BackColor = Color.RoyalBlue;
+            this.LblEndTime.ForeColor = Color.White;
+            this.LblEndTime.Location = new Point(435, 69);
+            this.LblEndTime.Name = "LblEndTime";
+            this.LblEndTime.Size = new Size(217, 27);
+            this.LblEndTime.Text = "计划完成于 9999/99/99";
+            this.LblEndTime.TextAlign = ContentAlignment.MiddleLeft;
+
+            this.labeltext3.AutoSize = true;
+            this.labeltext3.Font = new Font("微软雅黑", 14F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
+            this.labeltext3.ForeColor = Color.Black;
+            this.labeltext3.Location = new Point(1, 101);
+            this.labeltext3.Name = "labeltext3";
+            this.labeltext3.Size = new Size(88, 26);
+            this.labeltext3.Text = "任务描述";
+
+            this.TbxRemark.Location = new Point(6, 130);
+            this.TbxRemark.Name = "TbxRemark";
+            this.TbxRemark.Size = new Size(308, 337);
+
+            this.labeltext4.AutoSize = true;
+            this.labeltext4.Font = new Font("微软雅黑", 14F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(134)));
+            this.labeltext4.ForeColor = Color.Black;
+            this.labeltext4.Location = new Point(324, 101);
+            this.labeltext4.Name = "labeltext4";
+            this.labeltext4.Size = new Size(88, 26);
+            this.labeltext4.Text = "工作日志";
+
+            this.BtnTreeView.BackColor = Color.RoyalBlue;
+            this.BtnTreeView.FlatAppearance.BorderSize = 0;
+            this.BtnTreeView.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnTreeView.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnTreeView.FlatStyle = FlatStyle.Flat;
+            this.BtnTreeView.Image = global::MYTask.Properties.Resources.TreeView_32;
+            this.BtnTreeView.Location = new Point(604, 0);
+            this.BtnTreeView.Name = "BtnTreeView";
+            this.BtnTreeView.Size = new Size(48, 48);
+            this.BtnTreeView.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnTreeView.UseVisualStyleBackColor = false;
+
+            this.BtnDelete.BackColor = Color.RoyalBlue;
+            this.BtnDelete.FlatAppearance.BorderSize = 0;
+            this.BtnDelete.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnDelete.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnDelete.FlatStyle = FlatStyle.Flat;
+            this.BtnDelete.Image = global::MYTask.Properties.Resources.Delete_32;
+            this.BtnDelete.Location = new Point(556, 0);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new Size(48, 48);
+            this.BtnDelete.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnDelete.UseVisualStyleBackColor = false;
+
+            this.BtnEdit.BackColor = Color.RoyalBlue;
+            this.BtnEdit.FlatAppearance.BorderSize = 0;
+            this.BtnEdit.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnEdit.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnEdit.FlatStyle = FlatStyle.Flat;
+            this.BtnEdit.Image = global::MYTask.Properties.Resources.Edit_32;
+            this.BtnEdit.Location = new Point(508, 0);
+            this.BtnEdit.Name = "BtnEdit";
+            this.BtnEdit.Size = new Size(48, 48);
+            this.BtnEdit.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnEdit.UseVisualStyleBackColor = false;
+
+            this.BtnComment.BackColor = Color.RoyalBlue;
+            this.BtnComment.FlatAppearance.BorderSize = 0;
+            this.BtnComment.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnComment.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnComment.FlatStyle = FlatStyle.Flat;
+            this.BtnComment.Image = global::MYTask.Properties.Resources.Comment_32;
+            this.BtnComment.Location = new Point(460, 0);
+            this.BtnComment.Name = "BtnComment";
+            this.BtnComment.Size = new Size(48, 48);
+            this.BtnComment.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnComment.UseVisualStyleBackColor = false;
+
+            this.BtnAudit.BackColor = Color.RoyalBlue;
+            this.BtnAudit.FlatAppearance.BorderSize = 0;
+            this.BtnAudit.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnAudit.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnAudit.FlatStyle = FlatStyle.Flat;
+            this.BtnAudit.Image = global::MYTask.Properties.Resources.Audit_32;
+            this.BtnAudit.Location = new Point(412, 0);
+            this.BtnAudit.Name = "BtnAudit";
+            this.BtnAudit.Size = new Size(48, 48);
+            this.BtnAudit.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnAudit.UseVisualStyleBackColor = false;
+            this.BtnAudit.Click += new EventHandler(BtnAudit_Click);
+
+            this.BtnSplit.BackColor = Color.RoyalBlue;
+            this.BtnSplit.FlatAppearance.BorderSize = 0;
+            this.BtnSplit.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnSplit.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnSplit.FlatStyle = FlatStyle.Flat;
+            this.BtnSplit.Image = global::MYTask.Properties.Resources.Split_32;
+            this.BtnSplit.Location = new Point(364, 0);
+            this.BtnSplit.Name = "BtnSplit";
+            this.BtnSplit.Size = new Size(48, 48);
+            this.BtnSplit.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnSplit.UseVisualStyleBackColor = false;
+
+            this.LblToUser.ActiveLinkColor = Color.Gray;
+            this.LblToUser.BackColor = Color.RoyalBlue;
+            this.LblToUser.ForeColor = Color.White;
+            this.LblToUser.LinkBehavior = LinkBehavior.HoverUnderline;
+            this.LblToUser.LinkColor = Color.White;
+            this.LblToUser.Location = new Point(260, 69);
+            this.LblToUser.Name = "LblToUser";
+            this.LblToUser.Size = new Size(175, 27);
+            this.LblToUser.TabStop = true;
+            this.LblToUser.Text = "学生会信息部 工作人员";
+            this.LblToUser.TextAlign = ContentAlignment.MiddleLeft;
+            this.LblToUser.VisitedLinkColor = Color.White;
+
+            this.LblFromUser.ActiveLinkColor = Color.Gray;
+            this.LblFromUser.BackColor = Color.RoyalBlue;
+            this.LblFromUser.ForeColor = Color.White;
+            this.LblFromUser.LinkBehavior = LinkBehavior.HoverUnderline;
+            this.LblFromUser.LinkColor = Color.White;
+            this.LblFromUser.Location = new Point(26, 69);
+            this.LblFromUser.Name = "LblFromUser";
+            this.LblFromUser.Size = new Size(175, 27);
+            this.LblFromUser.TabStop = true;
+            this.LblFromUser.Text = "学生会信息部 工作人员";
+            this.LblFromUser.TextAlign = ContentAlignment.MiddleLeft;
+            this.LblFromUser.VisitedLinkColor = Color.White;
+
+            this.LblPlanTime.BorderColor = Color.Green;
+            this.LblPlanTime.BorderStyle = BorderStyle.FixedSingle;
+            this.LblPlanTime.HotTrack = false;
+            this.LblPlanTime.Location = new Point(360, 48);
+            this.LblPlanTime.Name = "LblPlanTime";
+            this.LblPlanTime.Size = new Size(292, 21);
+            this.LblPlanTime.Text = "4";
+            this.LblPlanTime.TextAlign = ContentAlignment.TopRight;
+
+            this.BtnPrev.BackColor = Color.Transparent;
+            this.BtnPrev.FlatAppearance.BorderSize = 0;
+            this.BtnPrev.FlatAppearance.MouseDownBackColor = Color.Gray;
+            this.BtnPrev.FlatAppearance.MouseOverBackColor = Color.Silver;
+            this.BtnPrev.FlatStyle = FlatStyle.Flat;
+            this.BtnPrev.Image = global::MYTask.Properties.Resources.ArrowLeft_32;
+            this.BtnPrev.Location = new Point(390, 156);
+            this.BtnPrev.Name = "BtnPrev";
+            this.BtnPrev.Size = new Size(32, 32);
+            this.BtnPrev.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnPrev.UseVisualStyleBackColor = false;
+            this.BtnPrev.Click += new EventHandler(BtnPrev_Click);
+
+            this.BtnNext.BackColor = Color.Transparent;
+            this.BtnNext.FlatAppearance.BorderSize = 0;
+            this.BtnNext.FlatAppearance.MouseDownBackColor = Color.Gray;
+            this.BtnNext.FlatAppearance.MouseOverBackColor = Color.Silver;
+            this.BtnNext.FlatStyle = FlatStyle.Flat;
+            this.BtnNext.Image = global::MYTask.Properties.Resources.ArrowRight_32;
+            this.BtnNext.Location = new Point(554, 156);
+            this.BtnNext.Name = "BtnNext";
+            this.BtnNext.Size = new Size(32, 32);
+            this.BtnNext.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnNext.UseVisualStyleBackColor = false;
+            this.BtnNext.Click += new EventHandler(BtnNext_Click);
+
+            this.DTP.CustomFormat = "yyyy年 MM月";
+            this.DTP.Format = DateTimePickerFormat.Custom;
+            this.DTP.Location = new Point(425, 158);
+            this.DTP.MinDate = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+            this.DTP.Name = "DTP";
+            this.DTP.Size = new Size(126, 29);
+            this.DTP.ValueChanged += new EventHandler(DTP_ValueChange);
+
+            for (int i = 0; i < 37; i++)
+            {
+                BtnDays[i] = new BtnCalendar();
+                BtnDays[i].BackColor = Color.DimGray;
+                BtnDays[i].FlatAppearance.BorderSize = 0;
+                BtnDays[i].FlatAppearance.MouseOverBackColor = Color.Gray;
+                BtnDays[i].FlatAppearance.MouseDownBackColor = Color.FromArgb(57, 57, 57);
+                BtnDays[i].FlatStyle = FlatStyle.Flat;
+                BtnDays[i].Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
+                BtnDays[i].Size = new Size(32, 32);
+                BtnDays[i].UseVisualStyleBackColor = false;
+
+                int x = 367 + i % 7 * 35;
+                int y = 198 + i / 7 * 35;
+                BtnDays[i].Location = new Point(x, y);
+
+                Controls.Add(BtnDays[i]);
+            }
+
+            this.Controls.Add(this.BtnNext);
+            this.Controls.Add(this.BtnPrev);
+            this.Controls.Add(this.labeltext4);
+            this.Controls.Add(this.TbxRemark);
+            this.Controls.Add(this.labeltext3);
+            this.Controls.Add(this.BtnTreeView);
+            this.Controls.Add(this.LblEndTime);
+            this.Controls.Add(this.LblToUser);
+            this.Controls.Add(this.labeltext2);
+            this.Controls.Add(this.LblFromUser);
+            this.Controls.Add(this.labeltext1);
+            this.Controls.Add(this.LblPlanTime);
+            this.Controls.Add(this.LblUsedTime);
+            this.Controls.Add(this.LblStat);
+            this.Controls.Add(this.LblImp);
+            this.Controls.Add(this.LblPri);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.BtnEdit);
+            this.Controls.Add(this.BtnComment);
+            this.Controls.Add(this.BtnAudit);
+            this.Controls.Add(this.BtnSplit);
+            this.Controls.Add(this.LblTaskName);
+            this.Controls.Add(this.DTP);
+
+
+        }
+
+
+        #endregion
+
+        #region 带参数初始化
+
+        public void SetMainForm(FormMain frm)
+        {
+            mainfrm = frm;
+            LblFromUser.SetMainForm(mainfrm);
+            LblToUser.SetMainForm(mainfrm);
+        }
+        public void SetNewTask(MyTask Source)
+        {
+            TaskInf = Source;
+            Calendar_Date = DateTime.Now;
+            UpdateBaseInfo();
+        }
+
+        private void UpdateBaseInfo()
+        {
+            this.SuspendLayout();
+            LblTaskName_Update(TaskInf.TaskType);
+            LblPri_Update(TaskInf.TaskPriority);
+            LblImp_Update(TaskInf.TaskImportance);
+            LblStat_Update(TaskInf.TaskStat);
+            LblFromUser.SetUser(TaskInf.TaskU);
+            LblToUser.SetUser(TaskInf.TaskFU);
+            LblEndTime_Update(TaskInf.TaskEndTime);
+            LblWorkTime_Update(TaskInf.TaskPlanTime, TaskInf.TaskUsedTime);
+            TbxRemark_Update();
+            DTP.Value = DateTime.Now;
+            this.ResumeLayout(false);
+        }
+
+        private void LblTaskName_Update(int type)
+        {
+            Label me = LblTaskName;
+            switch (type)
+            {
+                case 1: { me.Text = "[设计流程]"; break; }
+                case 2: { me.Text = "[人员分工]"; break; }
+                case 3: { me.Text = "[执行]"; break; }
+                case 7: { me.Text = "[申请]"; break; }
+                case 8: { me.Text = "[求援]"; break; }
+                case 9: { me.Text = "[撰写文档]"; break; }
+                case 10: { me.Text = "[沟通]"; break; }
+                case 12: { me.Text = "[会议]"; break; }
+                case 14: { me.Text = "[请假]"; break; }
+                case 15: { me.Text = "[加班]"; break; }
+                case 16: { me.Text = "[其他]"; break; }
+                case 19: { me.Text = "[提出设想]"; break; }
+                case 20: { me.Text = "[子项目]"; break; }
+            }
+            me.Text += TaskInf.TaskName;
+        }
+
+        private void LblPri_Update(int priority)
+        {
+            Label me = LblPri;
+            switch (priority)
+            {
+                case 5: { me.Text = "极低优先"; me.BackColor = Color.OliveDrab; break; }
+                case 4: { me.Text = "低度优先"; me.BackColor = Color.GreenYellow; break; }
+                case 3: { me.Text = "中度优先"; me.BackColor = Color.Gold; break; }
+                case 2: { me.Text = "高度优先"; me.BackColor = Color.DarkOrange; break; }
+                case 1: { me.Text = "紧急优先"; me.BackColor = Color.Red; break; }
+            }
+        }
+
+        private void LblImp_Update(int importance)
+        {
+            Label me = LblImp;
+            switch (importance)
+            {
+                case 5: { me.Text = "极低重要"; me.BackColor = Color.OliveDrab; break; }
+                case 4: { me.Text = "低度重要"; me.BackColor = Color.GreenYellow; break; }
+                case 3: { me.Text = "中度重要"; me.BackColor = Color.Gold; break; }
+                case 2: { me.Text = "高度重要"; me.BackColor = Color.DarkOrange; break; }
+                case 1: { me.Text = "极为重要"; me.BackColor = Color.Red; break; }
+            }
+        }
+
+        private void LblStat_Update(int stat)
+        {
+            Label me = LblStat;
+            switch (stat)
+            {
+                case 2: { me.Text = "未开始"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
+                case 4: { me.Text = "策划中"; me.BackColor = Color.FromArgb(153, 102, 153); break; }
+                case 5: { me.Text = "进行  0%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 6: { me.Text = "进行 20%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 7: { me.Text = "进行 40%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 8: { me.Text = "进行 60%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 9: { me.Text = "进行 80%"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
+                case 14: { me.Text = "完成100%"; me.BackColor = Color.FromArgb(0, 153, 0); break; }
+                case 22: { me.Text = "中断"; me.BackColor = Color.Red; break; }
+                case 23: { me.Text = "推迟"; me.BackColor = Color.FromArgb(255, 204, 0); break; }
+                case 24: { me.Text = "请假"; me.BackColor = Color.FromArgb(255, 255, 0); break; }
+                case 25: { me.Text = "完成验收"; me.BackColor = Color.FromArgb(51, 102, 153); break; }
+                case 26: { me.Text = "驳回"; me.BackColor = Color.Red; break; }
+            }
+        }
+
+        private void LblEndTime_Update(DateTime time)
+        {
+            Label me = LblEndTime;
+            me.Text = "预期完成日期：" + time.ToString("yyyy/MM/dd");
+            if (time < DateTime.Now && TaskInf.TaskStat == 2)
+            {
+                me.BackColor = Color.LightSkyBlue;
+                me.ForeColor = Color.Black;
+            }
+            else if (time < DateTime.Now && TaskInf.TaskStat != 25)
+            {
+                me.BackColor = Color.Red;
+                me.ForeColor = Color.White;
+            }
+            else
+            {
+                me.BackColor = Theme.MainColor;
+                me.ForeColor = Color.White;
+            }
+        }
+
+        private void LblWorkTime_Update(double PlanTime, double UsedTime)
+        {
+            if (PlanTime > 0)
+            {
+                LblUsedTime.Location = new Point(260, 48);
+                LblUsedTime.Text = UsedTime.ToString();
+                if (UsedTime > PlanTime)
+                {
+                    LblUsedTime.BackColor = Color.Goldenrod;
+                    LblUsedTime.Width = 391;
+                    LblPlanTime.Width = 0;
+                }
+                else
+                {
+                    LblUsedTime.BackColor = Color.Green;
+                    LblUsedTime.Width = Convert.ToInt32(UsedTime / PlanTime * 391);
+                    LblPlanTime.Location = new Point(LblUsedTime.Width + 260, 48);
+                    LblPlanTime.Width = 391 - LblUsedTime.Width;
+                    LblPlanTime.Text = PlanTime.ToString();
+                }
+            }
+            else
+            {
+                LblUsedTime.Width = 0;
+                LblPlanTime.Location = new Point(260, 48);
+                LblPlanTime.Width = 391;
+                LblPlanTime.Text = "";
+            }
+        }
+
+        private void TbxRemark_Update()
+        {
+            TbxRemark.DocumentText = TaskInf.TaskRemark;
+        }
+
+        #endregion
+
+        #region 颜色设置
+        public void UpdateColor(UIColor NewTheme)
+        {
+            Theme = NewTheme;
+            Color bgc = NewTheme.MainColor;
+
+            LblTaskName.BackColor = bgc;
+            labeltext1.BackColor = bgc;
+            labeltext2.BackColor = bgc;
+
+            UpdateBtnColor(BtnSplit);
+            UpdateBtnColor(BtnAudit);
+            UpdateBtnColor(BtnComment);
+            UpdateBtnColor(BtnEdit);
+            UpdateBtnColor(BtnDelete);
+            UpdateBtnColor(BtnTreeView);
+
+            UpdateLinkULblColor(LblFromUser);
+            UpdateLinkULblColor(LblToUser);
+        }
+
+        private void UpdateBtnColor(Button Btn)
+        {
+            Btn.BackColor = Theme.MainColor;
+            Btn.FlatAppearance.MouseDownBackColor = Theme.MDC;
+            Btn.FlatAppearance.MouseOverBackColor = Theme.MOC;
+        }
+
+        private void UpdateLinkULblColor(LinkUserLabel Btn)
+        {
+            Btn.BackColor = Theme.MainColor;
+            Btn.ActiveLinkColor = Theme.MDC;
+        }
+
+        #endregion
+
+        #region 日历按钮
+        private void BtnDays_Update(DateTime Tm)
+        {
+            Calendar_Date = Tm;
+            DayOfWeek S1 = new DateTime(Tm.Year, Tm.Month, 1).DayOfWeek;
+            switch (S1)
+            {
+                case DayOfWeek.Sunday: { Calendar_StBtn = 0; break; }
+                case DayOfWeek.Monday: { Calendar_StBtn = 1; break; }
+                case DayOfWeek.Tuesday: { Calendar_StBtn = 2; break; }
+                case DayOfWeek.Wednesday: { Calendar_StBtn = 3; break; }
+                case DayOfWeek.Thursday: { Calendar_StBtn = 4; break; }
+                case DayOfWeek.Friday: { Calendar_StBtn = 5; break; }
+                case DayOfWeek.Saturday: { Calendar_StBtn = 6; break; }
+            }
+            int days = DateTime.DaysInMonth(Tm.Year, Tm.Month);
+            Calendar_EdBtn = Calendar_StBtn + days;
+
+            for (int i = 0; i < Calendar_StBtn; i++)
+                BtnDays[i].Visible = false;
+            for (int i = Calendar_EdBtn; i < 37; i++)
+                BtnDays[i].Visible = false;
+            for (int i = Calendar_StBtn; i < Calendar_EdBtn; i++)
+            {
+                BtnDays[i].Visible = true;
+                BtnDays[i].Text = string.Format("{0:00}", i - Calendar_StBtn + 1);
+                BtnDays[i].UpdateBtn(MTBD);
+            }
+            List<MyTaskByDay> Mtb = new List<MyTaskByDay>();
+            Mtb = TaskInf.Daylist.FindAll((MyTaskByDay TB) => TB.DayTime.Month == Tm.Month);
+            foreach (MyTaskByDay tbi in Mtb)
+            {
+                int td = tbi.DayTime.Day;
+                BtnDays[Calendar_StBtn + td - 1].UpdateBtn(tbi);
+            }
+        }
+
+        private void BtnPrev_Click(object sender, EventArgs e)
+        {
+            DTP.Value = Calendar_Date.AddMonths(-1);
+        }
+
+        private void BtnNext_Click(object sender, EventArgs e)
+        {
+            DTP.Value = Calendar_Date.AddMonths(1);
+        }
+
+        private void DTP_ValueChange(object sender, EventArgs e)
+        {
+            Calendar_Date = DTP.Value;
+            BtnDays_Update(Calendar_Date);
+        }
+
+        private void SetBtnDaysStyle(int BtnIndex, int CalendarClr)
+        {
+
+        }
+
+        #endregion
+
+        #region 顶部导航
+        private void BtnAudit_Click(object sender,EventArgs e)
+        {
+            FormAudit f = new FormAudit();
+            f.Show();
+        }
+
+        #endregion
+    }
+
+    class AuditPanel : Panel
+    {
+        private TextBox Browser = new TextBox();
+        private Button BtnAccept = new Button();
+        private Button BtnDeny = new Button();
+        private Label label1 = new Label();
+        public bool Accepted = false;
+
+        public AuditPanel()
+        {
+            InitComponent();
+            Btn_Init();
+        }
+        private void InitComponent()
+        {
+            Browser.Location = new Point(0, 48);
+            Browser.Name = "Browser";
+            Browser.Size = new Size(651, 333);
+            Browser.Multiline = true;
+            Browser.ScrollBars = ScrollBars.Vertical;
+
+            BtnAccept.BackColor = Color.FromArgb(51, 102, 153);
+            BtnAccept.FlatAppearance.BorderSize = 0;
+            BtnAccept.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            BtnAccept.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            BtnAccept.FlatStyle = FlatStyle.Flat;
+            BtnAccept.Location = new Point(152, 0);
+            BtnAccept.Name = "BtnAccept";
+            BtnAccept.Size = new Size(250, 48);
+            BtnAccept.Text = "通过";
+            BtnAccept.UseVisualStyleBackColor = false;
+            BtnAccept.TextAlign = ContentAlignment.MiddleCenter;
+            BtnAccept.Click += new EventHandler(BtnAccept_Click);
+            
+            BtnDeny.BackColor = Color.DarkRed;
+            BtnDeny.FlatAppearance.BorderSize = 0;
+            BtnDeny.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            BtnDeny.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            BtnDeny.FlatStyle = FlatStyle.Flat;
+            BtnDeny.ForeColor = Color.White;
+            BtnDeny.Location = new Point(402, 0);
+            BtnDeny.Name = "BtnDeny";
+            BtnDeny.Size = new Size(250, 48);
+            BtnDeny.Text = "驳回";
+            BtnDeny.UseVisualStyleBackColor = false;
+            BtnAccept.TextAlign = ContentAlignment.MiddleCenter;
+            BtnDeny.Click += new EventHandler(BtnDeny_Click);
+
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(152,48);
+            label1.Text = "审核意见：";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+
+            BackColor = Color.Gainsboro;
+            Controls.Add(this.BtnDeny);
+            Controls.Add(this.BtnAccept);
+            Controls.Add(this.Browser);
+            Controls.Add(this.label1);
+            Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            Size = new Size(652, 382);
+        }
+
+        #region 评价按钮
+
+        private void BtnA_SetStyle(bool Active)
+        {
+            if (Active)
+            {
+                BtnAccept.BackColor = Color.FromArgb(51, 102, 153);
+                BtnAccept.FlatAppearance.MouseDownBackColor = Color.FromArgb(51, 102, 153);
+                BtnAccept.FlatAppearance.MouseOverBackColor = Color.FromArgb(51, 102, 153);
+            }
+            else
+            {
+                BtnAccept.BackColor = Color.Gainsboro;
+                BtnAccept.FlatAppearance.MouseDownBackColor = Color.FromArgb(51, 102, 153);
+                BtnAccept.FlatAppearance.MouseOverBackColor = Color.FromArgb(102, 153, 204);
+            }
+        }
+
+        private void BtnB_SetStyle(bool Active)
+        {
+            if (Active)
+            {
+                BtnDeny.ForeColor = Color.White;
+                BtnDeny.BackColor = Color.DarkRed;
+                BtnDeny.FlatAppearance.MouseDownBackColor = Color.DarkRed;
+                BtnDeny.FlatAppearance.MouseOverBackColor = Color.DarkRed;
+            }
+            else
+            {
+                BtnDeny.ForeColor = Color.Black;
+                BtnDeny.BackColor = Color.Gainsboro;
+                BtnDeny.FlatAppearance.MouseDownBackColor = Color.DarkRed;
+                BtnDeny.FlatAppearance.MouseOverBackColor = Color.FromArgb(139, 51, 51);
+            }
+        }
+
+
+        public void Btn_Init()
+        {
+            BtnA_SetStyle(false);
+            BtnB_SetStyle(false);
+        }
+
+        private void BtnAccept_Click(object sender,EventArgs e)
+        {
+            Accepted = true;
+            BtnA_SetStyle(true);
+            BtnB_SetStyle(false);
+        }
+
+        private void BtnDeny_Click(object sender,EventArgs e)
+        {
+            Accepted = false;
+            BtnA_SetStyle(false);
+            BtnB_SetStyle(true);
+        }
+
+        #endregion
+        
+        public string AuditContent
+        {
+            get
+            {
+                return Browser.Text;
+            }
+            set
+            {
+                Browser.Text = value;
+            }
+            
         }
 
     }
