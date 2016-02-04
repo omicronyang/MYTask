@@ -12,9 +12,9 @@ namespace MYTask
     class ShadowForm:Form
     {
 
-        private FormMain Main;
+        private Form Main;
         //带参构造
-        public ShadowForm(FormMain main)
+        public ShadowForm(Form main)
         {
             //将控制层传值过来
             this.Main = main;
