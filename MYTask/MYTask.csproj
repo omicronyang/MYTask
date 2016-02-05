@@ -241,7 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ProjectIcon.png" />
-    <None Include="Resources\Back_32.png" />
     <None Include="Resources\Cloud_Connecting_32.png" />
     <None Include="Resources\Cloud_Offline_32.png" />
     <None Include="Resources\Cloud_Online_32.png" />
@@ -261,24 +260,19 @@
     <None Include="Resources\Tick_32.png" />
     <None Include="Resources\close_24.png" />
     <None Include="Resources\min_24.png" />
-    <None Include="Resources\Pagedown_32.png" />
-    <None Include="Resources\Pageup_32.png" />
     <None Include="Resources\main_light_bkg_top123.png" />
     <None Include="Resources\Setting_32.png" />
-    <None Include="Resources\Back_right_32.png" />
     <None Include="Resources\Audit_32.png" />
     <None Include="Resources\Comment_32.png" />
     <None Include="Resources\Split_32.png" />
     <None Include="Resources\TreeView_32.png" />
     <None Include="Resources\Delete_32.png" />
-    <None Include="Resources\Back_right_white_32.png" />
-    <None Include="Resources\Back_white_32.png" />
-    <None Include="Resources\ArrowDown_32.png" />
+    <None Include="Resources\ArrowDown_White_32.png" />
     <None Include="Resources\ArrowLeft_32.png" />
     <None Include="Resources\ArrowLeft_White_32.png" />
     <None Include="Resources\ArrowRight_32.png" />
     <None Include="Resources\ArrowRight_White_32.png" />
-    <None Include="Resources\ArrowUp_32.png" />
+    <None Include="Resources\ArrowUp_White_32.png" />
     <Content Include="__TemplateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

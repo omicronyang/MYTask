@@ -39,15 +39,15 @@ namespace MYTask
         /// </summary>
         private void InitCompenent()
         {
-            Size = new Size(157, 145);
+            Size = new Size(162, 147);
             BackColor = Color.Gainsboro;
             // 
             // LabelStat
             // 
             LabelStat.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
-            LabelStat.Location = new Point(0, 124);
+            LabelStat.Location = new Point(0, 126);
             LabelStat.Name = "LabelStat";
-            LabelStat.Size = new Size(157, 21);
+            LabelStat.Size = new Size(162, 21);
             LabelStat.Text = "项目状态";
             LabelStat.TextAlign = ContentAlignment.TopCenter;
             // 
@@ -56,16 +56,16 @@ namespace MYTask
             LabelProjName.Font = new Font("微软雅黑", 14F, FontStyle.Bold, GraphicsUnit.Point, 134);
             LabelProjName.Location = new Point(0, 0);
             LabelProjName.Name = "LabelProjName";
-            LabelProjName.Size = new Size(157, 80);
+            LabelProjName.Size = new Size(162, 82);
             LabelProjName.Text = "项目名称";
             LabelProjName.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // LabelUserName
             // 
             LabelUserName.Font = new Font("微软雅黑", 12F, FontStyle.Bold, GraphicsUnit.Point, 134);
-            LabelUserName.Location = new Point(0, 80);
+            LabelUserName.Location = new Point(0, 82);
             LabelUserName.Name = "LabelUserName";
-            LabelUserName.Size = new Size(157, 44);
+            LabelUserName.Size = new Size(162, 44);
             LabelUserName.Text = "项目负责人";
             //LabelUserName.Init(MyProjInf.ProjToUser);
             LabelUserName.TextAlign = ContentAlignment.MiddleCenter;
@@ -129,7 +129,7 @@ namespace MYTask
             Visible = true;
             for (int i = 0; i < 12; i++)
             {
-                Pp[i] = new ProjPanel(6 + i % 4 * 160, 3 + i / 4 * 148);
+                Pp[i] = new ProjPanel(i % 4 * 163, 2 + i / 4 * 148);
                 Pp[i].Visible = false;
                 Controls.Add(Pp[i]);
                 Controls.SetChildIndex(Pp[i], 0);
@@ -518,12 +518,12 @@ namespace MYTask
             InitCompenent();
         }
 
-        public TaskPanel(int y, int width)
+        public TaskPanel(int x, int y, int width)
         {
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw | ControlStyles.SupportsTransparentBackColor, true);
-            Size = new Size(width, 108);
-            Location = new Point(3, y);
+            Size = new Size(width, 110);
+            Location = new Point(x, y);
             InitCompenent();
         }
 
@@ -815,7 +815,7 @@ namespace MYTask
             Visible = true;
             for (int i = 0; i < 4; i++)
             {
-                Tp[i] = new TaskPanel(3 + 111 * i, Width - 6);
+                Tp[i] = new TaskPanel(0, 2 + 111 * i, Width);
                 Controls.Add(Tp[i]);
                 Controls.SetChildIndex(Tp[i], 0);
             }

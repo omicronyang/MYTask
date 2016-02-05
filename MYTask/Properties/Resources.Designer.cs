@@ -63,9 +63,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowDown_32 {
+        internal static System.Drawing.Bitmap ArrowDown_White_32 {
             get {
-                object obj = ResourceManager.GetObject("ArrowDown_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ArrowDown_White_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowUp_32 {
+        internal static System.Drawing.Bitmap ArrowUp_White_32 {
             get {
-                object obj = ResourceManager.GetObject("ArrowUp_32", resourceCulture);
+                object obj = ResourceManager.GetObject("ArrowUp_White_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
