@@ -148,12 +148,6 @@
     <Compile Include="BtnCalendar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FormAudit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormAudit.Designer.cs">
-      <DependentUpon>FormAudit.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,9 +190,6 @@
       <DependentUpon>UserControl1.cs</DependentUpon>
     </Compile>
     <Compile Include="Win32.cs" />
-    <EmbeddedResource Include="FormAudit.resx">
-      <DependentUpon>FormAudit.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

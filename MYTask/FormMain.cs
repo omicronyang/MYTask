@@ -4,7 +4,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.SQLite;
 using System.Resources;
 using System.Runtime.InteropServices;
 
@@ -14,29 +13,32 @@ namespace MYTask
     public partial class FormMain : Form
     {
 
-        
 
-        private int LoginStat = 1;  // 0 正常登陆, 1 跳过验证
-        private string DefaultLoginUserName = "xxb_yyf"; //跳过验证时的用户名
-        private int DBaseStat = -1; // 0 离线数据, 1 在线数据
-        private int CurrentTaskPage = 1, CurrentProjPage = 1;
+        #region 成员定义
+        private int LoginStat = 1;                          // 0 正常登陆, 1 跳过验证
+        private string DefaultLoginUserName = "xxb_yyf";    //跳过验证时的用户名
+        private int DBaseStat = -1;                         // 0 离线数据, 1 在线数据
+        private int CurrentTaskPg = 1, CurrentProjPg = 1;
         private MyUser NowUser = new MyUser();
-        private BackgroundWorker m_worker = new BackgroundWorker();
         private ListViewColumnSorter lvwColumnSorter;
-        public MyDB DataBase;
-        private object NowFocus;
         private Button FocusBtn = new Button();
         private Button FocusBtnS = new Button();
         private Panel FocusP;
         public UIColor Theme = new UIColor();
+        public MyDB DataBase;
+        public bool BanNavigate = false;                    //禁止导航栏响应
+        
+        #endregion
 
+        #region 委托定义
+        private BackgroundWorker m_worker = new BackgroundWorker();
         private delegate void BGAddTaskList(MyTask[] Tlist, int Mode);
         private delegate void BGAddProjList(MyProj[] Plist, int Mode);
         private delegate void BGAddUserList(MyUser[] Ulist);
         private delegate void BGAddAnnList(MyAnnounce[] Alist);
         private delegate void BGAddMessList(MyMessage[] Mlist);
         private delegate void BGWorkComplete(object sender, DoWorkEventArgs e);
-
+        #endregion
 
         public FormMain()
         {
@@ -44,20 +46,22 @@ namespace MYTask
 
             DataBase = new MyDB(this);
 
-            PanelGuide.Location = new Point(0, 32);
-            PanelGuide.Hide();
-            PanelGuideS.Location = new Point(0, 32);
+            PGuide_0Panel.Location = new Point(0, 32);
+            PGuide_0Panel.Hide();
+            PGuideS_0Panel.Location = new Point(0, 32);
             PLogin_0Panel.Location = new Point(0, 32);
-            PanelUser.Location = new Point(700, 32);
-            PanelUser.Visible = false;
+            PUserProfile.Location = new Point(700, 32);
+            PUserProfile.Visible = false;
             PTask_0Panel.Location = new Point(48, 32);
             PProj_0Panel.Location = new Point(48, 32);
-            PanelContacts.Location = new Point(48, 32);
-            PanelContacts.BackColor = Color.Gainsboro;
+            PContacts.Location = new Point(48, 32);
+            PContacts.BackColor = Color.Gainsboro;
             PMess_0Panel.Location = new Point(48, 32);
-            PanelTaskProfile.Location = new Point(48, 32);
+            PTaskProfile.Location = new Point(48, 32);
             PSet_0Panel.Location = new Point(48, 32);
             PSet_0Panel.Hide();
+            PAudit.Location = new Point(371, 128);
+            PAudit.Visible = false;
 
             PTask_ListPub.Visible = false;
             PTask_ListAll.Visible = false;
@@ -68,27 +72,27 @@ namespace MYTask
 
             
             UIColor_Update(Properties.Settings.Default.UIColorType);
-            PTaskBtnSPub.BackColor = Color.Gainsboro;
-            PTaskBtnSPub.FlatAppearance.MouseOverBackColor
-                = PTaskBtnSPub.FlatAppearance.MouseDownBackColor
+            PTask_BtnSPub.BackColor = Color.Gainsboro;
+            PTask_BtnSPub.FlatAppearance.MouseOverBackColor
+                = PTask_BtnSPub.FlatAppearance.MouseDownBackColor
                 = Theme.MainColor;
-            PTaskBtnSAll.BackColor = Color.Gainsboro;
-            PTaskBtnSAll.FlatAppearance.MouseOverBackColor
-                = PTaskBtnSAll.FlatAppearance.MouseDownBackColor
+            PTask_BtnSAll.BackColor = Color.Gainsboro;
+            PTask_BtnSAll.FlatAppearance.MouseOverBackColor
+                = PTask_BtnSAll.FlatAppearance.MouseDownBackColor
                 = Theme.MainColor;
             PProj_BtnSAll.BackColor = Color.Gainsboro;
             PProj_BtnSAll.FlatAppearance.MouseOverBackColor
                 = PProj_BtnSAll.FlatAppearance.MouseDownBackColor
                 = Theme.MainColor;
 
-            PanelUser.SetFatherForm(this);
+            PUserProfile.SetFatherForm(this);
             PTask_ListMy.SetMainForm(this);
             PTask_ListPub.SetMainForm(this);
             PTask_ListAll.SetMainForm(this);
             PProj_ListMy.SetMainForm(this);
             PProj_ListAll.SetMainForm(this);
-            PanelTaskProfile.SetMainForm(this);
-            PanelTaskProfile.TbxRemark.ObjectForScripting = this;
+            PTaskProfile.SetMainForm(this);
+            PTaskProfile.TbxRemark.ObjectForScripting = this;
 
             //dHeight = Height - PanelGuideS.Height;
             //dWidth = Width - PanelProfile.Width - 48;
@@ -108,6 +112,26 @@ namespace MYTask
             m_worker.WorkerSupportsCancellation = true;
 
             
+
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            PLogin_TextUID.RenewState(3);
+            PLogin_TextPsw.RenewState(3);
+            PGuide_BtnSync.Image = Properties.Resources.Cloud_Connecting_32;
+            PGuideS_BtnSync.Image = Properties.Resources.Cloud_Connecting_32;
+            PLogin_PicCloud.Image = Properties.Resources.Cloud_Connecting_32;
+            PLogin_BarConnecting.MarqueeAnimationSpeed = 5;
+            PGuide_PGSnyc.Style = ProgressBarStyle.Marquee;
+            PGuide_PGSnyc.MarqueeAnimationSpeed = 10;
+            PGuide_LblSync.Text = "正在连接";
+
+            m_worker.DoWork += new DoWorkEventHandler(TestConnect);
+            m_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenewDBStat);
+            m_worker.RunWorkerAsync();
+
+            InitLoginBox("");
 
         }
 
@@ -153,12 +177,15 @@ namespace MYTask
 
         private void BtnClose_Click(object sender, EventArgs e)
         {
-            //this.Close();
-
+            if (BanNavigate)
+            {
+                MessageBox.Show("请先完成当前操作");
+                return;
+            }
             if (DBaseStat == 1) DataBase.Close();
             UIColor_Save();
             SF.Close();
-            Win32.AnimateWindow(this.Handle, 150, Win32.AW_BLEND | Win32.AW_HIDE);
+            Win32.AnimateWindow(this.Handle, 50, Win32.AW_BLEND | Win32.AW_HIDE);
             Environment.Exit(0);
         }
 
@@ -169,28 +196,7 @@ namespace MYTask
         }
 
         #endregion
-
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-            PLogin_TextUID.RenewState(3);
-            PLogin_TextPsw.RenewState(3);
-            CloudStatus.Image = Properties.Resources.Cloud_Connecting_32;
-            PGuideS_CloudStat.Image = Properties.Resources.Cloud_Connecting_32;
-            PLogin_PicCloud.Image = Properties.Resources.Cloud_Connecting_32;
-            PLogin_BarConnecting.MarqueeAnimationSpeed = 5;
-            SnycProgress.Style = ProgressBarStyle.Marquee;
-            SnycProgress.MarqueeAnimationSpeed = 10;
-            LabelStatus.Text = "正在连接";
-
-            m_worker.DoWork += new DoWorkEventHandler(TestConnect);
-            m_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenewDBStat);
-            m_worker.RunWorkerAsync();
-
-            InitLoginBox("");
-
-        }
-        
-
+       
         #region 颜色设置
 
         private void UIColor_Update(int ColorType)
@@ -202,7 +208,7 @@ namespace MYTask
             UI_SideRight.BackColor = Theme.MainColor;
             UI_SideBottom.BackColor = Theme.MainColor;
             UI_Caption.BackColor = Theme.MainColor;
-            UIColor_UpdateButton(BtnMin);
+            UIColor_UpdateButton(UI_BtnMin);
 
             UIColor_UpdatePLogin();
             UIColor_UpdatePTask();
@@ -210,8 +216,9 @@ namespace MYTask
             UIColor_UpdatePGuide();
             UIColor_UpdatePMess();
 
-            PanelUser.UpdateColor(Theme);
-            PanelTaskProfile.UpdateColor(Theme);
+            PUserProfile.UpdateColor(Theme);
+            PTaskProfile.UpdateColor(Theme);
+            PAudit.UpdateColor(Theme);
         }
 
         /*
@@ -238,19 +245,19 @@ namespace MYTask
 
         private void UIColor_UpdatePTask()
         {
-            PTaskBtnSMy.ForeColor = (CurrentTaskPage == 1) ? Color.White : Color.Black;
-            PTaskBtnSMy.BackColor = (CurrentTaskPage == 1) ? Theme.MainColor : Color.Gainsboro;
-            PTaskBtnSMy.FlatAppearance.MouseDownBackColor = PTaskBtnSMy.FlatAppearance.MouseOverBackColor
+            PTask_BtnSMy.ForeColor = (CurrentTaskPg == 1) ? Color.White : Color.Black;
+            PTask_BtnSMy.BackColor = (CurrentTaskPg == 1) ? Theme.MainColor : Color.Gainsboro;
+            PTask_BtnSMy.FlatAppearance.MouseDownBackColor = PTask_BtnSMy.FlatAppearance.MouseOverBackColor
                 = Theme.MainColor;
 
-            PTaskBtnSPub.ForeColor = (CurrentTaskPage == 2) ? Color.White : Color.Black;
-            PTaskBtnSPub.BackColor = (CurrentTaskPage == 2) ? Theme.MainColor : Color.Gainsboro;
-            PTaskBtnSPub.FlatAppearance.MouseDownBackColor = PTaskBtnSPub.FlatAppearance.MouseOverBackColor
+            PTask_BtnSPub.ForeColor = (CurrentTaskPg == 2) ? Color.White : Color.Black;
+            PTask_BtnSPub.BackColor = (CurrentTaskPg == 2) ? Theme.MainColor : Color.Gainsboro;
+            PTask_BtnSPub.FlatAppearance.MouseDownBackColor = PTask_BtnSPub.FlatAppearance.MouseOverBackColor
                 = Theme.MainColor;
 
-            PTaskBtnSAll.ForeColor = (CurrentTaskPage == 3) ? Color.White : Color.Black;
-            PTaskBtnSAll.BackColor = (CurrentTaskPage == 3) ? Theme.MainColor : Color.Gainsboro;
-            PTaskBtnSAll.FlatAppearance.MouseDownBackColor = PTaskBtnSAll.FlatAppearance.MouseOverBackColor
+            PTask_BtnSAll.ForeColor = (CurrentTaskPg == 3) ? Color.White : Color.Black;
+            PTask_BtnSAll.BackColor = (CurrentTaskPg == 3) ? Theme.MainColor : Color.Gainsboro;
+            PTask_BtnSAll.FlatAppearance.MouseDownBackColor = PTask_BtnSAll.FlatAppearance.MouseOverBackColor
                 = Theme.MainColor;
 
             PTask_ListMy.BackColor = Theme.MainColor;
@@ -260,13 +267,13 @@ namespace MYTask
 
         private void UIColor_UpdatePProj()
         {
-            PProj_BtnSMy.ForeColor = (CurrentProjPage == 1) ? Color.White : Color.Black;
-            PProj_BtnSMy.BackColor = (CurrentProjPage == 1) ? Theme.MainColor : Color.Gainsboro;
+            PProj_BtnSMy.ForeColor = (CurrentProjPg == 1) ? Color.White : Color.Black;
+            PProj_BtnSMy.BackColor = (CurrentProjPg == 1) ? Theme.MainColor : Color.Gainsboro;
             PProj_BtnSMy.FlatAppearance.MouseDownBackColor = PProj_BtnSMy.FlatAppearance.MouseOverBackColor
                 = Theme.MainColor;
 
-            PProj_BtnSAll.ForeColor = (CurrentProjPage == 2) ? Color.White : Color.Black;
-            PProj_BtnSAll.BackColor = (CurrentProjPage == 2) ? Theme.MainColor : Color.Gainsboro;
+            PProj_BtnSAll.ForeColor = (CurrentProjPg == 2) ? Color.White : Color.Black;
+            PProj_BtnSAll.BackColor = (CurrentProjPg == 2) ? Theme.MainColor : Color.Gainsboro;
             PProj_BtnSAll.FlatAppearance.MouseDownBackColor = PProj_BtnSAll.FlatAppearance.MouseOverBackColor
                 = Theme.MainColor;
 
@@ -278,16 +285,20 @@ namespace MYTask
         {
 
             PGuide_Side.BackColor = Theme.MainColor;
-            PanelGuideS.BackColor = Theme.MainColor;
+            PGuide_PSync.BackColor = Theme.MainColor;
+            PGuideS_0Panel.BackColor = Theme.MainColor;
+            
 
-            BtnProfile.BackColor = Theme.MainColor;
-            BtnProfile.ActiveLinkColor = Theme.MDC;
-            UIColor_UpdateButton(BtnCallback);
+            PGuide_BtnProfile.BackColor = Theme.MainColor;
+            PGuide_BtnProfile.ActiveLinkColor = Theme.MDC;
+            UIColor_UpdateButton(PGuide_BtnSync);
+            UIColor_UpdateButton(PGuide_BtnCall);
             UIColor_UpdateButton(PGuideS_BtnCall);
             UIColor_UpdateButton(PGuideS_BtnTask);
-            UIColor_UpdateButton(PGuideS_BtnProject);
+            UIColor_UpdateButton(PGuideS_BtnProj);
             UIColor_UpdateButton(PGuideS_BtnContact);
-            UIColor_UpdateButton(PGuideS_BtnMessage);
+            UIColor_UpdateButton(PGuideS_BtnMess);
+            UIColor_UpdateButton(PGuideS_BtnSync);
 
             FocusBtn.BackColor
                 = FocusBtn.FlatAppearance.MouseDownBackColor
@@ -337,35 +348,50 @@ namespace MYTask
             m_worker.RunWorkerAsync();
             if (DBaseStat == 1)
             {
-                CloudStatus.Image = Properties.Resources.Cloud_Online_32;
-                PGuideS_CloudStat.Image = Properties.Resources.Cloud_Online_32;
+                PGuide_BtnSync.Image = Properties.Resources.Cloud_Online_32;
+                PGuideS_BtnSync.Image = Properties.Resources.Cloud_Online_32;
                 PLogin_PicCloud.Image = Properties.Resources.Cloud_Online_32;
-                LabelStatus.Text = "同步完成";
-                LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
-                SnycProgress.Visible = false;
+                PGuide_LblSync.Text = "同步完成";
+                PGuide_LblSync.Location = new Point(3, PGuide_BtnSync.Location.Y + 12);
+                PGuide_PGSnyc.Visible = false;
                 PLogin_BtnFindPsw.Visible = true;
             }
             else if (DBaseStat == 0)
             {
-                CloudStatus.Image = Properties.Resources.Cloud_Offline_32;
-                PGuideS_CloudStat.Image = Properties.Resources.Cloud_Offline_32;
+                PGuide_BtnSync.Image = Properties.Resources.Cloud_Offline_32;
+                PGuideS_BtnSync.Image = Properties.Resources.Cloud_Offline_32;
                 PLogin_PicCloud.Image = Properties.Resources.Cloud_Offline_32;
-                LabelStatus.Text = "离线模式";
-                LabelStatus.Location = new Point(3, CloudStatus.Location.Y + 12);
-                SnycProgress.Visible = false;
+                PGuide_LblSync.Text = "离线模式";
+                PGuide_LblSync.Location = new Point(3, PGuide_BtnSync.Location.Y + 12);
+                PGuide_PGSnyc.Visible = false;
             }
             else
             {
-                CloudStatus.Image = Properties.Resources.Cloud_Sync_32;
-                PGuideS_CloudStat.Image = Properties.Resources.Cloud_Sync_32;
+                PGuide_BtnSync.Image = Properties.Resources.Cloud_Sync_32;
+                PGuideS_BtnSync.Image = Properties.Resources.Cloud_Sync_32;
                 PLogin_PicCloud.Image = Properties.Resources.Cloud_Sync_32;
-                LabelStatus.Text = "正在同步";
-                LabelStatus.Location = new Point(3, CloudStatus.Location.Y);
-                SnycProgress.Visible = true;
-                SnycProgress.Style = ProgressBarStyle.Marquee;
-                SnycProgress.MarqueeAnimationSpeed = 3;
+                PGuide_LblSync.Text = "正在同步";
+                PGuide_LblSync.Location = new Point(3, PGuide_BtnSync.Location.Y);
+                PGuide_PGSnyc.Visible = true;
+                PGuide_PGSnyc.Style = ProgressBarStyle.Marquee;
+                PGuide_PGSnyc.MarqueeAnimationSpeed = 3;
             }
 
+        }
+
+        private void InitList(object sender, DoWorkEventArgs e)
+        {
+            if (ContactList.InvokeRequired)
+            {
+                BGWorkComplete BGWC = new BGWorkComplete(InitList);
+                Invoke(BGWC, sender, e);
+                return;
+            }
+            AddTaskList(DataBase.GetTaskList(), 2);
+            AddProjList(DataBase.GetProjList(), 2);
+            AddUserList(DataBase.GetUserList());
+            AddAnnList(DataBase.GetAnnounceList());
+            PLogin_LabelBlock.Visible = false;
         }
         #endregion
 
@@ -452,48 +478,93 @@ namespace MYTask
                 Target.Show();
             }
         }
-
         private void PUser_Anim_Tick(object sender, EventArgs e)
         {
-            if (!PanelUser.Hidden)
+            if (!PUserProfile.Hidden)
             {
-                int x = PanelUser.Location.X;
-                if (x <= PanelUser.TargetX)
+                int x = PUserProfile.Location.X;
+                if (x <= PUserProfile.TargetX)
                 {
                     PUser_Anim.Stop();
-                    PanelUser.Location = new Point(PanelUser.TargetX, 32);
+                    PUserProfile.Location = new Point(PUserProfile.TargetX, 32);
                     return;
                 }
-                PanelUser.Location = new Point(x - 55, 32);
+                PUserProfile.Location = new Point(x - 55, 32);
             }
             else
             {
-                int x = PanelUser.Location.X;
-                if (x >= PanelUser.TargetX)
+                int x = PUserProfile.Location.X;
+                if (x >= PUserProfile.TargetX)
                 {
                     PUser_Anim.Stop();
-                    PanelUser.Location = new Point(PanelUser.TargetX, 32);
-                    PanelUser.Visible = false;
+                    PUserProfile.Location = new Point(PUserProfile.TargetX, 32);
+                    PUserProfile.Visible = false;
                     return;
                 }
-                PanelUser.Location = new Point(x + 55, 32);
+                PUserProfile.Location = new Point(x + 55, 32);
             }
         }
 
-        public void PanelUser_Show()
+        public void PUser_Show()
         {
-            if (PanelUser.Visible) return;
-            PanelUser.Hidden = false;
-            PanelUser.Visible = true;
-            PanelUser.TargetX = PanelUser.Location.X - PanelUser.Width;
+            if (PUserProfile.Visible) return;
+            PUserProfile.Hidden = false;
+            PUserProfile.Visible = true;
+            PUserProfile.TargetX = PUserProfile.Location.X - PUserProfile.Width;
             PUser_Anim.Start();
         }
-        public void PanelUser_Fold()
+        public void PUser_Fold()
         {
-            if (!PanelUser.Visible) return;
-            PanelUser.Hidden = true;
-            PanelUser.TargetX = PanelUser.Location.X + PanelUser.Width;
+            if (!PUserProfile.Visible) return;
+            PUserProfile.Hidden = true;
+            PUserProfile.TargetX = PUserProfile.Location.X + PUserProfile.Width;
             PUser_Anim.Start();
+        }
+
+        private void PAudit_Anim_Tick(object sender, EventArgs e)
+        {
+            if (!PAudit.Hidden)
+            {
+                int x = PAudit.Location.X;
+                if (x <= PAudit.TargetX)
+                {
+                    PAudit_Anim.Stop();
+                    PAudit.Location = new Point(PAudit.TargetX, 128);
+                    return;
+                }
+                PAudit.Location = new Point(x - 22, 128);
+            }
+            else
+            {
+                int x = PAudit.Location.X;
+                if (x >= PAudit.TargetX)
+                {
+                    PAudit_Anim.Stop();
+                    PAudit.Location = new Point(PAudit.TargetX, 128);
+                    PAudit.Visible = false;
+                    return;
+                }
+                PAudit.Location = new Point(x + 22, 128);
+            }
+        }
+
+        public void PAudit_Show()
+        {
+            if (PAudit.Visible) return;
+            /*
+            PAudit.Hidden = false;
+            PAudit.Visible = true;
+            PAudit.TargetX = 371;
+            PAudit_Anim.Start();
+            */
+            PAudit.Btn_Init();
+            AsShowFromRight(PAudit);
+        }
+
+        public void PAudit_Hide()
+        {
+            if (!PAudit.Visible) return;
+            AsHideToRight(PAudit);
         }
 
         #endregion
@@ -502,48 +573,48 @@ namespace MYTask
         private void ShowPanelTask()
         {
             FocusP = PTask_0Panel;
-            switch (CurrentTaskPage)
+            switch (CurrentTaskPg)
             {
                 case 1: { UpdatePageControl(PTask_ListMy); break; }
                 case 2: { UpdatePageControl(PTask_ListPub); break; }
                 case 3: { UpdatePageControl(PTask_ListAll); break; }
             }
-            LabelTitle.Text = "WSS - 任务列表";
+            UI_Title.Text = "WSS - 任务列表";
         }
         private void ShowPanelProj()
         {
             FocusP = PProj_0Panel;
-            switch (CurrentProjPage)
+            switch (CurrentProjPg)
             {
                 case 1: { UpdatePageControl(PProj_ListMy); break; }
                 case 2: { UpdatePageControl(PProj_ListAll); break; }
             }
-            LabelTitle.Text = "WSS - 项目列表";
+            UI_Title.Text = "WSS - 项目列表";
         }
         private void ShowPanelContacts()
         {
-            FocusP = PanelContacts;
-            LabelTitle.Text = "WSS - 通讯录";
+            FocusP = PContacts;
+            UI_Title.Text = "WSS - 通讯录";
         }
         private void ShowPanelMessages()
         {
             FocusP = PMess_0Panel;
-            LabelTitle.Text = "WSS - 通知中心";
+            UI_Title.Text = "WSS - 通知中心";
         }
         private void ShowPanelSettings()
         {
             FocusP = PSet_0Panel;
-            LabelTitle.Text = "WSS - 设置中心";
+            UI_Title.Text = "WSS - 设置中心";
         }
         private void ShowPanelTaskProfile()
         {
-            FocusP = PanelTaskProfile;
-            LabelTitle.Text = "WSS - 任务详情";
+            FocusP = PTaskProfile;
+            UI_Title.Text = "WSS - 任务详情";
         }
 
         private void SelectPanel(int index)
         {
-            PanelUser_Fold();
+            PUser_Fold();
             switch (index)
             {
                 case 1: { ShowPanelTask(); break; }
@@ -561,10 +632,10 @@ namespace MYTask
         {
             if (index == 1) PTask_0Panel.Show(); else PTask_0Panel.Hide();
             if (index == 2) PProj_0Panel.Show(); else PProj_0Panel.Hide();
-            if (index == 3) PanelContacts.Show(); else PanelContacts.Hide();
+            if (index == 3) PContacts.Show(); else PContacts.Hide();
             if (index == 4) PMess_0Panel.Show(); else PMess_0Panel.Hide();
             if (index == 5) PSet_0Panel.Show(); else PSet_0Panel.Hide();
-            if (index == 6) PanelTaskProfile.Show(); else PanelTaskProfile.Hide();
+            if (index == 6) PTaskProfile.Show(); else PTaskProfile.Hide();
         }
 
         private void RenewBtnStyle(int index)
@@ -572,7 +643,7 @@ namespace MYTask
             FocusBtn.BackColor = Color.LightGray;
             FocusBtn.FlatAppearance.MouseOverBackColor = Color.Silver;
             FocusBtn.FlatAppearance.MouseDownBackColor = Color.Gray;
-            if (FocusBtnS != BtnSettings)
+            if (FocusBtnS != PGuide_BtnSet)
             {
                 FocusBtnS.BackColor = Theme.MainColor;
                 FocusBtnS.FlatAppearance.MouseOverBackColor = Theme.MOC;
@@ -581,11 +652,11 @@ namespace MYTask
 
             switch (index)
             {
-                case 1: { FocusBtn = BtnTask; FocusBtnS = PGuideS_BtnTask; break; }
-                case 2: { FocusBtn = BtnProject; FocusBtnS = PGuideS_BtnProject; break; }
-                case 3: { FocusBtn = BtnContact; FocusBtnS = PGuideS_BtnContact; break; }
-                case 4: { FocusBtn = BtnMessage; FocusBtnS = PGuideS_BtnMessage; break; }
-                case 5: { FocusBtn = BtnSettings; FocusBtnS = BtnSettings; break; }
+                case 1: { FocusBtn = PGuide_BtnTask; FocusBtnS = PGuideS_BtnTask; break; }
+                case 2: { FocusBtn = PGuide_BtnProj; FocusBtnS = PGuideS_BtnProj; break; }
+                case 3: { FocusBtn = PGuide_BtnContact; FocusBtnS = PGuideS_BtnContact; break; }
+                case 4: { FocusBtn = PGuide_BtnMess; FocusBtnS = PGuideS_BtnMess; break; }
+                case 5: { FocusBtn = PGuide_BtnSet; FocusBtnS = PGuide_BtnSet; break; }
             }
             if (index > 0 && index < 6)
             {
@@ -605,62 +676,44 @@ namespace MYTask
         {
             MyUser tu = new MyUser();
             tu = DataBase.GetUser(uid);
-            PanelUser.SetProfileInfo(tu, (tu == NowUser || NowUser.Rank == 5) ? 1 : 0);
+            PUserProfile.SetProfileInfo(tu, (tu == NowUser || NowUser.Rank == 5) ? 1 : 0);
         }
 
         public void SetPanelTP(MyTask Task)
         {
-            PanelTaskProfile.SetNewTask(Task);
+            PTaskProfile.SetNewTask(Task);
             SelectPanel(6);
         }
 
 
         #endregion
 
-        private void InitList(object sender, DoWorkEventArgs e)
-        {
-            if (ContactList.InvokeRequired)
-            {
-                BGWorkComplete BGWC = new BGWorkComplete(InitList);
-                Invoke(BGWC, sender, e);
-                return;
-            }
-
-
-            AddTaskList(DataBase.GetTaskList(), 2);
-            AddProjList(DataBase.GetProjList(), 2);
-            AddUserList(DataBase.GetUserList());
-            AddAnnList(DataBase.GetAnnounceList());
-            PLogin_LabelBlock.Visible = false;
-        }
-
-        #region 列表窗格切换控制
-
+        #region 任务/项目列表窗格切换
         private void PTaskBtnS_Click(object sender, EventArgs e)
         {
             Button A = sender as Button;
-            if (A.Name == "PTaskBtnSMy") SwitchTaskPage(1);
-            else if (A.Name == "PTaskBtnSPub") SwitchTaskPage(2);
+            if (A.Name == "PTask_BtnSMy") SwitchTaskPage(1);
+            else if (A.Name == "PTask_BtnSPub") SwitchTaskPage(2);
             else SwitchTaskPage(3);
         }
 
         private void PProjBtnS_Click(object sender, EventArgs e)
         {
             Button A = sender as Button;
-            if (A.Name == "PProjBtnSMy") SwitchProjPage(1);
+            if (A.Name == "PProj_BtnSMy") SwitchProjPage(1);
             else SwitchProjPage(2);
         }
 
         private void SwitchTaskPage(int newPgNum)
         {
-            if (CurrentTaskPage == newPgNum) return;
+            if (CurrentTaskPg == newPgNum) return;
             PTask_ListMy.Visible = (newPgNum == 1) ? true : false;
             PTask_ListPub.Visible = (newPgNum == 2) ? true : false;
             PTask_ListAll.Visible = (newPgNum == 3) ? true : false;
             Button OldBtn, NewBtn;
-            if (CurrentTaskPage == 1) OldBtn = PTaskBtnSMy;
-            else if (CurrentTaskPage == 2) OldBtn = PTaskBtnSPub;
-            else OldBtn = PTaskBtnSAll;
+            if (CurrentTaskPg == 1) OldBtn = PTask_BtnSMy;
+            else if (CurrentTaskPg == 2) OldBtn = PTask_BtnSPub;
+            else OldBtn = PTask_BtnSAll;
             OldBtn.BackColor = Color.Gainsboro;
             OldBtn.FlatAppearance.MouseDownBackColor
                 = OldBtn.FlatAppearance.MouseOverBackColor
@@ -668,17 +721,17 @@ namespace MYTask
             OldBtn.ForeColor = Color.Black;
             if (newPgNum == 1)
             {
-                NewBtn = PTaskBtnSMy;
+                NewBtn = PTask_BtnSMy;
                 UpdatePageControl(PTask_ListMy);
             }
             else if (newPgNum == 2)
             {
-                NewBtn = PTaskBtnSPub;
+                NewBtn = PTask_BtnSPub;
                 UpdatePageControl(PTask_ListPub);
             }
             else
             {
-                NewBtn = PTaskBtnSAll;
+                NewBtn = PTask_BtnSAll;
                 UpdatePageControl(PTask_ListAll);
             }
             NewBtn.BackColor
@@ -686,16 +739,16 @@ namespace MYTask
                 = NewBtn.FlatAppearance.MouseOverBackColor
                 = Theme.MainColor;
             NewBtn.ForeColor = Color.White;
-            CurrentTaskPage = newPgNum;
+            CurrentTaskPg = newPgNum;
         }
 
         private void SwitchProjPage(int newPgNum)
         {
-            if (CurrentProjPage == newPgNum) return;
+            if (CurrentProjPg == newPgNum) return;
             PProj_ListMy.Visible = (newPgNum == 1) ? true : false;
             PProj_ListAll.Visible = (newPgNum == 2) ? true : false;
             Button OldBtn, NewBtn;
-            if (CurrentProjPage == 1) OldBtn = PProj_BtnSMy;
+            if (CurrentProjPg == 1) OldBtn = PProj_BtnSMy;
             else OldBtn = PProj_BtnSAll;
             OldBtn.BackColor = Color.Gainsboro;
             OldBtn.FlatAppearance.MouseDownBackColor
@@ -717,15 +770,12 @@ namespace MYTask
                 = NewBtn.FlatAppearance.MouseOverBackColor
                 = Theme.MainColor;
             NewBtn.ForeColor = Color.White;
-            CurrentProjPage = newPgNum;
+            CurrentProjPg = newPgNum;
         }
 
         #endregion
-
-
-
+        
         #region 登录文本框控制
-
         public void InitLoginBox(string uid)
         {
             PLogin_TextUID.RenewState(0);
@@ -756,52 +806,89 @@ namespace MYTask
         #endregion
         
         #region 导航栏按钮
-        
         private void BtnCall_Click(object sender, EventArgs e)
         {
-            if (PanelGuide.Visible)
-                AsHideToLeft(PanelGuide);
+            if (PGuide_0Panel.Visible)
+                AsHideToLeft(PGuide_0Panel);
             else
-                AsShowFromLeft(PanelGuide);
+                AsShowFromLeft(PGuide_0Panel);
         }
         private void BtnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            AsHideToLeft(PanelGuide);
-            PanelUser.SetProfileInfo(NowUser, 1);
-            PanelUser_Show();
+            if (BanNavigate)
+            {
+                MessageBox.Show("无法跳转，请先完成当前操作");
+                AsHideToLeft(PGuide_0Panel);
+                return;
+            }
+            AsHideToLeft(PGuide_0Panel);
+            PUserProfile.SetProfileInfo(NowUser, 1);
+            PUser_Show();
         }
         private void BtnTask_Click(object sender, EventArgs e)
         {
+            if (BanNavigate)
+            {
+                MessageBox.Show("无法跳转，请先完成当前操作");
+                AsHideToLeft(PGuide_0Panel);
+                return;
+            }
             SelectPanel(1);
-            AsHideToLeft(PanelGuide);
+            AsHideToLeft(PGuide_0Panel);
         }
         private void BtnProject_Click(object sender, EventArgs e)
         {
+            if (BanNavigate)
+            {
+                MessageBox.Show("无法跳转，请先完成当前操作");
+                AsHideToLeft(PGuide_0Panel);
+                return;
+            }
             SelectPanel(2);
-            AsHideToLeft(PanelGuide);
+            AsHideToLeft(PGuide_0Panel);
         }
-
         private void BtnContact_Click(object sender, EventArgs e)
         {
+            if (BanNavigate)
+            {
+                MessageBox.Show("无法跳转，请先完成当前操作");
+                AsHideToLeft(PGuide_0Panel);
+                return;
+            }
             SelectPanel(3);
-            AsHideToLeft(PanelGuide);
+            AsHideToLeft(PGuide_0Panel);
         }
-
         private void BtnMessage_Click(object sender, EventArgs e)
         {
+            if (BanNavigate)
+            {
+                MessageBox.Show("无法跳转，请先完成当前操作");
+                AsHideToLeft(PGuide_0Panel);
+                return;
+            }
             SelectPanel(4);
-            AsHideToLeft(PanelGuide);
+            AsHideToLeft(PGuide_0Panel);
         }
-
         private void BtnSettings_Click(object sender, EventArgs e)
         {
+            if (BanNavigate)
+            {
+                MessageBox.Show("无法跳转，请先完成当前操作");
+                AsHideToLeft(PGuide_0Panel);
+                return;
+            }
             SelectPanel(5);
-            AsHideToLeft(PanelGuide);
+            AsHideToLeft(PGuide_0Panel);
         }
-
         private void BtnLogout_Click(object sender, EventArgs e)
         {
-            AsHideToLeft(PanelGuide);
+            if (BanNavigate)
+            {
+                MessageBox.Show("无法注销，请先完成当前操作");
+                AsHideToLeft(PGuide_0Panel);
+                return;
+            }
+            AsHideToLeft(PGuide_0Panel);
             Logout();
         }
 
@@ -860,7 +947,7 @@ namespace MYTask
             if (LoginStat == 1 && PLogin_TextUID.State == 0) PLogin_TextUID.Text = DefaultLoginUserName;
             NowUser = DataBase.GetUser(PLogin_TextUID.Text);
             //MessageBox.Show(NowUser.Name);
-            BtnProfile.Text = NowUser.Name.Replace(' ', '\n');
+            PGuide_BtnProfile.Text = NowUser.Name.Replace(' ', '\n');
 
 
             AddTaskList(DataBase.GetTaskList(NowUser.UID, 0), 0);
@@ -876,14 +963,14 @@ namespace MYTask
             FocusBtnS.FlatAppearance.MouseOverBackColor = Theme.MOC;
             FocusBtnS.FlatAppearance.MouseDownBackColor = Theme.MOC;
 
-            FocusBtn = BtnTask;
+            FocusBtn = PGuide_BtnTask;
             FocusBtn.BackColor = Theme.MOC;
             FocusBtn.FlatAppearance.MouseOverBackColor = Theme.MOC;
             FocusBtn.FlatAppearance.MouseDownBackColor = Theme.MOC;
 
             SelectPanel(1);
 
-            LabelTitle.Text = "WSS - 任务列表";
+            UI_Title.Text = "WSS - 任务列表";
             AsHideToBottom(PLogin_0Panel);
         }
 
@@ -903,11 +990,11 @@ namespace MYTask
             FocusBtn.FlatAppearance.MouseOverBackColor = Color.Silver;
             FocusBtn.FlatAppearance.MouseDownBackColor = Color.Gray;
             FocusBtn = null;
-            if (FocusBtnS != BtnSettings) UIColor_UpdateButton(FocusBtnS);
+            if (FocusBtnS != PGuide_BtnSet) UIColor_UpdateButton(FocusBtnS);
             FocusBtnS = null;
             
             InitLoginBox("");
-            LabelTitle.Text = "WSS - 登录";
+            UI_Title.Text = "WSS - 登录";
             AsShowFromBottom(PLogin_0Panel);
             PTask_ListMy.ClearTask();
             PTask_ListPub.ClearTask();
@@ -920,7 +1007,6 @@ namespace MYTask
         {
 
         }
-
 
         #region 添加元素
         /// <summary>
@@ -1005,10 +1091,9 @@ namespace MYTask
             }
             PMess_MessList.AddMessList(Mlist);
         }
-
-
         #endregion
 
+        #region 列表事件
         private void ContactList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == lvwColumnSorter.SortColumn)
@@ -1038,7 +1123,7 @@ namespace MYTask
             ListViewItem target = ContactList.SelectedItems[0];
             //MessageBox.Show(target.SubItems[4].Text);
             SetProfilePanel(Convert.ToInt32(target.SubItems[4].Text));
-            PanelUser_Show();
+            PUser_Show();
         }
 
         private void MessList_DoubleClick(object sender, EventArgs e)
@@ -1048,13 +1133,17 @@ namespace MYTask
             
         }
 
+        #endregion
 
         #region 翻页控制
         private void BtnPageUp_Click(object sender, EventArgs e)
         {
-            if (NowFocus.GetType().ToString() == "MYTask.TaskPanelContainer")
+            if (FocusP == PTask_0Panel)
             {
-                TaskPanelContainer Target = (TaskPanelContainer)NowFocus;
+                TaskPanelContainer Target;
+                if (CurrentTaskPg == 1) Target = PTask_ListMy;
+                else if (CurrentTaskPg == 2) Target = PTask_ListPub;
+                else Target = PTask_ListAll;
                 Target.PageUp();
                 if (Target.NowIndex <= 0)
                     PTask_BtnPgUp.Visible = false;
@@ -1064,9 +1153,11 @@ namespace MYTask
                 PTask_LblPage.Text = "/" +
                     ((Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
-            else if (NowFocus.GetType().ToString() == "MYTask.ProjPanelContainer")
+            else if (FocusP == PTask_0Panel)
             {
-                ProjPanelContainer Target = (ProjPanelContainer)NowFocus;
+                ProjPanelContainer Target;
+                if (CurrentProjPg == 1) Target = PProj_ListMy;
+                else Target = PProj_ListAll;
                 Target.PageUp();
                 if (Target.NowIndex <= 0)
                     PProj_BtnPgUp.Visible = false;
@@ -1081,9 +1172,12 @@ namespace MYTask
 
         private void BtnPageDown_Click(object sender, EventArgs e)
         {
-            if (NowFocus.GetType().ToString() == "MYTask.TaskPanelContainer")
+            if (FocusP == PTask_0Panel)
             {
-                TaskPanelContainer Target = (TaskPanelContainer)NowFocus;
+                TaskPanelContainer Target;
+                if (CurrentTaskPg == 1) Target = PTask_ListMy;
+                else if (CurrentTaskPg == 2) Target = PTask_ListPub;
+                else Target = PTask_ListAll;
                 Target.PageDown();
                 if (Target.NowIndex + 4 > Target.TaskNum - 1)
                     PTask_BtnPgDown.Visible = false;
@@ -1093,9 +1187,11 @@ namespace MYTask
                 PTask_LblPage.Text = "/" +
                     ((Target.TaskNum % 4 == 0) ? (Target.TaskNum / 4).ToString() : (Target.TaskNum / 4 + 1).ToString());
             }
-            else if (NowFocus.GetType().ToString() == "MYTask.ProjPanelContainer")
+            else if (FocusP == PTask_0Panel)
             {
-                ProjPanelContainer Target = (ProjPanelContainer)NowFocus;
+                ProjPanelContainer Target;
+                if (CurrentProjPg == 1) Target = PProj_ListMy;
+                else Target = PProj_ListAll;
                 Target.PageDown();
                 if (Target.NowIndex + 12 > Target.ProjNum - 1)
                     PProj_BtnPgDown.Visible = false;
@@ -1113,7 +1209,10 @@ namespace MYTask
             if (!TB.Focused) return;
             if (TB.Name== "PTask_TbxPage")
             {
-                TaskPanelContainer TPC = NowFocus as TaskPanelContainer;
+                TaskPanelContainer TPC;
+                if (CurrentTaskPg == 1) TPC = PTask_ListMy;
+                else if (CurrentTaskPg == 2) TPC = PTask_ListPub;
+                else TPC = PTask_ListAll;
                 try
                 {
                     int cpg = Convert.ToInt32(TB.Text);
@@ -1130,7 +1229,9 @@ namespace MYTask
             }
             else if (TB.Name == "PProj_TbxPage")
             {
-                ProjPanelContainer PPC = NowFocus as ProjPanelContainer;
+                ProjPanelContainer PPC;
+                if (CurrentProjPg == 1) PPC = PProj_ListMy;
+                else PPC = PProj_ListAll;
                 try
                 {
                     int cpg = Convert.ToInt32(TB.Text);
@@ -1149,7 +1250,7 @@ namespace MYTask
 
         private void UpdatePageControl(TaskPanelContainer Target)
         {
-            NowFocus = Target;
+            //NowFocus = Target;
             PTask_BtnPgUp.Visible = (Target.NowIndex <= 0) ? false : true;
             PTask_BtnPgDown.Visible = (Target.NowIndex + 4 > Target.TaskNum - 1) ? false : true;
             PTask_TbxPage.Text = (Target.NowIndex / 4 + 1).ToString();
@@ -1159,7 +1260,7 @@ namespace MYTask
 
         private void UpdatePageControl(ProjPanelContainer Target)
         {
-            NowFocus = Target;
+            //NowFocus = Target;
             PProj_BtnPgUp.Visible = (Target.NowIndex <= 0) ? false : true;
             PProj_BtnPgDown.Visible = (Target.NowIndex + 12 > Target.ProjNum - 1) ? false : true;
             PProj_TbxPage.Text = (Target.NowIndex / 12 + 1).ToString();
@@ -1167,13 +1268,10 @@ namespace MYTask
                 ((Target.ProjNum % 12 == 0) ? (Target.ProjNum / 12).ToString() : (Target.ProjNum / 12 + 1).ToString());
         }
 
-
-
-
+        
         #endregion
 
-
-        #region 设置面板
+        #region 设置中心事件
         private void PSet_BtnClr_Click(object sender, EventArgs e)
         {
             Button Res = (Button)sender;
@@ -1184,6 +1282,9 @@ namespace MYTask
             else if (Res.Name == "PSet_BtnClr5") UIColor_Update(5);
             else if (Res.Name == "PSet_BtnClr6") UIColor_Update(6);
         }
+
+
+
         #endregion
 
     }

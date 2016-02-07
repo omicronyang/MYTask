@@ -35,7 +35,7 @@ namespace MYTask
         protected override void OnClick(EventArgs e)
         {
             mainfrm.SetProfilePanel(user.UID);
-            mainfrm.PanelUser_Show();
+            mainfrm.PUser_Show();
             base.OnClick(e);
         }
     }

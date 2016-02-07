@@ -164,7 +164,7 @@ namespace MYTask
 
             if (ProjNum <= 12)
             {
-                Height = 3 + ((ProjNum % 4 == 0) ? ProjNum / 4 : ProjNum / 4 + 1) * 148;
+                Height = 2 + ((ProjNum % 4 == 0) ? ProjNum / 4 : ProjNum / 4 + 1) * 148;
                 for (int i = 0; i < ProjNum; i++)
                 {
                     Pp[i].UpdateProj(ProjList[i]);
@@ -406,6 +406,7 @@ namespace MYTask
             BtnOK.Visible = true;
             BtnCancel.Visible = true;
             BtnClose.Visible = false;
+            formmain.BanNavigate = true;
             ProfileEmail.SetActive();
             ProfileTel.SetActive();
             ProfileRemark.SetActive();
@@ -417,6 +418,7 @@ namespace MYTask
             BtnOK.Visible = false;
             BtnCancel.Visible = false;
             BtnClose.Visible = true;
+            formmain.BanNavigate = false;
             ProfileEmail.SetNonactive();
             ProfileTel.SetNonactive();
             ProfileRemark.SetNonactive();
@@ -428,6 +430,7 @@ namespace MYTask
             BtnOK.Visible = false;
             BtnCancel.Visible = false;
             BtnClose.Visible = true;
+            formmain.BanNavigate = false;
             ProfileEmail.SetNonactive();
             ProfileTel.SetNonactive();
             ProfileRemark.SetNonactive();
@@ -435,7 +438,7 @@ namespace MYTask
 
         private void ProfileBtnClose_Click(object sender,EventArgs e)
         {
-            formmain.PanelUser_Fold();
+            formmain.PUser_Fold();
         }
 
         public void SetProfileInfo(MyUser U, int Mode)
@@ -476,21 +479,7 @@ namespace MYTask
             ActiveTextbox Obj = (ActiveTextbox)sender;
             if (Obj.ReadOnly) BtnEdit.Focus();
         }
-
-        public void Expand()
-        {
-            Hidden = false;
-            Visible = true;
-            TargetX = Location.X - Width;
-        }
-
-        public void Fold()
-        {
-            Hidden = true;
-            TargetX = Location.X + Width;
-            Visible = false;
-        }
-
+        
 
     }
 
@@ -823,6 +812,7 @@ namespace MYTask
 
         public void SetMainForm(FormMain frm)
         {
+            mainfrm = frm;
             for (int i = 0; i < 4; i++)
                 Tp[i].SetMainForm(frm);
         }
@@ -925,6 +915,7 @@ namespace MYTask
         private FormMain mainfrm;
         private UIColor Theme;
         private MyTaskByDay MTBD = new MyTaskByDay();
+        private int ShowMode = 0;                       //0 Main; 1 Audit
 
         #region 控件声明初始化
 
@@ -935,8 +926,8 @@ namespace MYTask
         private Button BtnEdit = new Button();
         private Button BtnDelete = new Button();
         private Button BtnTreeView = new Button();
-        //private Button BtnOK = new Button();
-        ///private Button BtnCancel = new Button();
+        private Button BtnOK = new Button();
+        private Button BtnCancel = new Button();
         private Label LblPri = new Label();
         private Label LblImp = new Label();
         private Label LblStat = new Label();
@@ -1052,6 +1043,34 @@ namespace MYTask
             this.labeltext4.Name = "labeltext4";
             this.labeltext4.Size = new Size(88, 26);
             this.labeltext4.Text = "工作日志";
+
+            this.BtnOK.BackColor = Color.RoyalBlue;
+            this.BtnOK.FlatAppearance.BorderSize = 0;
+            this.BtnOK.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnOK.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnOK.FlatStyle = FlatStyle.Flat;
+            this.BtnOK.Image = global::MYTask.Properties.Resources.Tick_32;
+            this.BtnOK.Location = new Point(604, 0);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new Size(48, 48);
+            this.BtnOK.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnOK.UseVisualStyleBackColor = false;
+            this.BtnOK.Visible = false;
+            this.BtnOK.Click += new EventHandler(BtnOK_Click);
+
+            this.BtnCancel.BackColor = Color.RoyalBlue;
+            this.BtnCancel.FlatAppearance.BorderSize = 0;
+            this.BtnCancel.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            this.BtnCancel.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            this.BtnCancel.FlatStyle = FlatStyle.Flat;
+            this.BtnCancel.Image = global::MYTask.Properties.Resources.Cross_32;
+            this.BtnCancel.Location = new Point(556, 0);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new Size(48, 48);
+            this.BtnCancel.TextAlign = ContentAlignment.MiddleLeft;
+            this.BtnCancel.UseVisualStyleBackColor = false;
+            this.BtnCancel.Visible = false;
+            this.BtnCancel.Click += new EventHandler(BtnCancel_Click);
 
             this.BtnTreeView.BackColor = Color.RoyalBlue;
             this.BtnTreeView.FlatAppearance.BorderSize = 0;
@@ -1214,6 +1233,8 @@ namespace MYTask
                 Controls.Add(BtnDays[i]);
             }
 
+            this.Controls.Add(this.BtnOK);
+            this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnNext);
             this.Controls.Add(this.BtnPrev);
             this.Controls.Add(this.labeltext4);
@@ -1418,6 +1439,8 @@ namespace MYTask
             UpdateBtnColor(BtnEdit);
             UpdateBtnColor(BtnDelete);
             UpdateBtnColor(BtnTreeView);
+            UpdateBtnColor(BtnOK);
+            UpdateBtnColor(BtnCancel);
 
             UpdateLinkULblColor(LblFromUser);
             UpdateLinkULblColor(LblToUser);
@@ -1477,7 +1500,7 @@ namespace MYTask
 
         private void BtnPrev_Click(object sender, EventArgs e)
         {
-            DTP.Value = Calendar_Date.AddMonths(-1);
+            DTP.Value = Calendar_Date.AddMonths(-1) > DTP.MinDate ? Calendar_Date.AddMonths(-1) : DTP.MinDate;
         }
 
         private void BtnNext_Click(object sender, EventArgs e)
@@ -1501,8 +1524,53 @@ namespace MYTask
         #region 顶部导航
         private void BtnAudit_Click(object sender,EventArgs e)
         {
-            FormAudit f = new FormAudit();
-            f.Show();
+            mainfrm.PAudit_Show();
+            BtnSplit.Hide();
+            BtnAudit.Hide();
+            BtnComment.Hide();
+            BtnEdit.Hide();
+            BtnDelete.Hide();
+            BtnTreeView.Hide();
+            BtnOK.Show();
+            BtnCancel.Show();
+            ShowMode = 1;
+            mainfrm.BanNavigate = true;
+        }
+
+        private void BtnOK_Click(object sender, EventArgs e)
+        {
+            BtnSplit.Show();
+            BtnAudit.Show();
+            BtnComment.Show();
+            BtnEdit.Show();
+            BtnDelete.Show();
+            BtnTreeView.Show();
+            BtnOK.Hide();
+            BtnCancel.Hide();
+            if (ShowMode == 1)
+            {
+                mainfrm.PAudit_Hide();
+            }
+            ShowMode = 0;
+            mainfrm.BanNavigate = false;
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            BtnSplit.Show();
+            BtnAudit.Show();
+            BtnComment.Show();
+            BtnEdit.Show();
+            BtnDelete.Show();
+            BtnTreeView.Show();
+            BtnOK.Hide();
+            BtnCancel.Hide();
+            if (ShowMode == 1)
+            {
+                mainfrm.PAudit_Hide();
+            }
+            ShowMode = 0;
+            mainfrm.BanNavigate = false;
         }
 
         #endregion
@@ -1510,11 +1578,15 @@ namespace MYTask
 
     class AuditPanel : Panel
     {
-        private TextBox Browser = new TextBox();
+        private TextBox AuditText = new TextBox();
         private Button BtnAccept = new Button();
         private Button BtnDeny = new Button();
         private Label label1 = new Label();
+        private Label LblCaption = new Label();
+        private Label UI_Side = new Label();
         public bool Accepted = false;
+        public int TargetX = 0;
+        public bool Hidden = true;
 
         public AuditPanel()
         {
@@ -1523,20 +1595,20 @@ namespace MYTask
         }
         private void InitComponent()
         {
-            Browser.Location = new Point(0, 48);
-            Browser.Name = "Browser";
-            Browser.Size = new Size(651, 333);
-            Browser.Multiline = true;
-            Browser.ScrollBars = ScrollBars.Vertical;
+            AuditText.Location = new Point(1, 121);
+            AuditText.Name = "AuditText";
+            AuditText.Size = new Size(327, 212);
+            AuditText.Multiline = true;
+            AuditText.ScrollBars = ScrollBars.Vertical;
 
             BtnAccept.BackColor = Color.FromArgb(51, 102, 153);
             BtnAccept.FlatAppearance.BorderSize = 0;
             BtnAccept.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
             BtnAccept.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
             BtnAccept.FlatStyle = FlatStyle.Flat;
-            BtnAccept.Location = new Point(152, 0);
+            BtnAccept.Location = new Point(1, 333);
             BtnAccept.Name = "BtnAccept";
-            BtnAccept.Size = new Size(250, 48);
+            BtnAccept.Size = new Size(163, 48);
             BtnAccept.Text = "通过";
             BtnAccept.UseVisualStyleBackColor = false;
             BtnAccept.TextAlign = ContentAlignment.MiddleCenter;
@@ -1548,27 +1620,45 @@ namespace MYTask
             BtnDeny.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
             BtnDeny.FlatStyle = FlatStyle.Flat;
             BtnDeny.ForeColor = Color.White;
-            BtnDeny.Location = new Point(402, 0);
+            BtnDeny.Location = new Point(164, 333);
             BtnDeny.Name = "BtnDeny";
-            BtnDeny.Size = new Size(250, 48);
+            BtnDeny.Size = new Size(164, 48);
             BtnDeny.Text = "驳回";
             BtnDeny.UseVisualStyleBackColor = false;
             BtnAccept.TextAlign = ContentAlignment.MiddleCenter;
             BtnDeny.Click += new EventHandler(BtnDeny_Click);
 
-            label1.Location = new Point(0, 0);
+            label1.Location = new Point(1, 73);
             label1.Name = "label1";
-            label1.Size = new Size(152,48);
+            label1.Size = new Size(90, 48);
             label1.Text = "审核意见：";
             label1.TextAlign = ContentAlignment.MiddleCenter;
+            
+            LblCaption.Font = new Font("微软雅黑", 18F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            LblCaption.ForeColor = Color.Black;
+            LblCaption.Location = new Point(3, 12);
+            LblCaption.Name = "Caption";
+            LblCaption.Size = new Size(110, 31);
+            LblCaption.Text = "审核任务";
+
+            UI_Side.BackColor = Color.RoyalBlue;
+            UI_Side.Location = new Point(0, 0);
+            UI_Side.Size = new Size(1, 381);
 
             BackColor = Color.Gainsboro;
+            Controls.Add(this.UI_Side);
             Controls.Add(this.BtnDeny);
             Controls.Add(this.BtnAccept);
-            Controls.Add(this.Browser);
+            Controls.Add(this.AuditText);
             Controls.Add(this.label1);
+            Controls.Add(this.LblCaption);
             Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
             Size = new Size(652, 382);
+        }
+
+        public void UpdateColor(UIColor Tm)
+        {
+            UI_Side.BackColor = Tm.MainColor;
         }
 
         #region 评价按钮
@@ -1634,11 +1724,11 @@ namespace MYTask
         {
             get
             {
-                return Browser.Text;
+                return AuditText.Text;
             }
             set
             {
-                Browser.Text = value;
+                AuditText.Text = value;
             }
             
         }
