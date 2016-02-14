@@ -213,13 +213,10 @@ namespace MYTask
             Result.TaskType = Convert.ToInt32(Source["csa_type"]);
             Result.TaskStat = Convert.ToInt32(Source["csa_status"]);
             Result.TaskPlanTime = Convert.ToDouble(Source["csa_plan_hour"]);
+            Result.TaskPID = Convert.ToInt32(Source["csa_project"]);
 
             Result.AddTBDList(GetTBDList(Result.TID));
-
-
-
-            Result.TaskProject = "测试项目";
-            //Result.TaskUsedTime = 0.5;
+            Result.AddChildList(GetChildList(Result.TID));
             return Result;
         }
         
@@ -257,7 +254,7 @@ namespace MYTask
         public MyTask GetTask(int TID)
         {
             MyTask Result = new MyTask();
-            DataRow[] Matches = DataBase.Tables["tk_task"].Select("tid='" + TID.ToString() + "'");
+            DataRow[] Matches = DataBase.Tables["tk_task"].Select("tid=" + TID.ToString());
             if (Matches.Length == 0) return Result;
             Result = GetTaskFromRow(Matches[0]);
             return Result;
@@ -322,6 +319,23 @@ namespace MYTask
             }
             return Result;
         }
+        /// <summary>
+        /// 获取子任务列表
+        /// </summary>
+        /// <param name="TID">任务ID</param>
+        /// <returns></returns>
+        private MyTask[] GetChildList(int TID)
+        {
+            DataRow[] Matches = DataBase.Tables["tk_task"].Select("csa_father=" + TID.ToString());
+            int Cnt = Matches.Count();
+            MyTask[] Result = new MyTask[Cnt];
+            for (int i=0;i< Cnt; i++)
+            {
+                Result[i] = new MyTask();
+                Result[i] = GetTaskFromRow(Matches[i]);
+            }
+            return Result;
+        }
         #endregion
 
         #region ProjectControl
@@ -338,12 +352,16 @@ namespace MYTask
             Result.ProjCode = Convert.ToString(Source["project_code"]);
             Result.ProjRemark = Convert.ToString(Source["project_text"]);
             Result.ProjType = Convert.ToInt32(Source["project_type"]);
-            //Result.ProjStartTime = Convert.ToDateTime(Source["project_start"]);
-            //Result.ProjEndTime = Convert.ToDateTime(Source["project_end"]);
             Result.ProjToUser = GetUser(Convert.ToInt32(Source["project_to_user"]));
             Result.ProjStat = Convert.ToInt32(Source["project_status"]);
             Result.UpdateTime = Convert.ToDateTime(Source["project_lastupdate"]);
+            Result.AddChildList(GetPChildList(Result.PID));
             return Result;
+        }
+
+        public int GetProjNum(DataRow Source)
+        {
+            return Convert.ToInt32(Source["id"]);
         }
 
         /// <summary>
@@ -370,8 +388,7 @@ namespace MYTask
         /// <returns></returns>
         public MyProj[] GetProjList(int Uid)
         {
-            string FilterStr;
-            FilterStr = "project_to_user='" + Uid.ToString() + "'";
+            string FilterStr = "project_to_user=" + Uid.ToString();
             DataRow[] Matches = DataBase.Tables["tk_project"].Select(FilterStr);
             int Cnt = Matches.Count();
             MyProj[] Result = new MyProj[Cnt];
@@ -391,12 +408,25 @@ namespace MYTask
         public MyProj GetProj(int Pid)
         {
             MyProj Result = new MyProj();
-            DataRow[] Matches = DataBase.Tables["tk_project"].Select("id='" + Pid.ToString() + "'");
+            DataRow[] Matches = DataBase.Tables["tk_project"].Select("id=" + Pid.ToString());
             if (Matches.Length == 0)
             {
                 return Result;
             }
             Result = GetProjFromRow(Matches[0]);
+            return Result;
+        }
+
+        public MyTask[] GetPChildList(int PID)
+        {
+            DataRow[] Matches = DataBase.Tables["tk_task"].Select("csa_project='" + PID.ToString() + "' AND csa_father='-1'");
+            int Cnt = Matches.Length;
+            MyTask[] Result = new MyTask[Cnt];
+            for (int i=0;i< Cnt;i++)
+            {
+                Result[i] = new MyTask();
+                Result[i] = GetTaskFromRow(Matches[i]);
+            }
             return Result;
         }
 

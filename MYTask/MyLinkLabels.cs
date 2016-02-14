@@ -39,8 +39,5 @@ namespace MYTask
             base.OnClick(e);
         }
     }
-
-    class LinkTaskLabel : LinkLabel
-    {
-    }
+    
 }

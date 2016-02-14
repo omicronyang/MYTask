@@ -27,6 +27,7 @@ namespace MYTask
         public UIColor Theme = new UIColor();
         public MyDB DataBase;
         public bool BanNavigate = false;                    //禁止导航栏响应
+        public bool BanExit = false;                        //禁止退出程序
         
         #endregion
 
@@ -62,6 +63,8 @@ namespace MYTask
             PSet_0Panel.Hide();
             PAudit.Location = new Point(371, 128);
             PAudit.Visible = false;
+            PTView.Location = new Point(371, 128);
+            PTView.Visible = false;
 
             PTask_ListPub.Visible = false;
             PTask_ListAll.Visible = false;
@@ -92,6 +95,8 @@ namespace MYTask
             PProj_ListMy.SetMainForm(this);
             PProj_ListAll.SetMainForm(this);
             PTaskProfile.SetMainForm(this);
+            PAudit.SetMainfrm(this);
+            PTView.SetMainfrm(this);
             PTaskProfile.TbxRemark.ObjectForScripting = this;
 
             //dHeight = Height - PanelGuideS.Height;
@@ -219,6 +224,7 @@ namespace MYTask
             PUserProfile.UpdateColor(Theme);
             PTaskProfile.UpdateColor(Theme);
             PAudit.UpdateColor(Theme);
+            PTView.UpdateColor(Theme);
         }
 
         /*
@@ -387,8 +393,8 @@ namespace MYTask
                 Invoke(BGWC, sender, e);
                 return;
             }
-            AddTaskList(DataBase.GetTaskList(), 2);
             AddProjList(DataBase.GetProjList(), 2);
+            AddTaskList(DataBase.GetTaskList(), 2);
             AddUserList(DataBase.GetUserList());
             AddAnnList(DataBase.GetAnnounceList());
             PLogin_LabelBlock.Visible = false;
@@ -551,12 +557,6 @@ namespace MYTask
         public void PAudit_Show()
         {
             if (PAudit.Visible) return;
-            /*
-            PAudit.Hidden = false;
-            PAudit.Visible = true;
-            PAudit.TargetX = 371;
-            PAudit_Anim.Start();
-            */
             PAudit.Btn_Init();
             AsShowFromRight(PAudit);
         }
@@ -566,6 +566,20 @@ namespace MYTask
             if (!PAudit.Visible) return;
             AsHideToRight(PAudit);
         }
+
+        public void PTV_Show()
+        {
+            if (PTView.Visible) return;
+            AsShowFromRight(PTView);
+        }
+
+        public void PTV_Hide()
+        {
+            if (!PTView.Visible) return;
+            AsHideToRight(PTView);
+            PTaskProfile.PTVHidden();
+        }
+
 
         #endregion
 
@@ -630,6 +644,8 @@ namespace MYTask
 
         private void ChangePanelVision(int index)
         {
+            PTV_Hide();
+            PAudit_Hide();
             if (index == 1) PTask_0Panel.Show(); else PTask_0Panel.Hide();
             if (index == 2) PProj_0Panel.Show(); else PProj_0Panel.Hide();
             if (index == 3) PContacts.Show(); else PContacts.Hide();
@@ -685,6 +701,22 @@ namespace MYTask
             SelectPanel(6);
         }
 
+        public void SetPanelTV(MyTask task)
+        {
+            SetPanelTV(DataBase.GetProj(task.TaskPID), task.TID);
+        }
+
+        public void SetPanelTV(MyProj proj,int NTID)
+        {
+            PTView.NowTaskID = NTID;
+            PTView.SetProj(proj);
+        }
+
+        public void SetPanelTV(MyProj proj)
+        {
+            PTView.NowTaskID = -1;
+            PTView.SetProj(proj);
+        }
 
         #endregion
 

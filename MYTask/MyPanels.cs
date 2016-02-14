@@ -97,7 +97,7 @@ namespace MYTask
                 case 22: { me.Text = "推迟"; me.BackColor = Color.FromArgb(255, 204, 0); break; }
                 case 24: { me.Text = "执行"; me.BackColor = Color.FromArgb(51, 102, 153); break; }
                 case 25: { me.Text = "后期整理"; me.BackColor = Color.FromArgb(153, 255, 0); break; }
-                default: { me.Text = "";me.BackColor = Color.Gainsboro;break; }
+                default: { me.Text = ""; me.BackColor = Color.Gainsboro; break; }
             }
         }
 
@@ -139,7 +139,7 @@ namespace MYTask
         public void SetMainForm(FormMain frm)
         {
             mainfrm = frm;
-            for (int i=0;i<12;i++)
+            for (int i = 0; i < 12; i++)
                 Pp[i].SetMainForm(mainfrm);
         }
         /*
@@ -209,7 +209,7 @@ namespace MYTask
 
         private void RenewProjPage()
         {
-            
+
             if (ProjNum - NowIndex >= 12)
             {
                 for (int i = NowIndex; i < NowIndex + 12; i++)
@@ -317,12 +317,12 @@ namespace MYTask
             ProfileUserName.BackColor = Color.RoyalBlue;
             ProfileUserName.ForeColor = Color.White;
             ProfileUserName.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
-            ProfileUserName.Location = new Point(0,0);
+            ProfileUserName.Location = new Point(0, 0);
             ProfileUserName.Name = "ProfileUserName";
             ProfileUserName.Size = new Size(385, 48);
             ProfileUserName.Text = "名称";
             ProfileUserName.TextAlign = ContentAlignment.MiddleLeft;
-            
+
             ProfileEmailLabel.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             ProfileEmailLabel.Location = new Point(3, 53);
             ProfileEmailLabel.Name = "ProfileEmailLabel";
@@ -369,7 +369,7 @@ namespace MYTask
             ProfileRemark.Size = new Size(311, 123);
             ProfileRemark.Enter += new EventHandler(LockStyle);
             ProfileRemark.ScrollBars = ScrollBars.Vertical;
-            
+
             ProfileRemarkLabel.Font = new Font("微软雅黑", 16F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             ProfileRemarkLabel.Location = new Point(3, 140);
             ProfileRemarkLabel.Name = "ProfileRemarkLabel";
@@ -436,7 +436,7 @@ namespace MYTask
             ProfileRemark.SetNonactive();
         }
 
-        private void ProfileBtnClose_Click(object sender,EventArgs e)
+        private void ProfileBtnClose_Click(object sender, EventArgs e)
         {
             formmain.PUser_Fold();
         }
@@ -479,12 +479,14 @@ namespace MYTask
             ActiveTextbox Obj = (ActiveTextbox)sender;
             if (Obj.ReadOnly) BtnEdit.Focus();
         }
-        
+
 
     }
 
     class TaskPanel : Panel
     {
+
+        #region 初始化控件
         private MyTask MyTaskInf = new MyTask();
         private Label LabelPP = new Label();
         private Label LabelPI = new Label();
@@ -500,8 +502,7 @@ namespace MYTask
         private Label LabelUpdateTime = new Label();
         private Label LabelUsedTime = new Label();
         private BorderLabel LabelPlanTime = new BorderLabel();
-        private FormMain mainfrm;
-
+        private FormMain mainfrm;        
         public TaskPanel()
         {
             InitCompenent();
@@ -628,7 +629,9 @@ namespace MYTask
             Controls.Add(LabelUsedTime);
             Controls.Add(LabelPlanTime);
         }
+        #endregion
 
+        #region 设置显示任务
         public void UpdateTask(MyTask Source)
         {
             MyTaskInf = Source;
@@ -639,7 +642,7 @@ namespace MYTask
             LabelStat_Update(MyTaskInf.TaskStat);
 
             LabelTaskName.Text += MyTaskInf.TaskName;
-            LabelProjName.Text = MyTaskInf.TaskProject;
+            LabelProjName.Text = mainfrm.DataBase.GetProj(MyTaskInf.TaskPID).ProjName;
             LabelUserName.SetUser(MyTaskInf.TaskU);
             LabelFromUserName.SetUser(MyTaskInf.TaskFU);
 
@@ -774,6 +777,9 @@ namespace MYTask
             }
         }
 
+        #endregion
+
+        #region LinkLabel事件
         private void LabelProjName_Clicked(object sender, EventArgs e)
         {
 
@@ -783,7 +789,7 @@ namespace MYTask
         {
             mainfrm.SetPanelTP(this.MyTaskInf);
         }
-
+        #endregion
 
     }
 
@@ -915,7 +921,7 @@ namespace MYTask
         private FormMain mainfrm;
         private UIColor Theme;
         private MyTaskByDay MTBD = new MyTaskByDay();
-        private int ShowMode = 0;                       //0 Main; 1 Audit
+        private int ShowMode = 0;                       //0 Main; 1 Audit; 2 TreeView
 
         #region 控件声明初始化
 
@@ -1083,6 +1089,7 @@ namespace MYTask
             this.BtnTreeView.Size = new Size(48, 48);
             this.BtnTreeView.TextAlign = ContentAlignment.MiddleLeft;
             this.BtnTreeView.UseVisualStyleBackColor = false;
+            this.BtnTreeView.Click += new EventHandler(BtnTreeView_Click);
 
             this.BtnDelete.BackColor = Color.RoyalBlue;
             this.BtnDelete.FlatAppearance.BorderSize = 0;
@@ -1522,7 +1529,7 @@ namespace MYTask
         #endregion
 
         #region 顶部导航
-        private void BtnAudit_Click(object sender,EventArgs e)
+        private void BtnAudit_Click(object sender, EventArgs e)
         {
             mainfrm.PAudit_Show();
             BtnSplit.Hide();
@@ -1531,10 +1538,28 @@ namespace MYTask
             BtnEdit.Hide();
             BtnDelete.Hide();
             BtnTreeView.Hide();
+            LblTaskName.Width = 556;
+            BtnOK.Image = Properties.Resources.Tick_32;
             BtnOK.Show();
             BtnCancel.Show();
             ShowMode = 1;
             mainfrm.BanNavigate = true;
+        }
+
+        private void BtnTreeView_Click(object sender,EventArgs e)
+        {
+            mainfrm.SetPanelTV(TaskInf);
+            mainfrm.PTV_Show();
+            BtnSplit.Hide();
+            BtnAudit.Hide();
+            BtnComment.Hide();
+            BtnEdit.Hide();
+            BtnDelete.Hide();
+            BtnTreeView.Hide();
+            LblTaskName.Width = 604;
+            BtnOK.Image = Properties.Resources.ArrowRight_White_32;
+            BtnOK.Show();
+            ShowMode = 2;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -1551,6 +1576,11 @@ namespace MYTask
             {
                 mainfrm.PAudit_Hide();
             }
+            else if (ShowMode == 2)
+            {
+                mainfrm.PTV_Hide();
+            }
+            LblTaskName.Width = 364;
             ShowMode = 0;
             mainfrm.BanNavigate = false;
         }
@@ -1569,8 +1599,23 @@ namespace MYTask
             {
                 mainfrm.PAudit_Hide();
             }
+            LblTaskName.Width = 364;
             ShowMode = 0;
             mainfrm.BanNavigate = false;
+        }
+
+        public void PTVHidden()
+        {
+            BtnSplit.Show();
+            BtnAudit.Show();
+            BtnComment.Show();
+            BtnEdit.Show();
+            BtnDelete.Show();
+            BtnTreeView.Show();
+            BtnOK.Hide();
+            BtnCancel.Hide();
+            LblTaskName.Width = 364;
+            ShowMode = 0;
         }
 
         #endregion
@@ -1587,6 +1632,7 @@ namespace MYTask
         public bool Accepted = false;
         public int TargetX = 0;
         public bool Hidden = true;
+        public FormMain mainfrm;
 
         public AuditPanel()
         {
@@ -1613,7 +1659,7 @@ namespace MYTask
             BtnAccept.UseVisualStyleBackColor = false;
             BtnAccept.TextAlign = ContentAlignment.MiddleCenter;
             BtnAccept.Click += new EventHandler(BtnAccept_Click);
-            
+
             BtnDeny.BackColor = Color.DarkRed;
             BtnDeny.FlatAppearance.BorderSize = 0;
             BtnDeny.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
@@ -1633,10 +1679,10 @@ namespace MYTask
             label1.Size = new Size(90, 48);
             label1.Text = "审核意见：";
             label1.TextAlign = ContentAlignment.MiddleCenter;
-            
-            LblCaption.Font = new Font("微软雅黑", 18F, FontStyle.Regular, GraphicsUnit.Point, 134);
+
+            LblCaption.Font = new Font("微软雅黑", 14F, FontStyle.Bold, GraphicsUnit.Point, 134);
             LblCaption.ForeColor = Color.Black;
-            LblCaption.Location = new Point(3, 12);
+            LblCaption.Location = new Point(3, 5);
             LblCaption.Name = "Caption";
             LblCaption.Size = new Size(110, 31);
             LblCaption.Text = "审核任务";
@@ -1654,6 +1700,11 @@ namespace MYTask
             Controls.Add(this.LblCaption);
             Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
             Size = new Size(652, 382);
+        }
+
+        public void SetMainfrm(FormMain fm)
+        {
+            mainfrm = fm;
         }
 
         public void UpdateColor(UIColor Tm)
@@ -1704,14 +1755,14 @@ namespace MYTask
             BtnB_SetStyle(false);
         }
 
-        private void BtnAccept_Click(object sender,EventArgs e)
+        private void BtnAccept_Click(object sender, EventArgs e)
         {
             Accepted = true;
             BtnA_SetStyle(true);
             BtnB_SetStyle(false);
         }
 
-        private void BtnDeny_Click(object sender,EventArgs e)
+        private void BtnDeny_Click(object sender, EventArgs e)
         {
             Accepted = false;
             BtnA_SetStyle(false);
@@ -1719,7 +1770,7 @@ namespace MYTask
         }
 
         #endregion
-        
+
         public string AuditContent
         {
             get
@@ -1730,9 +1781,85 @@ namespace MYTask
             {
                 AuditText.Text = value;
             }
-            
+
         }
 
     }
 
+    class TViewPanel : Panel
+    {
+        public FormMain mainfrm;
+        public int NowTaskID;
+
+        #region 控件声明初始化
+        TreeView TView = new TreeView();
+        Label LblCaption = new Label();
+        Label UI_Side = new Label();
+
+        public TViewPanel()
+        {
+            InitComponent();
+        }
+
+        private void InitComponent()
+        {
+            TView.Location = new Point(1, 45);
+            TView.Name = "TView";
+            TView.Size = new Size(327, 336);
+            TView.TabIndex = 0;
+
+            LblCaption.AutoSize = true;
+            LblCaption.Font = new Font("微软雅黑", 14F, FontStyle.Bold, GraphicsUnit.Point, 134);
+            LblCaption.Location = new Point(3, 5);
+            LblCaption.Name = "LblCaption";
+            LblCaption.Size = new Size(184, 26);
+            LblCaption.Text = "工程分解结构(WBS)";
+
+            UI_Side.BackColor = Color.RoyalBlue;
+            UI_Side.Location = new Point(0, 0);
+            UI_Side.Name = "UI_Side";
+            UI_Side.Size = new Size(1, 381);
+
+            BackColor = Color.Gainsboro;
+            Controls.Add(this.UI_Side);
+            Controls.Add(this.LblCaption);
+            Controls.Add(this.TView);
+            Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            Size = new Size(328, 381);
+        }
+        #endregion
+
+        public void UpdateColor(UIColor Tm)
+        {
+            UI_Side.BackColor = Tm.MainColor;
+        }
+
+        public void SetMainfrm(FormMain fm)
+        {
+            mainfrm = fm;
+        }
+        
+        public void SetProj(MyProj poj)
+        {
+            TView.Nodes.Clear();
+            TreeNode Rt = new TreeNode();
+            Rt.Text = poj.ProjName;
+            foreach (MyTask tk in poj.Childlist)
+                AddTaskNode(Rt, tk);
+            TView.Nodes.Add(Rt);
+            Rt.ExpandAll();
+            if (NowTaskID == -1) Rt.BackColor = Color.Silver;
+        }
+
+        private void AddTaskNode(TreeNode father, MyTask MT)
+        {
+            TreeNode child = new TreeNode();
+            child.Text = MT.TaskName;
+            foreach (MyTask tk in MT.Childlist)
+                AddTaskNode(child, tk);
+            father.Nodes.Add(child);
+            if (NowTaskID == MT.TID) child.BackColor = Color.Silver;
+        }
+
+    }
 }

@@ -28,83 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.BtnAccept = new System.Windows.Forms.Button();
-            this.BtnDeny = new System.Windows.Forms.Button();
-            this.AuditText = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.TView = new System.Windows.Forms.TreeView();
+            this.LblCaption = new System.Windows.Forms.Label();
+            this.UI_Side = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // BtnAccept
+            // TView
             // 
-            this.BtnAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(102)))), ((int)(((byte)(153)))));
-            this.BtnAccept.FlatAppearance.BorderSize = 0;
-            this.BtnAccept.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MidnightBlue;
-            this.BtnAccept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
-            this.BtnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnAccept.Location = new System.Drawing.Point(91, 0);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(96, 48);
-            this.BtnAccept.TabIndex = 5;
-            this.BtnAccept.Text = "通过";
-            this.BtnAccept.UseVisualStyleBackColor = false;
+            this.TView.Location = new System.Drawing.Point(1, 45);
+            this.TView.Name = "TView";
+            this.TView.Size = new System.Drawing.Size(327, 336);
+            this.TView.TabIndex = 0;
             // 
-            // BtnDeny
+            // LblCaption
             // 
-            this.BtnDeny.BackColor = System.Drawing.Color.DarkRed;
-            this.BtnDeny.FlatAppearance.BorderSize = 0;
-            this.BtnDeny.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MidnightBlue;
-            this.BtnDeny.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
-            this.BtnDeny.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnDeny.ForeColor = System.Drawing.Color.White;
-            this.BtnDeny.Location = new System.Drawing.Point(187, 0);
-            this.BtnDeny.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnDeny.Name = "BtnDeny";
-            this.BtnDeny.Size = new System.Drawing.Size(80, 48);
-            this.BtnDeny.TabIndex = 6;
-            this.BtnDeny.Text = "驳回";
-            this.BtnDeny.UseVisualStyleBackColor = false;
+            this.LblCaption.AutoSize = true;
+            this.LblCaption.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblCaption.Location = new System.Drawing.Point(3, 5);
+            this.LblCaption.Name = "LblCaption";
+            this.LblCaption.Size = new System.Drawing.Size(184, 26);
+            this.LblCaption.TabIndex = 1;
+            this.LblCaption.Text = "工程分解结构(WBS)";
             // 
-            // AuditText
+            // UI_Side
             // 
-            this.AuditText.Location = new System.Drawing.Point(0, 48);
-            this.AuditText.Margin = new System.Windows.Forms.Padding(0);
-            this.AuditText.Multiline = true;
-            this.AuditText.Name = "AuditText";
-            this.AuditText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.AuditText.Size = new System.Drawing.Size(267, 150);
-            this.AuditText.TabIndex = 7;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 48);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "审核意见：";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.UI_Side.BackColor = System.Drawing.Color.RoyalBlue;
+            this.UI_Side.Location = new System.Drawing.Point(0, 0);
+            this.UI_Side.Name = "UI_Side";
+            this.UI_Side.Size = new System.Drawing.Size(1, 381);
+            this.UI_Side.TabIndex = 2;
             // 
             // UserControl1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.AuditText);
-            this.Controls.Add(this.BtnDeny);
-            this.Controls.Add(this.BtnAccept);
+            this.Controls.Add(this.UI_Side);
+            this.Controls.Add(this.LblCaption);
+            this.Controls.Add(this.TView);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "UserControl1";
-            this.Size = new System.Drawing.Size(652, 382);
+            this.Size = new System.Drawing.Size(328, 381);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button BtnAccept;
-        private System.Windows.Forms.Button BtnDeny;
-        private System.Windows.Forms.TextBox AuditText;
-        private System.Windows.Forms.Label label1;
+
+        private System.Windows.Forms.TreeView TView;
+        private System.Windows.Forms.Label LblCaption;
+        private System.Windows.Forms.Label UI_Side;
     }
 }

@@ -13,8 +13,7 @@ namespace MYTask
         public int TaskPriority;
         public int TaskImportance;
         public string TaskRemark;
-        public string TaskProject;
-        //public MyProj TaskProject;
+        public int TaskPID;
         public DateTime TaskEndTime;
         public DateTime UpdateTime;
         public MyUser TaskU;
@@ -23,6 +22,7 @@ namespace MYTask
         public int TaskType;
         public double TaskPlanTime;
         public double TaskUsedTime;
+        public List<MyTask> Childlist = new List<MyTask>();
         public List<MyTaskByDay> Daylist = new List<MyTaskByDay>();
 
         public string TEndString()
@@ -34,26 +34,7 @@ namespace MYTask
         {
             return UpdateTime.ToShortDateString() + " " + UpdateTime.ToLongTimeString();
         }
-
-        public void InitTestInf(FormMain FF)
-        {
-            Random ran = new Random();
-            TID = 1;
-            TaskName = "体育节工作人员证件收集";
-            TaskPriority = ran.Next(1, 5);
-            TaskImportance = ran.Next(1, 5);
-            TaskProject = "体育部";
-            TaskEndTime = new DateTime(2015, 10, 28);
-            TaskStat = 25;
-            TaskType = 10;
-            UpdateTime = new DateTime(2015, 11, 18, 14, 14, 03);
-            TaskU = FF.DataBase.GetUser(5);
-            TaskFU = FF.DataBase.GetUser(34);
-
-            TaskPlanTime = 35.5;
-            TaskUsedTime = ran.NextDouble() * 35.5;
-        }
-
+        
         public void AddTBDList(MyTaskByDay[] TBDList)
         {
             TaskUsedTime = 0;
@@ -62,6 +43,11 @@ namespace MYTask
                 Daylist.Add(TBDList[i]);
                 TaskUsedTime += TBDList[i].TBManhour;
             }
+        }
+
+        public void AddChildList(MyTask[] CList)
+        {
+            foreach (MyTask i in CList) Childlist.Add(i);
         }
 
     }
@@ -99,6 +85,13 @@ namespace MYTask
         public MyUser ProjToUser;
         public int ProjStat;
         public DateTime UpdateTime;
+        public List<MyTask> Childlist = new List<MyTask>();
+
+        public void AddChildList(MyTask[] CList)
+        {
+            foreach (MyTask i in CList) Childlist.Add(i);
+        }
+
     }
     public class MyUser
     {
