@@ -44,7 +44,7 @@ namespace MYTask
         }
         
 
-        #region DatabaseConnection
+        #region 数据库连接
         public bool Connect()
         {
             if (OfflineOnly == 1) return ConnectOffline();
@@ -104,7 +104,7 @@ namespace MYTask
         }
         #endregion
 
-        #region UserControl
+        #region 获取用户信息
         /// <summary>
         /// 从数据源获取用户信息
         /// </summary>
@@ -192,7 +192,7 @@ namespace MYTask
         }
         #endregion
 
-        #region TaskControl
+        #region 获取任务信息
         /// <summary>
         /// 从数据源获取任务信息
         /// </summary>
@@ -338,7 +338,7 @@ namespace MYTask
         }
         #endregion
 
-        #region ProjectControl
+        #region 获取项目信息
         /// <summary>
         /// 从数据源获取项目
         /// </summary>
@@ -356,6 +356,10 @@ namespace MYTask
             Result.ProjStat = Convert.ToInt32(Source["project_status"]);
             Result.UpdateTime = Convert.ToDateTime(Source["project_lastupdate"]);
             Result.AddChildList(GetPChildList(Result.PID));
+
+            string endtime = Source["project_end"].ToString();
+            if (endtime != "0/0/0000") Result.ProjEndTime = Convert.ToDateTime(endtime);
+
             return Result;
         }
 
@@ -432,7 +436,7 @@ namespace MYTask
 
         #endregion
 
-        #region MessageControl
+        #region 获取消息信息
         /// <summary>
         /// 从数据源获取公告
         /// </summary>

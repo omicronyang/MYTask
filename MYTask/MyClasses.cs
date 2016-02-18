@@ -71,8 +71,6 @@ namespace MYTask
         }
 
     }
-    
-
     public class MyProj
     {
         public int PID;
