@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using static MYTask.MyConsts;
 
 namespace MYTask {
     class ProjPanel : Panel {
@@ -58,6 +59,7 @@ namespace MYTask {
             LabelProjName.Text = "项目名称";
             LabelProjName.TextAlign = ContentAlignment.MiddleCenter;
             LabelProjName.Click += new EventHandler(ProjName_Click);
+            LabelProjName.LinkBehavior = LinkBehavior.HoverUnderline;
             // 
             // LabelUserName
             // 
@@ -225,6 +227,7 @@ namespace MYTask {
         private MyProj ProjInfo;
         private FormMain mainfrm;
         private double ProjAC = 0;
+        private int GuideMode = (int)PProfileShowMode.Read;
 
         #region 控件声明初始化
 
@@ -444,8 +447,13 @@ namespace MYTask {
             if (edtime == "0001/01/01") LblEndTime.Text = "";
             else LblEndTime.Text = "计划完成于" + edtime;
             TbxRemark.DocumentText = Pj.ProjRemark;
+            MyUser NU = mainfrm.NowUser;
+            if (NU.UID == Pj.ProjToUser.UID) GuideMode = (int) PProfileShowMode.Edit;
+            else if (NU.Rank == 5) GuideMode = (int) PProfileShowMode.Edit;
+            else GuideMode = (int) PProfileShowMode.Read;
             UpdateStat();
             UpdateChild();
+            UpdateGuidance();
         }
 
         private void UpdateStat() {
@@ -474,6 +482,27 @@ namespace MYTask {
             TView.Nodes.Add(Rt);
             Rt.ExpandAll();
             LblAC.Text = "已用工时:" + ProjAC.ToString();
+        }
+
+        private void UpdateGuidance() {
+            switch (GuideMode) {
+                case (int) PProfileShowMode.Read: {
+                        LblProjName.Width = 652;
+                        BtnComment.Visible = false;
+                        BtnDelete.Visible = false;
+                        BtnEdit.Visible = false;
+                        BtnSplit.Visible = false;
+                        break;
+                    }
+                case (int) PProfileShowMode.Edit: {
+                        LblProjName.Width = 460;
+                        BtnComment.Visible = true;
+                        BtnDelete.Visible = true;
+                        BtnEdit.Visible = true;
+                        BtnSplit.Visible = true;
+                        break;
+                    }
+            }
         }
 
         private void AddTaskNode( TreeNode father , MyTask MT ) {
@@ -1159,6 +1188,7 @@ namespace MYTask {
         private UIColor Theme;
         private MyTaskByDay MTBD = new MyTaskByDay();
         private int ShowMode = 0;                       //0 Main; 1 Audit; 2 TreeView
+        private int GuideMode = (int)PProfileShowMode.Read;
 
         #region 控件声明初始化
 
@@ -1512,10 +1542,20 @@ namespace MYTask {
             mainfrm = frm;
             LblFromUser.SetMainForm(mainfrm);
             LblToUser.SetMainForm(mainfrm);
+           
         }
         public void SetNewTask( MyTask Source ) {
             TaskInf = Source;
             Calendar_Date = DateTime.Now;
+            MyUser NU = mainfrm.NowUser;
+            MyProj TP = mainfrm.DataBase.GetProj(TaskInf.TaskPID);
+            if (NU.Rank == (int) UserRank.Admin) GuideMode = (int) (PProfileShowMode.Edit & PProfileShowMode.Read);
+            else if (NU.Rank == (int) UserRank.Manager && NU.UID == TP.ProjToUser.UID)
+                GuideMode = (int) (PProfileShowMode.Edit & PProfileShowMode.Read);
+            else if (NU.UID == TaskInf.TaskFU.UID) GuideMode = (int) (PProfileShowMode.Edit & PProfileShowMode.Read);
+            else if (NU.UID == TaskInf.TaskU.UID) GuideMode = (int) PProfileShowMode.Edit;
+            else GuideMode = (int) PProfileShowMode.Read;
+            UpdateGuide();
             UpdateBaseInfo();
         }
 
@@ -1525,13 +1565,48 @@ namespace MYTask {
             LblPri_Update(TaskInf.TaskPriority);
             LblImp_Update(TaskInf.TaskImportance);
             LblStat_Update(TaskInf.TaskStat);
-            LblFromUser.SetUser(TaskInf.TaskU);
-            LblToUser.SetUser(TaskInf.TaskFU);
+            LblFromUser.SetUser(TaskInf.TaskFU);
+            LblToUser.SetUser(TaskInf.TaskU);
             LblEndTime_Update(TaskInf.TaskEndTime);
             LblWorkTime_Update(TaskInf.TaskPlanTime , TaskInf.TaskUsedTime);
             TbxRemark_Update();
             DTP.Value = DateTime.Now;
             this.ResumeLayout(false);
+        }
+        
+        private void UpdateGuide() {
+            switch (GuideMode) {
+                default: {
+                        LblTaskName.Width = 364;
+                        BtnSplit.Location = new Point(364 , 0);
+                        BtnSplit.Visible = true;
+                        BtnAudit.Visible = true;
+                        BtnComment.Visible = true;
+                        BtnEdit.Visible = true;
+                        BtnDelete.Visible = true;
+                        break;
+                    }
+                case (int) PProfileShowMode.Edit: {
+                        LblTaskName.Width = 556;
+                        BtnSplit.Location = new Point(556 , 0);
+                        BtnSplit.Visible = true;
+                        BtnAudit.Visible = false;
+                        BtnComment.Visible = false;
+                        BtnEdit.Visible = false;
+                        BtnDelete.Visible = false;
+                        break;
+                    }
+
+                case (int) PProfileShowMode.Read: {
+                        LblTaskName.Width = 604;
+                        BtnSplit.Visible = false;
+                        BtnAudit.Visible = false;
+                        BtnComment.Visible = false;
+                        BtnEdit.Visible = false;
+                        BtnDelete.Visible = false;
+                        break;
+                    }
+            }
         }
 
         private void LblTaskName_Update( int type ) {
@@ -1640,6 +1715,8 @@ namespace MYTask {
         private void TbxRemark_Update() {
             TbxRemark.DocumentText = TaskInf.TaskRemark;
         }
+
+        
 
         #endregion
 

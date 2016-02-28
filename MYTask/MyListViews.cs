@@ -29,7 +29,7 @@ namespace MYTask
                 case 1: { return "只读"; }
                 case 2: { return "访客"; }
                 case 3: { return "普通用户"; }
-                case 4: { return "项目经理"; }
+                case 4: { return "项目管理"; }
                 case 5: { return "管理员"; }
             }
             return "";

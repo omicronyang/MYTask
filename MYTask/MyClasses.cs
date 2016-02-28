@@ -155,4 +155,21 @@ namespace MYTask
 
     }
 
+    public class MyConsts {
+
+        public enum PProfileShowMode {
+            Edit = 0x01,
+            Read = 0x10
+        }
+
+        public enum UserRank {
+            Banned = 0,
+            ReadOnly = 1,
+            Visitor = 2,
+            Common = 3,
+            Manager = 4,
+            Admin = 5
+        }
+
+    }
 }

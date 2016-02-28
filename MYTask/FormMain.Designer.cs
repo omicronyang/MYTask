@@ -55,14 +55,21 @@ namespace MYTask
             this.PLogin_0Panel = new System.Windows.Forms.Panel();
             this.PLogin_LabelBlock = new System.Windows.Forms.Label();
             this.PLogin_PicLogo = new System.Windows.Forms.PictureBox();
+            this.PLogin_TextPsw = new MYTask.LoginTextbox();
+            this.PLogin_TextUID = new MYTask.LoginTextbox();
             this.PLogin_PicCloud = new System.Windows.Forms.PictureBox();
             this.PLogin_BarConnecting = new System.Windows.Forms.ProgressBar();
             this.PLogin_BtnFindPsw = new System.Windows.Forms.Button();
             this.PLogin_BtnLogin = new System.Windows.Forms.Button();
             this.PContacts = new System.Windows.Forms.Panel();
+            this.ContactList = new MYTask.UserList();
             this.PMess_0Panel = new System.Windows.Forms.Panel();
+            this.PMess_BtnCloseBsw = new System.Windows.Forms.Button();
+            this.PMess_Browser = new System.Windows.Forms.WebBrowser();
             this.PMess_Label1 = new System.Windows.Forms.Label();
             this.PMess_Label2 = new System.Windows.Forms.Label();
+            this.PMess_MessList = new MYTask.MessageList();
+            this.PMess_AnnList = new MYTask.AnnounceList();
             this.UI_Caption = new System.Windows.Forms.Panel();
             this.UI_Title = new System.Windows.Forms.Label();
             this.UI_BtnMin = new System.Windows.Forms.Button();
@@ -94,25 +101,20 @@ namespace MYTask
             this.PTask_0Panel = new System.Windows.Forms.Panel();
             this.PTask_LblPage = new System.Windows.Forms.Label();
             this.PTask_TbxPage = new System.Windows.Forms.TextBox();
-            this.PProj_0Panel = new System.Windows.Forms.Panel();
-            this.PProj_LblPage = new System.Windows.Forms.Label();
-            this.PProj_TbxPage = new System.Windows.Forms.TextBox();
-            this.PAudit_Anim = new System.Windows.Forms.Timer(this.components);
-            this.PProjProfile = new MYTask.ProjProfilePanel();
-            this.PUserProfile = new MYTask.UserProfilePanel();
-            this.PAudit = new MYTask.AuditPanel();
-            this.PTView = new MYTask.TViewPanel();
-            this.PLogin_TextPsw = new MYTask.LoginTextbox();
-            this.PLogin_TextUID = new MYTask.LoginTextbox();
-            this.ContactList = new MYTask.UserList();
-            this.PMess_MessList = new MYTask.MessageList();
-            this.PMess_AnnList = new MYTask.AnnounceList();
-            this.PTaskProfile = new MYTask.TaskProfilePanel();
             this.PTask_ListMy = new MYTask.TaskPanelContainer();
             this.PTask_ListPub = new MYTask.TaskPanelContainer();
             this.PTask_ListAll = new MYTask.TaskPanelContainer();
+            this.PProj_0Panel = new System.Windows.Forms.Panel();
+            this.PProj_LblPage = new System.Windows.Forms.Label();
+            this.PProj_TbxPage = new System.Windows.Forms.TextBox();
             this.PProj_ListMy = new MYTask.ProjPanelContainer();
             this.PProj_ListAll = new MYTask.ProjPanelContainer();
+            this.PAudit_Anim = new System.Windows.Forms.Timer(this.components);
+            this.PUserProfile = new MYTask.UserProfilePanel();
+            this.PAudit = new MYTask.AuditPanel();
+            this.PTView = new MYTask.TViewPanel();
+            this.PTaskProfile = new MYTask.TaskProfilePanel();
+            this.PProjProfile = new MYTask.ProjProfilePanel();
             this.PGuide_0Panel.SuspendLayout();
             this.PGuide_PSync.SuspendLayout();
             this.PGuideS_0Panel.SuspendLayout();
@@ -496,6 +498,21 @@ namespace MYTask
             this.PLogin_PicLogo.TabStop = false;
             this.PLogin_PicLogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UI_Caption_MouseDown);
             // 
+            // PLogin_TextPsw
+            // 
+            this.PLogin_TextPsw.Location = new System.Drawing.Point(400, 211);
+            this.PLogin_TextPsw.Name = "PLogin_TextPsw";
+            this.PLogin_TextPsw.Size = new System.Drawing.Size(215, 29);
+            this.PLogin_TextPsw.TabIndex = 10;
+            this.PLogin_TextPsw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextLogin_Psw_Keypress);
+            // 
+            // PLogin_TextUID
+            // 
+            this.PLogin_TextUID.Location = new System.Drawing.Point(400, 176);
+            this.PLogin_TextUID.Name = "PLogin_TextUID";
+            this.PLogin_TextUID.Size = new System.Drawing.Size(215, 29);
+            this.PLogin_TextUID.TabIndex = 9;
+            // 
             // PLogin_PicCloud
             // 
             this.PLogin_PicCloud.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -545,6 +562,10 @@ namespace MYTask
             this.PLogin_BtnLogin.TabIndex = 5;
             this.PLogin_BtnLogin.UseVisualStyleBackColor = false;
             this.PLogin_BtnLogin.Click += new System.EventHandler(this.BtnLogin_Click);
+            this.PLogin_BtnLogin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PLogin_BtnLogin_MouseDown);
+            this.PLogin_BtnLogin.MouseEnter += new System.EventHandler(this.PLogin_BtnLogin_MouseEnter);
+            this.PLogin_BtnLogin.MouseLeave += new System.EventHandler(this.PLogin_BtnLogin_MouseLeave);
+            this.PLogin_BtnLogin.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PLogin_BtnLogin_MouseUp);
             // 
             // PContacts
             // 
@@ -558,12 +579,30 @@ namespace MYTask
             this.PContacts.Size = new System.Drawing.Size(652, 478);
             this.PContacts.TabIndex = 9;
             // 
+            // ContactList
+            // 
+            this.ContactList.BackColor = System.Drawing.Color.White;
+            this.ContactList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContactList.FullRowSelect = true;
+            this.ContactList.GridLines = true;
+            this.ContactList.Location = new System.Drawing.Point(0, 0);
+            this.ContactList.Name = "ContactList";
+            this.ContactList.Size = new System.Drawing.Size(652, 478);
+            this.ContactList.TabIndex = 0;
+            this.ContactList.UseCompatibleStateImageBehavior = false;
+            this.ContactList.View = System.Windows.Forms.View.Details;
+            this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
+            this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
+            // 
             // PMess_0Panel
             // 
             this.PMess_0Panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PMess_0Panel.BackColor = System.Drawing.Color.Gainsboro;
+            this.PMess_0Panel.Controls.Add(this.PMess_BtnCloseBsw);
+            this.PMess_0Panel.Controls.Add(this.PMess_Browser);
             this.PMess_0Panel.Controls.Add(this.PMess_Label1);
             this.PMess_0Panel.Controls.Add(this.PMess_Label2);
             this.PMess_0Panel.Controls.Add(this.PMess_MessList);
@@ -573,6 +612,31 @@ namespace MYTask
             this.PMess_0Panel.Size = new System.Drawing.Size(651, 477);
             this.PMess_0Panel.TabIndex = 10;
             // 
+            // PMess_BtnCloseBsw
+            // 
+            this.PMess_BtnCloseBsw.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PMess_BtnCloseBsw.FlatAppearance.BorderSize = 0;
+            this.PMess_BtnCloseBsw.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MidnightBlue;
+            this.PMess_BtnCloseBsw.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
+            this.PMess_BtnCloseBsw.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PMess_BtnCloseBsw.Image = global::MYTask.Properties.Resources.ArrowDown_White_32;
+            this.PMess_BtnCloseBsw.Location = new System.Drawing.Point(620, 0);
+            this.PMess_BtnCloseBsw.Margin = new System.Windows.Forms.Padding(0);
+            this.PMess_BtnCloseBsw.Name = "PMess_BtnCloseBsw";
+            this.PMess_BtnCloseBsw.Size = new System.Drawing.Size(32, 32);
+            this.PMess_BtnCloseBsw.TabIndex = 5;
+            this.Tips.SetToolTip(this.PMess_BtnCloseBsw, "关闭公告详情");
+            this.PMess_BtnCloseBsw.UseVisualStyleBackColor = false;
+            this.PMess_BtnCloseBsw.Click += new System.EventHandler(this.PMess_CloseAnn);
+            // 
+            // PMess_Browser
+            // 
+            this.PMess_Browser.Location = new System.Drawing.Point(0, 32);
+            this.PMess_Browser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.PMess_Browser.Name = "PMess_Browser";
+            this.PMess_Browser.Size = new System.Drawing.Size(651, 445);
+            this.PMess_Browser.TabIndex = 4;
+            // 
             // PMess_Label1
             // 
             this.PMess_Label1.BackColor = System.Drawing.Color.RoyalBlue;
@@ -581,7 +645,7 @@ namespace MYTask
             this.PMess_Label1.Location = new System.Drawing.Point(0, 0);
             this.PMess_Label1.Margin = new System.Windows.Forms.Padding(0);
             this.PMess_Label1.Name = "PMess_Label1";
-            this.PMess_Label1.Size = new System.Drawing.Size(651, 32);
+            this.PMess_Label1.Size = new System.Drawing.Size(620, 32);
             this.PMess_Label1.TabIndex = 3;
             this.PMess_Label1.Text = "公告";
             this.PMess_Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -597,6 +661,36 @@ namespace MYTask
             this.PMess_Label2.TabIndex = 2;
             this.PMess_Label2.Text = "消息";
             this.PMess_Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PMess_MessList
+            // 
+            this.PMess_MessList.BackColor = System.Drawing.Color.White;
+            this.PMess_MessList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PMess_MessList.FullRowSelect = true;
+            this.PMess_MessList.GridLines = true;
+            this.PMess_MessList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.PMess_MessList.Location = new System.Drawing.Point(0, 166);
+            this.PMess_MessList.Name = "PMess_MessList";
+            this.PMess_MessList.Size = new System.Drawing.Size(651, 311);
+            this.PMess_MessList.TabIndex = 1;
+            this.PMess_MessList.UseCompatibleStateImageBehavior = false;
+            this.PMess_MessList.View = System.Windows.Forms.View.Details;
+            this.PMess_MessList.DoubleClick += new System.EventHandler(this.MessList_DoubleClick);
+            // 
+            // PMess_AnnList
+            // 
+            this.PMess_AnnList.BackColor = System.Drawing.Color.White;
+            this.PMess_AnnList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PMess_AnnList.FullRowSelect = true;
+            this.PMess_AnnList.GridLines = true;
+            this.PMess_AnnList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.PMess_AnnList.Location = new System.Drawing.Point(0, 32);
+            this.PMess_AnnList.Name = "PMess_AnnList";
+            this.PMess_AnnList.Size = new System.Drawing.Size(651, 102);
+            this.PMess_AnnList.TabIndex = 0;
+            this.PMess_AnnList.UseCompatibleStateImageBehavior = false;
+            this.PMess_AnnList.View = System.Windows.Forms.View.Details;
+            this.PMess_AnnList.DoubleClick += new System.EventHandler(this.AnnList_DoubleClick);
             // 
             // UI_Caption
             // 
@@ -1035,6 +1129,39 @@ namespace MYTask
             this.PTask_TbxPage.Text = "99";
             this.PTask_TbxPage.TextChanged += new System.EventHandler(this.TbxPage_TextChange);
             // 
+            // PTask_ListMy
+            // 
+            this.PTask_ListMy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PTask_ListMy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PTask_ListMy.Location = new System.Drawing.Point(0, 32);
+            this.PTask_ListMy.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.PTask_ListMy.Name = "PTask_ListMy";
+            this.PTask_ListMy.Size = new System.Drawing.Size(651, 0);
+            this.PTask_ListMy.TabIndex = 0;
+            // 
+            // PTask_ListPub
+            // 
+            this.PTask_ListPub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PTask_ListPub.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PTask_ListPub.Location = new System.Drawing.Point(0, 32);
+            this.PTask_ListPub.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.PTask_ListPub.Name = "PTask_ListPub";
+            this.PTask_ListPub.Size = new System.Drawing.Size(651, 0);
+            this.PTask_ListPub.TabIndex = 0;
+            // 
+            // PTask_ListAll
+            // 
+            this.PTask_ListAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PTask_ListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PTask_ListAll.Location = new System.Drawing.Point(0, 32);
+            this.PTask_ListAll.MaximumSize = new System.Drawing.Size(1304, 0);
+            this.PTask_ListAll.Name = "PTask_ListAll";
+            this.PTask_ListAll.Size = new System.Drawing.Size(651, 0);
+            this.PTask_ListAll.TabIndex = 0;
+            // 
             // PProj_0Panel
             // 
             this.PProj_0Panel.BackColor = System.Drawing.Color.Gainsboro;
@@ -1072,18 +1199,26 @@ namespace MYTask
             this.PProj_TbxPage.Text = "99";
             this.PProj_TbxPage.TextChanged += new System.EventHandler(this.TbxPage_TextChange);
             // 
+            // PProj_ListMy
+            // 
+            this.PProj_ListMy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PProj_ListMy.Location = new System.Drawing.Point(0, 32);
+            this.PProj_ListMy.Name = "PProj_ListMy";
+            this.PProj_ListMy.Size = new System.Drawing.Size(651, 0);
+            this.PProj_ListMy.TabIndex = 0;
+            // 
+            // PProj_ListAll
+            // 
+            this.PProj_ListAll.BackColor = System.Drawing.Color.RoyalBlue;
+            this.PProj_ListAll.Location = new System.Drawing.Point(0, 32);
+            this.PProj_ListAll.Name = "PProj_ListAll";
+            this.PProj_ListAll.Size = new System.Drawing.Size(651, 0);
+            this.PProj_ListAll.TabIndex = 1;
+            // 
             // PAudit_Anim
             // 
             this.PAudit_Anim.Interval = 15;
             this.PAudit_Anim.Tick += new System.EventHandler(this.PAudit_Anim_Tick);
-            // 
-            // PProjProfile
-            // 
-            this.PProjProfile.BackColor = System.Drawing.Color.Gainsboro;
-            this.PProjProfile.Location = new System.Drawing.Point(48, 32);
-            this.PProjProfile.Name = "PProjProfile";
-            this.PProjProfile.Size = new System.Drawing.Size(652, 478);
-            this.PProjProfile.TabIndex = 21;
             // 
             // PUserProfile
             // 
@@ -1113,122 +1248,21 @@ namespace MYTask
             this.PTView.Size = new System.Drawing.Size(328, 381);
             this.PTView.TabIndex = 20;
             // 
-            // PLogin_TextPsw
-            // 
-            this.PLogin_TextPsw.Location = new System.Drawing.Point(400, 211);
-            this.PLogin_TextPsw.Name = "PLogin_TextPsw";
-            this.PLogin_TextPsw.Size = new System.Drawing.Size(215, 29);
-            this.PLogin_TextPsw.TabIndex = 10;
-            this.PLogin_TextPsw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextLogin_Psw_Keypress);
-            // 
-            // PLogin_TextUID
-            // 
-            this.PLogin_TextUID.Location = new System.Drawing.Point(400, 176);
-            this.PLogin_TextUID.Name = "PLogin_TextUID";
-            this.PLogin_TextUID.Size = new System.Drawing.Size(215, 29);
-            this.PLogin_TextUID.TabIndex = 9;
-            // 
-            // ContactList
-            // 
-            this.ContactList.BackColor = System.Drawing.Color.White;
-            this.ContactList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ContactList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContactList.FullRowSelect = true;
-            this.ContactList.GridLines = true;
-            this.ContactList.Location = new System.Drawing.Point(0, 0);
-            this.ContactList.Name = "ContactList";
-            this.ContactList.Size = new System.Drawing.Size(652, 478);
-            this.ContactList.TabIndex = 0;
-            this.ContactList.UseCompatibleStateImageBehavior = false;
-            this.ContactList.View = System.Windows.Forms.View.Details;
-            this.ContactList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ContactList_ColumnClick);
-            this.ContactList.DoubleClick += new System.EventHandler(this.ContactList_DoubleClick);
-            // 
-            // PMess_MessList
-            // 
-            this.PMess_MessList.BackColor = System.Drawing.Color.White;
-            this.PMess_MessList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PMess_MessList.FullRowSelect = true;
-            this.PMess_MessList.GridLines = true;
-            this.PMess_MessList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.PMess_MessList.Location = new System.Drawing.Point(0, 166);
-            this.PMess_MessList.Name = "PMess_MessList";
-            this.PMess_MessList.Size = new System.Drawing.Size(651, 311);
-            this.PMess_MessList.TabIndex = 1;
-            this.PMess_MessList.UseCompatibleStateImageBehavior = false;
-            this.PMess_MessList.View = System.Windows.Forms.View.Details;
-            this.PMess_MessList.DoubleClick += new System.EventHandler(this.MessList_DoubleClick);
-            // 
-            // PMess_AnnList
-            // 
-            this.PMess_AnnList.BackColor = System.Drawing.Color.White;
-            this.PMess_AnnList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PMess_AnnList.FullRowSelect = true;
-            this.PMess_AnnList.GridLines = true;
-            this.PMess_AnnList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.PMess_AnnList.Location = new System.Drawing.Point(0, 32);
-            this.PMess_AnnList.Name = "PMess_AnnList";
-            this.PMess_AnnList.Size = new System.Drawing.Size(651, 102);
-            this.PMess_AnnList.TabIndex = 0;
-            this.PMess_AnnList.UseCompatibleStateImageBehavior = false;
-            this.PMess_AnnList.View = System.Windows.Forms.View.Details;
-            // 
             // PTaskProfile
             // 
             this.PTaskProfile.BackColor = System.Drawing.Color.Gainsboro;
-            this.PTaskProfile.Location = new System.Drawing.Point(48, 510);
+            this.PTaskProfile.Location = new System.Drawing.Point(48, 32);
             this.PTaskProfile.Name = "PTaskProfile";
             this.PTaskProfile.Size = new System.Drawing.Size(652, 478);
             this.PTaskProfile.TabIndex = 16;
             // 
-            // PTask_ListMy
+            // PProjProfile
             // 
-            this.PTask_ListMy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PTask_ListMy.BackColor = System.Drawing.Color.RoyalBlue;
-            this.PTask_ListMy.Location = new System.Drawing.Point(0, 32);
-            this.PTask_ListMy.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.PTask_ListMy.Name = "PTask_ListMy";
-            this.PTask_ListMy.Size = new System.Drawing.Size(651, 0);
-            this.PTask_ListMy.TabIndex = 0;
-            // 
-            // PTask_ListPub
-            // 
-            this.PTask_ListPub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PTask_ListPub.BackColor = System.Drawing.Color.RoyalBlue;
-            this.PTask_ListPub.Location = new System.Drawing.Point(0, 32);
-            this.PTask_ListPub.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.PTask_ListPub.Name = "PTask_ListPub";
-            this.PTask_ListPub.Size = new System.Drawing.Size(651, 0);
-            this.PTask_ListPub.TabIndex = 0;
-            // 
-            // PTask_ListAll
-            // 
-            this.PTask_ListAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PTask_ListAll.BackColor = System.Drawing.Color.RoyalBlue;
-            this.PTask_ListAll.Location = new System.Drawing.Point(0, 32);
-            this.PTask_ListAll.MaximumSize = new System.Drawing.Size(1304, 0);
-            this.PTask_ListAll.Name = "PTask_ListAll";
-            this.PTask_ListAll.Size = new System.Drawing.Size(651, 0);
-            this.PTask_ListAll.TabIndex = 0;
-            // 
-            // PProj_ListMy
-            // 
-            this.PProj_ListMy.BackColor = System.Drawing.Color.RoyalBlue;
-            this.PProj_ListMy.Location = new System.Drawing.Point(0, 32);
-            this.PProj_ListMy.Name = "PProj_ListMy";
-            this.PProj_ListMy.Size = new System.Drawing.Size(651, 0);
-            this.PProj_ListMy.TabIndex = 0;
-            // 
-            // PProj_ListAll
-            // 
-            this.PProj_ListAll.BackColor = System.Drawing.Color.RoyalBlue;
-            this.PProj_ListAll.Location = new System.Drawing.Point(0, 32);
-            this.PProj_ListAll.Name = "PProj_ListAll";
-            this.PProj_ListAll.Size = new System.Drawing.Size(651, 0);
-            this.PProj_ListAll.TabIndex = 1;
+            this.PProjProfile.BackColor = System.Drawing.Color.Gainsboro;
+            this.PProjProfile.Location = new System.Drawing.Point(48, 510);
+            this.PProjProfile.Name = "PProjProfile";
+            this.PProjProfile.Size = new System.Drawing.Size(652, 478);
+            this.PProjProfile.TabIndex = 21;
             // 
             // FormMain
             // 
@@ -1369,5 +1403,7 @@ namespace MYTask
         private Timer PAudit_Anim;
         private TViewPanel PTView;
         private ProjProfilePanel PProjProfile;
+        private Button PMess_BtnCloseBsw;
+        private WebBrowser PMess_Browser;
     }
 }

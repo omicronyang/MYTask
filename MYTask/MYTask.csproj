@@ -264,6 +264,7 @@
     <None Include="Resources\ArrowRight_32.png" />
     <None Include="Resources\ArrowRight_White_32.png" />
     <None Include="Resources\ArrowUp_White_32.png" />
+    <None Include="Resources\Login_Hover_32.png" />
     <Content Include="__TemplateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

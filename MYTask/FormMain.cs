@@ -17,7 +17,7 @@ namespace MYTask {
         private string DefaultLoginUserName = "xxb_yyf";    //跳过验证时的用户名
         private int DBaseStat = -1;                         // 0 离线数据, 1 在线数据
         private int CurrentTaskPg = 1, CurrentProjPg = 1;
-        private MyUser NowUser = new MyUser();
+        public MyUser NowUser = new MyUser();
         private ListViewColumnSorter lvwColumnSorter;
         private Button FocusBtn = new Button();
         private Button FocusBtnS = new Button();
@@ -63,6 +63,7 @@ namespace MYTask {
             PAudit.Visible = false;
             PTView.Location = new Point(371 , 128);
             PTView.Visible = false;
+            PMess_Browser.Hide();
 
             PTask_ListPub.Visible = false;
             PTask_ListAll.Visible = false;
@@ -216,14 +217,7 @@ namespace MYTask {
             PAudit.UpdateColor(Theme);
             PTView.UpdateColor(Theme);
         }
-
-        /*
-        private void UIColor_Update(Color UIC)
-        {
-            Theme.UpdateColor(UIC);
-            UIColor_Update(Theme.ColorType);
-        }
-        */
+        
         private void UIColor_UpdateButton( Button btn ) {
             if (btn == null) return;
             btn.BackColor = Theme.MainColor;
@@ -233,7 +227,11 @@ namespace MYTask {
 
         private void UIColor_UpdatePLogin() {
             PLogin_0Panel.BackColor = Theme.MainColor;
-            UIColor_UpdateButton(PLogin_BtnLogin);
+            //UIColor_UpdateButton(PLogin_BtnLogin);
+            PLogin_BtnLogin.BackColor =
+                PLogin_BtnLogin.FlatAppearance.MouseDownBackColor =
+                PLogin_BtnLogin.FlatAppearance.MouseOverBackColor =
+                Theme.MainColor;
             UIColor_UpdateButton(PLogin_BtnFindPsw);
         }
 
@@ -305,6 +303,7 @@ namespace MYTask {
         private void UIColor_UpdatePMess() {
             PMess_Label1.BackColor = Theme.MainColor;
             PMess_Label2.BackColor = Theme.MainColor;
+            UIColor_UpdateButton(PMess_BtnCloseBsw);
         }
 
         private void UIColor_Save() {
@@ -630,7 +629,7 @@ namespace MYTask {
             PTaskProfile.SetNewTask(Task);
             SelectPanel(6);
         }
-        public void SetPanelPP(MyProj Proj ) {
+        public void SetPanelPP( MyProj Proj ) {
             PProjProfile.SetNewProj(Proj);
             SelectPanel(7);
         }
@@ -750,7 +749,7 @@ namespace MYTask {
             LoginTextbox tbx = (LoginTextbox)sender;
             if (tbx.Text != "") return;
             tbx.RenewState(0);
-            if (tbx.Name == "TextLogin_UID") tbx.Text = "用户名";
+            if (tbx.Name == "PLogin_TextUID") tbx.Text = "用户名";
             else tbx.Text = "密码";
         }
 
@@ -927,6 +926,7 @@ namespace MYTask {
             PTask_ListMy.ClearTask();
             PTask_ListPub.ClearTask();
             PProj_ListMy.ClearProj();
+            PMess_MessList.Items.Clear();
         }
 
         #endregion
@@ -991,26 +991,10 @@ namespace MYTask {
             ContactList.AddUserList(Ulist);
         }
 
-        private void AddAnnList( MyAnnounce[] Alist ) {
-            if (PMess_AnnList.InvokeRequired) {
-                BGAddAnnList BGAAL = new BGAddAnnList(AddAnnList);
-                Invoke(BGAAL , Alist);
-                return;
-            }
-            PMess_AnnList.AddAnnList(Alist);
-        }
-
-        private void AddMessList( MyMessage[] Mlist ) {
-            if (PMess_MessList.InvokeRequired) {
-                BGAddMessList BGAML = new BGAddMessList(AddMessList);
-                Invoke(BGAML , Mlist);
-                return;
-            }
-            PMess_MessList.AddMessList(Mlist);
-        }
+        
         #endregion
 
-        #region 列表事件
+        #region 通讯录事件
         private void ContactList_ColumnClick( object sender , ColumnClickEventArgs e ) {
             if (e.Column == lvwColumnSorter.SortColumn) {
                 // 重新设置此列的排序方法.
@@ -1037,11 +1021,7 @@ namespace MYTask {
             PUser_Show();
         }
 
-        private void MessList_DoubleClick( object sender , EventArgs e ) {
-            ListViewItem target = PMess_MessList.SelectedItems[0];
-            MessageBox.Show(target.SubItems[1].Text);
 
-        }
 
         #endregion
 
@@ -1178,6 +1158,71 @@ namespace MYTask {
         }
 
 
+
+        #endregion
+
+        #region 消息中心事件
+
+        private void AddAnnList( MyAnnounce[] Alist ) {
+            if (PMess_AnnList.InvokeRequired) {
+                BGAddAnnList BGAAL = new BGAddAnnList(AddAnnList);
+                Invoke(BGAAL , Alist);
+                return;
+            }
+            PMess_AnnList.AddAnnList(Alist);
+        }
+
+        private void AddMessList( MyMessage[] Mlist ) {
+            if (PMess_MessList.InvokeRequired) {
+                BGAddMessList BGAML = new BGAddMessList(AddMessList);
+                Invoke(BGAML , Mlist);
+                return;
+            }
+            PMess_MessList.AddMessList(Mlist);
+        }
+
+        private void MessList_DoubleClick( object sender , EventArgs e ) {
+            ListViewItem target = PMess_MessList.SelectedItems[0];
+            MyTask Tsk = new MyTask();
+            Tsk = DataBase.GetTask(Convert.ToInt32(target.SubItems[1].Text));
+            SetPanelTP(Tsk);
+            SelectPanel(6);
+        }
+
+        private void AnnList_DoubleClick( object sender , EventArgs e ) {
+            ListViewItem Target = PMess_AnnList.SelectedItems[0];
+            MyAnnounce Ann = new MyAnnounce();
+            Ann = DataBase.GetAnnounce(Convert.ToInt32(Target.SubItems[1].Text));
+            PMess_Label1.Width = 620;
+            PMess_Browser.DocumentText = Ann.Text;
+            PMess_Browser.Show();
+            PMess_BtnCloseBsw.Show();
+        }
+
+        private void PLogin_BtnLogin_MouseEnter( object sender , EventArgs e ) {
+            PLogin_BtnLogin.Image = Properties.Resources.Login_Hover_32;
+        }
+
+        private void PLogin_BtnLogin_MouseLeave( object sender , EventArgs e ) {
+
+            PLogin_BtnLogin.Image = Properties.Resources.Login_32;
+        }
+
+        private void PLogin_BtnLogin_MouseDown( object sender , MouseEventArgs e ) {
+
+            PLogin_BtnLogin.Image = Properties.Resources.Login_Hover_32;
+        }
+
+        private void PLogin_BtnLogin_MouseUp( object sender , MouseEventArgs e ) {
+
+            PLogin_BtnLogin.Image = Properties.Resources.Login_32;
+        }
+
+        private void PMess_CloseAnn( object sender , EventArgs e ) {
+            PMess_Browser.Hide();
+
+        }
+                
 
         #endregion
 

@@ -263,6 +263,16 @@ namespace MYTask.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Login_Hover_32 {
+            get {
+                object obj = ResourceManager.GetObject("Login_Hover_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Logout_32 {
             get {
                 object obj = ResourceManager.GetObject("Logout_32", resourceCulture);
